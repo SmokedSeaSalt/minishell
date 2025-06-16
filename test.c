@@ -11,7 +11,7 @@ int main(int argc, char **argv, char **envp)
 	char *line;
 	int pid = fork();
 	if (pid == 0)
-		execve("/bin/sh", (char *[]){"sh", "-c", "clear", NULL}, envp);
+		execve("/bin/bash", (char *[]){"sh", "-c", "clear", NULL}, envp);
 	else
 		waitpid(pid, NULL, 0);
 	while (1)
@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **envp)
 		line = readline("[minishell] > ");
 		int pid = fork();
 		if (pid == 0)
-			execve("/bin/sh", (char *[]){"sh", "-c", line, NULL}, envp);
+			execve("/bin/bash", (char *[]){"sh", "-c", line, NULL}, envp);
 		else
 			waitpid(pid, NULL, 0);
 	}
