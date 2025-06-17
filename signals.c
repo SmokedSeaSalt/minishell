@@ -31,9 +31,9 @@ int main() {
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGQUIT, &sa, NULL);
 
-	printf("PID: %d", getpid());
-    printf("Program running. Press Ctrl+C to send SIGINT or kill to send SIGTERM.\n");
-
+	printf("PID: %d\n", getpid());
+    printf("Program running. Press Ctrl+C to send SIGINT or kill to send SIGQUIT.\n");
+	printf("To actually stop this send SIGTERM via kill\n");
     // Main loop
     while (1) {
         if (signal_received != 0) {
