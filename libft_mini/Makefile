@@ -1,7 +1,6 @@
 NAME = libft_mini.a
 CC = cc -Wall -Werror -Wextra
 
-#	echo_mini.c \
 #	pwd_mini.c \
 #	export_mini.c \
 #	unset_mini.c \
@@ -9,6 +8,7 @@ CC = cc -Wall -Werror -Wextra
 #	exit_mini.c \
 
 SRCS = \
+	echo_mini.c \
 	cd_mini.c \
 	ft_calloc.c \
 	ft_env.c \
@@ -18,7 +18,6 @@ SRCS = \
 	ft_isspace.c \
 	ft_max.c \
 	ft_min.c \
-	ft_pwd.c \
 	ft_split.c \
 	ft_strcmp.c \
 	ft_strjoin.c \
@@ -28,7 +27,8 @@ SRCS = \
 	skip_to_quote.c \
 	strjoin_char.c \
 	strjoin_path.c \
-	strjoin_space.c
+	strjoin_space.c \
+	expand_env.c
 
 OBJS = ${SRCS:.c=.o}
 

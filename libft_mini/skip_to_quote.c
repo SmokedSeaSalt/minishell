@@ -21,10 +21,10 @@ int	skip_to_quote(char **str)
 		return (0);
 	temp = *str;
 	c = **str;
-	*str++;
+	(**str)++;
 	while (**str != c)
 	{
-		*str++;
+		(**str)++;
 		if (**str == 0)
 		{
 			*str = temp;

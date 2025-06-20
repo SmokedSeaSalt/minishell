@@ -24,6 +24,7 @@
 
 //built-in commands
 int	ft_cd(char **input);
+int	echo_mini(char **cmd);
 
 //helper functions
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -42,5 +43,7 @@ int		skip_to_quote(char **str);
 char	*strjoin_char(char *s1, char *s2, char c);
 char	*strjoin_path(char *s1, char *s2);
 char	*strjoin_space(char *s1, char *s2);
+char	*expand_env(char *str);
+
 
 #endif
