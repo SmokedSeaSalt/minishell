@@ -6,12 +6,12 @@
 /*                                                    /   ,--,/      ,--      */
 /*                                                    |  /  ,'    ,·´         */
 /*                                                    |  ;·'   ,·´            */
-/*   ft_cd.c                                          |  ;  ,·´               */
+/*   cd_mini.c                                        |  ;  ,·´               */
 /*                                                    |  :,'                  */
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/06/20 16:07:57 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/06/20 16:28:54 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdio.h> //to use perror
 
 //plan changed, will get "cd" "test" "something"
-int	get_filepath(char **input, char **file_path)
+static int	get_filepath(char **input, char **file_path)
 {
 	char	*tmp;
 	int		i;

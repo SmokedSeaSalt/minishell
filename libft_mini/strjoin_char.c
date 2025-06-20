@@ -11,13 +11,13 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/06/20 15:48:24 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/06/20 15:48:33 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/06/20 16:35:51 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 
-char	*strjoin_path(char *s1, char *s2, char c)
+char	*strjoin_char(char *s1, char *s2, char c)
 {
 	char	*joined;
 	int		i;

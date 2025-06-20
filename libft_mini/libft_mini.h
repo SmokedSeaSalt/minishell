@@ -22,8 +22,25 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-int	ft_isspace(char c);
-int	ft_isquote(char c);
-int	skip_to_quote(char **str);
+//built-in commands
+int	ft_cd(char **input);
+
+//helper functions
+void	*ft_calloc(size_t nmemb, size_t size);
+int		ft_isquote(char c);
+int		ft_isspace(char c);
+int		ft_max(int a, int b);
+int		ft_min(int a, int b);
+char	**ft_split(char const *s, char c);
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strndup(char *str, int n);
+int		is_valid_in_name(char c);
+int		skip_to_quote(char **str);
+char	*strjoin_char(char *s1, char *s2, char c);
+char	*strjoin_path(char *s1, char *s2);
+char	*strjoin_space(char *s1, char *s2);
 
 #endif
