@@ -11,9 +11,6 @@ SRCS = \
 	echo_mini.c \
 	cd_mini.c \
 	ft_calloc.c \
-	ft_env.c \
-	ft_exit.c \
-	ft_export.c \
 	ft_isquote.c \
 	ft_isspace.c \
 	ft_max.c \
