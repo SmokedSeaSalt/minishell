@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 11:56:39 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/06/20 11:43:40 by fdreijer         ###   ########.fr       */
+/*   Created: 2025/06/20 11:17:40 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/06/20 11:22:34 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strndup(char *str, int n)
 {
-	size_t	i;
-
+	char	*dup;
+	int		i;
+	
 	i = 0;
-	while (s && s[i])
+	dup = ft_calloc(ft_max(n, strlen(str)) + 1, sizeof(char));
+	if (!dup)
+		return (NULL);
+	while (str[i] && i < n)
+	{
+		dup[i] = str[i];
 		i++;
-	return (i);
+	}
+	return (dup);
 }

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 11:56:39 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/06/20 11:43:40 by fdreijer         ###   ########.fr       */
+/*   Created: 2025/06/20 11:19:08 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/06/20 11:19:51 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_max(int a, int b)
 {
-	size_t	i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	if (a < b)
+		return (b);
+	return (a);
 }
