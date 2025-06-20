@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:39:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/06/20 16:49:56 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:55:27 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int	echo_mini(char **cmd)
 	flag = 0;
 	i = 1;
 	if (ft_strncmp(cmd[0], "echo", 5))
+	{
+		printf("echo: Command not recognized\n");
 		return (-1);
+	}
 	if (!strncmp(cmd[1], "-n", 3))
 	{
 		flag = 1;
