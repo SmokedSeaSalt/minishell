@@ -6,15 +6,20 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/06/19 16:20:30 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:27:51 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <stdlib.h>
+# include <fcntl.h>
 
-
-typedef struct	s_mini
-{
-	int		mode;
-	char	**history;
-	int		lastexit;
-}	t_mini;
+#endif
