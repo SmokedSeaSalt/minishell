@@ -23,10 +23,6 @@
 # include <fcntl.h>
 # include <errno.h>
 
-//built-in commands
-int	ft_cd(char **input);
-int	echo_mini(char **cmd);
-
 //helper functions
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_isquote(char c);
