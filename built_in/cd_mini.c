@@ -11,13 +11,14 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/06/20 16:28:54 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/06/23 13:52:18 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 #include <unistd.h> //to use chdir
 #include <stdio.h> //to use perror
+#include <stddef.h> //to use NULL
 
 //plan changed, will get "cd" "test" "something"
 static int	get_filepath(char **input, char **file_path)
@@ -47,23 +48,31 @@ static int	get_filepath(char **input, char **file_path)
 	return (0);
 }
 
-int	ft_cd(char **input)
+int	cd_mini(char **input)
 {
 	char *file_path;
+
+	//old_pwd = pwd();
 
 	if (ft_strncmp(input[0], "cd", 3) != 0)
 	{
 		printf("cd: Command not recognized\n");
-		return (-1);
+		return (EXIT_FAILURE);
 	}
 	if (get_filepath(input, &file_path) != 0)
-		return (-1);
+		return (EXIT_FAILURE);
 	if (chdir(file_path) != 0)
 	{
 		perror("cd:");
 		free(file_path);
-		return (-1);
+		return (EXIT_FAILURE);
 	}
 	free(file_path);
-	return (0);
+
+	/*
+	export OLDPWD=old_pwd
+	export PWD=pwd();
+	*/
+
+	return (EXIT_SUCCESS);
 }
