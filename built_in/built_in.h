@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/24 11:11:42 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/24 11:12:55 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/25 09:51:28 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define BUILT_IN_H
 
 //built-in commands
-int	cd_mini(char **input);
-int	echo_mini(char **cmd);
+int	cd_mini(t_cmds *cmds);
+int	echo_mini(t_cmds *cmds);
 
 #endif

@@ -18,9 +18,11 @@ $(NAME): $(OBJS)
 	$(CC) -c -o $@ $<
 
 clean:
+	make -C libft_mini clean
 	rm -rf $(OBJS)
 
 fclean: clean
+	make -C libft_mini fclean
 	rm -f $(NAME)
 
 re: fclean all
