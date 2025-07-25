@@ -31,10 +31,6 @@
 #define FALSE 0
 #define TRUE 1
 
-//built-in commands
-int	ft_cd(char **input);
-int	echo_mini(char **cmd);
-
 typedef	struct s_env
 {
 	char	*v_name;
