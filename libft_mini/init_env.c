@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/24 11:37:56 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:38:37 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_env	*init_env(char **envp)
 	{
 		current	= new_node_env(envp[i]);
 		if (!current)
-			return (free_list(head), NULL);
+			return (NULL);
 		env_add_back(current, &head);
 		i++;
 	}
@@ -79,13 +79,14 @@ t_env	*init_env(char **envp)
 }
 
 
-int main(int argc, char **argv, char **envp)
-{
+// int main(int argc, char **argv, char **envp)
+// {
 
-	t_env *env = init_env(envp);
-	while (env)
-	{
-		printf("%s=%s\n", env->v_name, env->v_val);
-		env = env->next;
-	}
-}
+// 	t_env *env = init_env(envp);
+
+// 	while (env)
+// 	{
+// 		printf("%s=%s\n", env->v_name, env->v_val);
+// 		env = env->next;
+// 	}
+// }

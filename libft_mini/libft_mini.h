@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/24 11:23:03 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:36:52 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,25 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
+
+#define FORBIDDENCHARS "\\;\n"
+
+#define TRUNCATE 0
+#define APPEND 1
+
+#define FALSE 0
+#define TRUE 1
+
+//built-in commands
+int	ft_cd(char **input);
+int	echo_mini(char **cmd);
+
+typedef	struct s_env
+{
+	char	*v_name;
+	char	*v_val;
+	struct s_env	*next;
+}	t_env;
 
 //helper functions
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -43,12 +62,8 @@ char	*strjoin_space(char *s1, char *s2);
 char	*expand_env(char *str);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_realloc(void *oldptr, int oldsize, int newsize);
+int		charinstr(char c, char *str);
+t_env	*init_env(char **envp);
 
-typedef	struct s_env
-{
-	char	*v_name;
-	char	*v_val;
-	struct s_env	*next;
-}	t_env;
 
 #endif
