@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/24 11:13:24 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/07/25 10:18:44 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@
 # include <fcntl.h>
 # include "libft_mini/libft_mini.h"
 
-#define FORBIDDENCHARS "\\;\n"
-
-#define TRUNCATE 0
-#define APPEND 1
-
-#define FALSE 0
-#define TRUE 1
 typedef struct s_cmds
 {
 	char *cmdpath;
