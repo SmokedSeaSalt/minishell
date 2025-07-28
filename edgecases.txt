@@ -1,0 +1,24 @@
+exit | exit
+expected: no exit since both are pipes
+
+echo -n -n -n test
+expected: test$
+
+echo -nnnn test
+expected: test$
+
+echo -n -x -n test
+expected: -x -n test$
+
+echo -x -n test
+expected: -x -n test\n
+
+export file=main
+export dot=.
+export ext=c
+cat $file$dot$ext
+expected: cat of main.c
+
+export pipe="|"
+echo test $pipe echo test
+expected: test | echo test

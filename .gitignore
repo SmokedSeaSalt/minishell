@@ -3,3 +3,4 @@ outfile
 sandbox
 *.o
 *.a
+.vscode
