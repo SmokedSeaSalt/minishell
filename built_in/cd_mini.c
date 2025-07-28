@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/24 11:42:00 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/28 14:34:28 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@
 #include <stddef.h> //to use NULL
 
 //expand args** to single string for file_path
-static int	get_filepath(char **input, char **file_path)
+static int	get_filepath(char **args, char **file_path)
 {
 	char	*tmp;
 	int		i;
 
-	if (input[0] == NULL)
+	if (args[0] == NULL)
 	{
 		printf("cd: Not enough arguments\n"); //exit code 0
 		return (-1);
 	}
-	*file_path = ft_strndup(input[0], strlen(input[0]));
+	*file_path = ft_strndup(args[0], strlen(args[0]));
 	if (*file_path == NULL)
 		return (-1);
 	i = 1;
-	while (input[i] != NULL)
+	while (args[i] != NULL)
 	{
-		tmp = strjoin_space(*file_path, input[i]);
+		tmp = strjoin_space(*file_path, args[i]);
 		free(file_path);
 		*file_path = tmp;
 		if (file_path == NULL)
@@ -46,29 +46,37 @@ static int	get_filepath(char **input, char **file_path)
 	}
 	return (0);
 }
+char *get_pwd(void)
+{
+	char *curr_pwd = NULL;
+
+	curr_pwd = getcwd(curr_pwd, 0);
+	if (curr_pwd == NULL)
+		return (NULL);
+	return (curr_pwd);
+}
 
 //get cmds args and do cd
+//also updates PWD and OLDPWD environnment variables
 int	cd_mini(t_cmds *cmds)
 {
-	//TODO: PWD and OLDPWD in envoirenment vars
+	char *old_pwd;
+	char *new_pwd;
 	char *file_path;
 
-	//old_pwd = pwd();
-
 	if (get_filepath(cmds->args, &file_path) != 0)
-		return (EXIT_SUCCESS);
-	if (chdir(file_path) != 0)
+		return (EXIT_FAILURE);
+	old_pwd = get_pwd();
+	if (chdir(file_path) != 0 || old_pwd == NULL)
 	{
 		perror("cd:");
-		free(file_path);
-		return (EXIT_FAILURE);
+		return (free(old_pwd), free(file_path), EXIT_FAILURE);
 	}
 	free(file_path);
-
-	/*
-	export OLDPWD=old_pwd
-	export PWD=pwd();
-	*/
-
-	return (EXIT_SUCCESS);
+	new_pwd = get_pwd();
+	if (new_pwd == NULL)
+		return (free(old_pwd), EXIT_FAILURE);
+	update_env(cmds->info->head, "PWD", new_pwd);
+	update_env(cmds->info->head, "OLDPWD", old_pwd);
+	return (free(old_pwd), free(new_pwd), EXIT_SUCCESS);
 }
