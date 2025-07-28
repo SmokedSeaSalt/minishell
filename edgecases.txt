@@ -14,8 +14,9 @@ echo -x -n test
 expected: -x -n test\n
 
 export file=main
-export ext=.c
-cat $file$ext
+export dot=.
+export ext=c
+cat $file$dot$ext
 expected: cat of main.c
 
 export pipe="|"
