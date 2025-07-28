@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/28 09:54:22 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/28 14:16:42 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ void exit_with_val(int value, struct *cleanup)
 	//free everything
 	exit(value);
 }
+
+//TODO different behaviour if exit is piped or not
+
 
 int	exit_mini(t_cmds *cmds)
 {
