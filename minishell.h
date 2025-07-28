@@ -23,6 +23,12 @@
 # include <fcntl.h>
 # include "libft_mini/libft_mini.h"
 
+typedef struct s_info
+{
+	int last_exit_val;
+	t_env *head;
+}	t_info;
+
 typedef struct s_cmds
 {
 	char *cmdpath;
@@ -39,7 +45,8 @@ typedef struct s_cmds
 	int pipefd;
 	struct s_cmds *prev;
 	struct s_cmds *next;
+	t_info *info;
 }	t_cmds;
 
-#endif
 
+#endif
