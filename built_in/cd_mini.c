@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/28 14:34:28 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/29 15:55:38 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	get_filepath(char **args, char **file_path)
 
 	if (args[0] == NULL)
 	{
-		printf("cd: Not enough arguments\n"); //exit code 0
+		write(2 ,"cd: Not enough arguments\n", 25); //exit code 0
 		return (-1);
 	}
 	*file_path = ft_strndup(args[0], strlen(args[0]));
