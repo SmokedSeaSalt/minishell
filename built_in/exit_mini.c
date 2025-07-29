@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/28 15:32:49 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/29 13:55:49 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ int	exit_mini(t_cmds *cmds)
 		exit_with_val(cmds->info->last_exit_val, cmds);
 	if (n_args(cmds->args) == 1)
 	{
-		//check only numeric
 		if (is_only_numeric(cmds->args[0]) == 1)
 		{
 			exitval = (char)atoi(cmds->args[0]);
@@ -122,8 +121,6 @@ int	exit_mini(t_cmds *cmds)
 		}
 	}
 	if (n_args(cmds->args) > 1)
-	{
 		write(1, "minishell: exit: too many arguments\n", 37);
-	}
 	return (1);
 }

@@ -48,5 +48,4 @@ typedef struct s_cmds
 	t_info *info;
 }	t_cmds;
 
-
 #endif
