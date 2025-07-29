@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/29 13:55:49 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/29 14:21:08 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	exit_mini(t_cmds *cmds)
 	{
 		if (is_only_numeric(cmds->args[0]) == 1)
 		{
-			exitval = (char)atoi(cmds->args[0]);
+			exitval = (unsigned char)atoi(cmds->args[0]);
 			exit_with_val(exitval, cmds);
 		}
 		else
