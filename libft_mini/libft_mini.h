@@ -61,6 +61,6 @@ void	*ft_realloc(void *oldptr, int oldsize, int newsize);
 int		charinstr(char c, char *str);
 t_env	*init_env(char **envp);
 char	*return_env(t_env *head, char *str);
-
+void	update_env(t_env *head, char *name, char *newval);
 
 #endif
