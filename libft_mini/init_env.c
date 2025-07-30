@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/24 16:38:37 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:23:08 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ t_env	*new_node_env(char *env)
 {
 	t_env	*node;
 	int		i;
-	char	*name;
-	char	*val;
 
 	i = 0;
 	node = ft_calloc(sizeof(t_env), 1);

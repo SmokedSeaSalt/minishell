@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:58:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/24 11:42:22 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/07/28 09:54:04 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@ char	*ft_getenv(t_env *head, char *str)
 	return (NULL);
 }
 
+char *return_env(t_env *head, char *str)
+{
+	while (head)
+	{
+		if (!ft_strncmp(head->v_name, str, ft_strlen(head->v_name)))
+			if (!is_valid_in_name(str[ft_strlen(head->v_name)]))
+				return (head->v_val);
+		head = head->next;
+	}
+	return (NULL);
+}
+
 void	update_env(t_env *head, char *name, char *newval)
 {
 	t_env	*newnode;
@@ -34,18 +46,18 @@ void	update_env(t_env *head, char *name, char *newval)
 		if (!ft_strcmp(head->v_name, name))
 		{
 			free(head->v_val);
-			head->v_val = ft_strdup(newval);
+			head->v_val = newval;
 			return ;
 		}
-		if (head->next = NULL)
+		if (head->next == NULL)
 			break;
 		head = head->next;
 	}
 	newnode = ft_calloc(sizeof(t_env), 1);
 	if (!newnode)
 		return ;
-	newnode->v_name = ft_strdup(name);
-	newnode->v_val =ft_strdup(newval);
+	newnode->v_name = name;
+	newnode->v_val =newval;
 	head->next = newnode;
 	return ;
 }
