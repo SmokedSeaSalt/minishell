@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/04 11:29:08 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/04 13:01:10 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void free_cmds_node(t_cmds *node)
 void free_cmds(t_cmds *node)
 {
 	t_cmds *tmp;
-	int i;
 
 	while (node->prev != NULL)
 		node = node->prev;
