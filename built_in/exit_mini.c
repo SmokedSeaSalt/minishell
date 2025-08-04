@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/29 15:55:09 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/08/04 10:23:57 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void free_env(t_env *head)
 {
 	t_env *tmp;
 
-	while (tmp != NULL)
+	while (head != NULL)
 	{
 		tmp = head;
 		free(tmp->v_name);
@@ -48,7 +48,6 @@ void free_env(t_env *head)
 		tmp->v_val = NULL;
 		head = head->next;
 		free(tmp);
-		tmp = NULL;
 	}
 }
 
@@ -92,7 +91,7 @@ void free_cmds(t_cmds *node)
 		tmp = node;
 		free_cmds_node(tmp);
 		free(tmp);
-		tmp == NULL;
+		tmp = NULL;
 		node = node->next;
 	}
 }
