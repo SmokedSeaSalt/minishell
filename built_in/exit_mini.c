@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/08/04 10:28:21 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/08/04 11:26:28 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void free_env(t_env *head)
 		tmp->v_val = NULL;
 		head = head->next;
 		free(tmp);
+		tmp = NULL;
 	}
 }
 
