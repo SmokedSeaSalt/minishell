@@ -6,27 +6,13 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/25 10:25:21 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/03 16:54:17 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //returns head->v_val if str == v_name and is followed by '\0' or ' '
-char *return_env(t_env *head, char *str)
-{
-	if (*str != '$')
-		return (NULL);
-	str++;
-	while (head)
-	{
-		if (!ft_strncmp(head->v_name, str, ft_strlen(head->v_name)))
-			if (!is_valid_in_name(str[ft_strlen(head->v_name)]))
-				return (head->v_val);
-		head = head->next;
-	}
-	return (NULL);
-}
 
 void	expand_line_char(char **line, char **expandedline)
 {
@@ -40,32 +26,30 @@ void	expand_line_char(char **line, char **expandedline)
 	(*line)++;
 }
 
-void	expand_line_dollar(t_env *head, char **line, char **expandedline)
+void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 {
 	int	envlen;
-	char *env;
+	char *env_line;
 	int	expandedlen;
 
 	if (**line != '$')
 		return ;
+	(*line)++;
 	expandedlen = ft_strlen(*expandedline);
-	env = return_env(head, *line);
-	envlen = ft_strlen(env);
+	env_line = return_env(env, *line);
+	envlen = ft_strlen(env_line);
 	*expandedline = ft_realloc(*expandedline, expandedlen, expandedlen + envlen + 1);
 	if (*expandedline == NULL)
 		return ;
-	ft_memmove(&(*expandedline)[expandedlen], env, envlen);
-	(*line)++;
+	ft_memmove(&(*expandedline)[expandedlen], env_line, envlen);
 	while (is_valid_in_name(**line))
 		(*line)++;
 }
 
-void	expand_line_double_q(t_env *head, char **line, char **expandedline)
+void	expand_line_double_q(t_env *env, char **line, char **expandedline)
 {
 	int newlen;
 	int	expandedlen;
-	int	envlen;
-	char *env;
 
 	newlen = 0;
 	expandedlen = 0;
@@ -73,7 +57,7 @@ void	expand_line_double_q(t_env *head, char **line, char **expandedline)
 	while (**line && **line != '\"')
 	{
 		if (**line == '$')
-			expand_line_dollar(head, line, expandedline);
+			expand_line_dollar(env, line, expandedline);
 		else
 			expand_line_char(line, expandedline);
 		if (*expandedline == NULL)
@@ -85,58 +69,263 @@ void	expand_line_double_q(t_env *head, char **line, char **expandedline)
 
 void	expand_line_single_q(char **line, char **expandedline)
 {
-	int	i;
-	int start;
+	int newlen;
 	int	expandedlen;
 
-	i = 0;
+	newlen = 0;
+	expandedlen = 0;
 	(*line)++;
-	while ((*line)[i] && (*line)[i] != '\'')
-		i++;
-	expandedlen = ft_strlen(*expandedline);
-	*expandedline = ft_realloc(*expandedline, expandedlen, expandedlen + i + 1);
-	if (*expandedline == NULL)
-		return ;
-	start = 0;
-	while (start < i)
+	while (**line && **line != '\'')
 	{
-		(*expandedline)[expandedlen + start] = (*line)[start];
-		start++;
+		expand_line_char(line, expandedline);
+		if (*expandedline == NULL)
+			return ;
 	}
-	*line += i + 1;
+	(*line)++;
 }
 
-t_cmds *make_cmds(t_env *head, char *line)
+void	expand_line_space(t_cmds *cmds, char **line, char **expandedline)
 {
-	char *expandedline;
+	int i;
 
+	i = 0;
+	if (cmds->cmd == NULL)
+	{
+		cmds->cmd = *expandedline;
+		*expandedline = NULL;
+	}
+	else
+	{
+		if (cmds->args)
+		{
+			while (cmds->args[i])
+				i++;
+		}
+		cmds->args = ft_realloc(cmds->args, i * sizeof(char *), (i + 2) * sizeof(char *));
+		if (!cmds->args)
+			return ;
+		cmds->args[i] = *expandedline;
+		*expandedline = NULL;
+	}
+	while (ft_isspace(**line))
+		(*line)++;
+}
+
+char	*parse_word(t_env *env, char **line)
+{
+	char	*word;
+	
+	word = NULL;
+	while (**line && !ft_isspace(**line) && **line != '<' && **line != '>' && **line != '|')
+	{
+		if (**line == '\'')
+			expand_line_single_q(line, &word);
+		else if (**line == '\"')
+			expand_line_double_q(env, line, &word);
+		else if (**line == '$')
+			expand_line_dollar(env, line, &word);
+		else
+			expand_line_char(line, &word);
+	}
+	return (word);
+}
+
+int	itoa_heredoc(char *num, int count)
+{
+	if (count > 9999)
+		return (0);
+	num[0] = (count / 1000) + '0';
+	num[1] = ((count / 100) % 10) + '0';
+	num[2] = ((count / 10) % 10) + '0';
+	num[3] = (count % 10) + '0';
+	num[4] = 0;
+	return (1);
+}
+
+char	*heredoc_filename(int count)
+{
+	int	i;
+	int	j;
+	char	num[5];
+	char	*name;
+
+	i = 0;
+	if (!itoa_heredoc(num, count))
+		return (NULL);
+	name = ft_calloc(30, sizeof(char));
+	if (!name)
+		return (NULL);
+	while (HEREDOC_PREFIX[i])
+	{
+		name[i] = HEREDOC_PREFIX[i];
+		i++;
+	}
+	j = 0;
+	while (j < 5)
+	{
+		name[i + j] = num[j];
+		j++;
+	}
+	return (name);
+}
+// TODO HANDLE !NAME
+void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
+{
+	static int count = 0;
+	char	*delim;
+	char	*name;
+	char	*heredoc_line;
+	int		fd;
+
+	while (ft_isspace(**line))
+		(*line)++;
+	delim = parse_word(env, line);
+	name = heredoc_filename(count);
+	if (!name)
+		return;
+	if (cmds->infile)
+	{
+		if (!ft_strncmp(cmds->infile, "/tmp/.heredoc", 14))
+			unlink(cmds->infile);
+		free(cmds->infile);
+	}
+	cmds->infile = name;
+	fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	count++;
+	while (1)
+	{
+		heredoc_line = readline("mini heredoc> ");
+		if (!ft_strncmp(heredoc_line, delim, ft_strlen(delim)) \
+&& !heredoc_line[ft_strlen(delim)])
+			break;
+		write(fd, heredoc_line, ft_strlen(heredoc_line));
+		write(fd, "\n", 1);
+		free(heredoc_line);
+	}
+	free(heredoc_line);
+	free(delim);
+	close(fd);
+}
+
+void	handle_infile(t_cmds *cmds, t_env *env, char **line)
+{
+	char	*file;
+
+	(*line)++;
+	if (**line == '<')
+	{
+		(*line)++;
+		handle_heredoc(cmds, env, line);
+		return;
+	}
+	while (ft_isspace(**line))
+		(*line)++;
+	if (!(**line))
+		return;
+	file = parse_word(env, line);
+	if (!file)
+		return;
+	if (cmds->infile)
+		free(cmds->infile);
+	cmds->infile = file;
+}
+
+void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
+{
+	char *file;
+
+	(*line)++;
+	if (**line == '>')
+	{
+		(*line)++;
+		cmds->append = 1;
+	}
+	while (ft_isspace(**line))
+		(*line)++;
+	if (!(**line))
+		return;
+	file = parse_word(env,	line);
+	if (!file)
+		return;
+	cmds->outfile = file;
+}
+
+void	handle_pipe(t_cmds **cmds, char **line)
+{
+	t_cmds	*newnode;
+	t_cmds	*head;
+
+	(*line)++;
+	while (ft_isspace(**line))
+		(*line)++;
+	newnode = cmd_new_node();
+	if (!newnode)
+		return;
+	head = cmd_first(*cmds);
+	cmd_add_back(&head, newnode);
+	*cmds = (*cmds)->next;
+	(*cmds)->ispiped = 1;
+}
+
+void	make_cmds(t_cmds *cmds, t_env *env, char *line)
+{
+	char	*cmd;
+	char	*expandedline;
+
+	cmd = NULL;
 	expandedline = NULL;
 	while (*line)
 	{
-		if (*line == '\'')
+		if (*line == '<')
+			handle_infile(cmds, env, &line);
+		else if (*line == '>')
+			handle_outfile(cmds, env, &line);
+		else if (*line == '|')
+		{
+			handle_pipe(&cmds, &line);
+			continue;
+		}
+		else if (*line == '\'')
 			expand_line_single_q(&line, &expandedline);
-		if (*line == '\"')
-			expand_line_double_q(head, &line, &expandedline);
-		if (*line  == '$')
-			expand_line_dollar(head, &line, &expandedline);
-		else
+		else if (*line == '\"')
+			expand_line_double_q(env, &line, &expandedline);
+		else if (*line  == '$')
+			expand_line_dollar(env, &line, &expandedline);
+		else if (!isspace(*line) && *line)
 			expand_line_char(&line, &expandedline);
-		if (*expandedline == NULL)
-			return (NULL);
+		if (isspace(*line) || !(*line))
+			expand_line_space(cmds, &line, &expandedline);
 	}
-	printf("%s\n", expandedline);
-	return (NULL);
+	cmds = cmd_first(cmds);
+	while (cmds)
+	{
+		printf("\nCMD: %s\n", cmds->cmd);
+		if (cmds->args)
+		{
+			for (int i = 0; cmds->args[i]; i++)
+				printf("ARGS: %s\n ", cmds->args[i]);
+		}
+		else
+			printf("ARGS: NULL\n");
+		printf("\nINFLIE: %s", cmds->infile);
+		printf("\nISPIPED: %i", cmds->ispiped);
+		if (cmds->outfile)
+			printf("\nAPPEND: %i", cmds->append);
+		printf("\nOUTFILE: %s\n\n\n", cmds->outfile);
+		cmds = cmds->next;
+	}
 }
-
-
 
 int main(int argc, char **argv, char **envp)
 {
+	// (void)argc;
+	// (void)argv;
+	// (void)envp;
 	t_env	*env = init_env(envp);
-	make_cmds(env, "abcdef\"\'abc$USER-aaaaaa-$HOME--\'\"");
-	// while (env)
-	// {
-	// 	printf("%s=%s\n", env->v_name, env->v_val);
-	// 	env = env->next;
-	// }
+	t_cmds *cmds = ft_calloc(sizeof(t_cmds), 1);
+	(void)argv;
+	(void)argc;
+	make_cmds(cmds, env, "cat <<here | cat <<hello | cat <<here | cat <<hello");
+	free_cmds(cmds);
+	free_env(env);
 }

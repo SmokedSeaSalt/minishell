@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/25 10:18:44 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/03 15:55:13 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,12 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "libft_mini/libft_mini.h"
+# include "libft_mini/mini_structs.h"
+#define HEREDOC_PREFIX "/tmp/.heredoc_"
 
-typedef struct s_info
-{
-	int last_exit_val;
-	t_env *head;
-}	t_info;
-
-typedef struct s_cmds
-{
-	char *cmdpath;
-	char *cmd;
-	char **args;
-	char *infile;
-	char *outfile;
-	int addtoenv;
-	int writemode;
-	int	exitstatusprev;
-	int	isdependantsuccess;
-	int	isdependantfailure;
-	int	ispiped;
-	int pipefd;
-	struct s_cmds *prev;
-	struct s_cmds *next;
-	t_info *info;
-}	t_cmds;
+t_cmds	*cmd_last(t_cmds *head);
+t_cmds	*cmd_new_node(void);
+void	cmd_add_back(t_cmds **head, t_cmds *newnode);
+t_cmds	*cmd_first(t_cmds *tail);
 
 #endif
