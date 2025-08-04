@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/28 14:34:28 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/07/30 12:48:44 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	get_filepath(char **args, char **file_path)
 
 	if (args[0] == NULL)
 	{
-		printf("cd: Not enough arguments\n"); //exit code 0
+		write(2 ,"cd: Not enough arguments\n", 25); //exit code 0
 		return (-1);
 	}
 	*file_path = ft_strndup(args[0], strlen(args[0]));
@@ -39,10 +39,11 @@ static int	get_filepath(char **args, char **file_path)
 	while (args[i] != NULL)
 	{
 		tmp = strjoin_space(*file_path, args[i]);
-		free(file_path);
+		free(*file_path);
 		*file_path = tmp;
-		if (file_path == NULL)
+		if (*file_path == NULL)
 			return (-1);
+		i++;
 	}
 	return (0);
 }
@@ -69,7 +70,7 @@ int	cd_mini(t_cmds *cmds)
 	old_pwd = get_pwd();
 	if (chdir(file_path) != 0 || old_pwd == NULL)
 	{
-		perror("cd:");
+		perror("cd");
 		return (free(old_pwd), free(file_path), EXIT_FAILURE);
 	}
 	free(file_path);
@@ -78,5 +79,5 @@ int	cd_mini(t_cmds *cmds)
 		return (free(old_pwd), EXIT_FAILURE);
 	update_env(cmds->info->head, "PWD", new_pwd);
 	update_env(cmds->info->head, "OLDPWD", old_pwd);
-	return (free(old_pwd), free(new_pwd), EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

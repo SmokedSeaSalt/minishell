@@ -11,7 +11,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
 /*                                                      .¨.                   */
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/29 14:21:08 by mvan-rij          :. ¨.                  */
+/*   Updated: 2025/08/04 10:28:21 by mvan-rij          :. ¨.                  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void free_env(t_env *head)
 {
 	t_env *tmp;
 
-	while (tmp != NULL)
+	while (head != NULL)
 	{
 		tmp = head;
 		free(tmp->v_name);
@@ -48,7 +48,6 @@ void free_env(t_env *head)
 		tmp->v_val = NULL;
 		head = head->next;
 		free(tmp);
-		tmp = NULL;
 	}
 }
 
@@ -92,7 +91,7 @@ void free_cmds(t_cmds *node)
 		tmp = node;
 		free_cmds_node(tmp);
 		free(tmp);
-		tmp == NULL;
+		tmp = NULL;
 		node = node->next;
 	}
 }
@@ -102,7 +101,7 @@ int	exit_mini(t_cmds *cmds)
 {
 	char exitval;
 
-	write(1, "exit\n", 6);
+	write(2, "exit\n", 5);
 	if (n_args(cmds->args) == 0)
 		exit_with_val(cmds->info->last_exit_val, cmds);
 	if (n_args(cmds->args) == 1)
@@ -114,13 +113,13 @@ int	exit_mini(t_cmds *cmds)
 		}
 		else
 		{
-			write(1, "minishell: exit: ", 37);
-			write(1, cmds->args[0], ft_strlen(cmds->args[0]));
-			write(1, ": numeric argument required\n", 29);
+			write(2, "minishell: exit: ", 17);
+			write(2, cmds->args[0], ft_strlen(cmds->args[0]));
+			write(2, ": numeric argument required\n", 28);
 			exit_with_val(2, cmds);
 		}
 	}
 	if (n_args(cmds->args) > 1)
-		write(1, "minishell: exit: too many arguments\n", 37);
+		write(2, "minishell: exit: too many arguments\n", 36);
 	return (1);
 }
