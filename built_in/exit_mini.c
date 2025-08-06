@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ,--------------      */
-/*                                                      /                     */
-/*                                                     /                      */
-/*                                                    /   ,--,/      ,--      */
-/*                                                    |  /  ,'    ,·´         */
-/*                                                    |  ;·'   ,·´            */
-/*   exit_mini.c                                      |  ;  ,·´               */
-/*                                                    |  :,'                  */
-/*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
-/*                                                      .¨.                   */
+/*                                                        :::      ::::::::   */
+/*   exit_mini.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/08/04 13:01:10 by fdreijer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
 /*   Updated: 2025/08/04 11:26:28 by mvan-rij          :. ¨.                  */
 /*                                                                            */
@@ -83,7 +83,6 @@ void free_cmds_node(t_cmds *node)
 void free_cmds(t_cmds *node)
 {
 	t_cmds *tmp;
-	int i;
 
 	while (node->prev != NULL)
 		node = node->prev;
@@ -107,7 +106,7 @@ int	exit_mini(t_cmds *cmds)
 		exit_with_val(cmds->info->last_exit_val, cmds);
 	if (n_args(cmds->args) == 1)
 	{
-		if (is_only_numeric(cmds->args[0]) == 1)
+		if (is_only_num(cmds->args[0]) == 1)
 		{
 			exitval = (unsigned char)atoi(cmds->args[0]);
 			exit_with_val(exitval, cmds);

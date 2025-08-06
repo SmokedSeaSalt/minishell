@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/28 09:54:19 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/04 13:01:24 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
-
+# include "../built_in/built_in.h"
+# include "mini_structs.h"
 #define FORBIDDENCHARS "\\;\n"
 
 #define TRUNCATE 0
@@ -30,13 +31,6 @@
 
 #define FALSE 0
 #define TRUE 1
-
-typedef	struct s_env
-{
-	char	*v_name;
-	char	*v_val;
-	struct s_env	*next;
-}	t_env;
 
 //helper functions
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -62,5 +56,6 @@ int		charinstr(char c, char *str);
 t_env	*init_env(char **envp);
 char	*return_env(t_env *head, char *str);
 void	update_env(t_env *head, char *name, char *newval);
+int		is_only_num(char *str);
 
 #endif
