@@ -28,3 +28,8 @@ expected: cat of main.c
 export pipe="|"
 echo test $pipe echo test
 expected: test | echo test
+
+
+TODO
+arg=123 echo a
+echo $arg
