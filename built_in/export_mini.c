@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/12 16:19:51 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:25:33 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int process_args(char *str, t_env *head)
 	return (EXIT_SUCCESS);
 }
 
-/// @brief prints
+/// @brief prints formatted environment variable
 /// @param head environment variable linked list
 static void print_export(t_env *head)
 {

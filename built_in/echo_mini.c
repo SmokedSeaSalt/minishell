@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   echo_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:39:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/06/20 16:55:27 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:28:45 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 #include "minishell.h"
 
-//check for -n flag and edge cases
+/// @brief parser for the -n option
+/// @param args all arguments given to echo
+/// @param i argument index to start echoing
+/// @param print_nl flag to actually process the -n or not
 void check_n_flag(char **args, int *i, int *print_nl)
 {
 	int j;
