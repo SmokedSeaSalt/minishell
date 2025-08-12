@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:00:10 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/11 12:49:49 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:10:29 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 
 void print_var(t_env *var)
 {
-	write(1, var->v_name, ft_strlen(var->v_name));
-	write(1, "=", 1);
-	write(1, var->v_val, ft_strlen(var->v_val));
-	write(1, "\n", 1);
+	if (var->v_val != NULL)
+	{
+		write(1, var->v_name, ft_strlen(var->v_name));
+		write(1, "=", 1);
+		write(1, var->v_val, ft_strlen(var->v_val));
+		write(1, "\n", 1);
+	}
 }
 
 int env_mini(t_cmds *cmds)
@@ -26,7 +29,7 @@ int env_mini(t_cmds *cmds)
 	t_env *var = cmds->info->head;
 	while (var)
 	{
-		if (var->is_hidden != 1)
+		if (var->is_hidden == 0)
 			print_var(var);
 		var = var->next;
 	}
