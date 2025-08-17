@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/04 13:01:10 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/17 10:49:40 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_mini.h"
-#include "minishell.h"
+#include "../libft_mini/libft_mini.h"
+#include "../minishell.h"
 
 static int	n_args(char **args)
 {
 	int i;
 
 	i = 0;
-	while (!args && !args[i])
+	while (args && args[i])
 		i++;
 	return (i);
 }
@@ -84,15 +84,16 @@ void free_cmds(t_cmds *node)
 {
 	t_cmds *tmp;
 
+	free(node->info);
 	while (node->prev != NULL)
 		node = node->prev;
 	while (node != NULL)
 	{
 		tmp = node;
 		free_cmds_node(tmp);
+		node = node->next;
 		free(tmp);
 		tmp = NULL;
-		node = node->next;
 	}
 }
 

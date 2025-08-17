@@ -15,8 +15,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_mini.h"
-#include "minishell.h"
+#include "../libft_mini/libft_mini.h"
+#include "../minishell.h"
 #include <unistd.h> //to use chdir
 #include <stdio.h> //to use perror
 #include <stddef.h> //to use NULL
