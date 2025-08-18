@@ -33,3 +33,10 @@ expected: test | echo test
 TODO
 arg=123 echo a
 echo $arg
+echo a > b > c need to create b as well
+
+FROM other evalnots
+heredoc with ctrl c
+cat with ctrl /
+heredoc with ctrl d
+ctrl c + echo $?

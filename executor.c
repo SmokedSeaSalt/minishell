@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 12:07:42 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:28:22 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	restore_stdio(int stdin_dup, int stdout_dup)
 		close(stdout_dup);
 	}
 }
-// TODO FIX EXECVE ERROR CLEANUP
 void	exec_single(t_cmds *cmds, t_env *env)
 {
 	int stdin_dup;

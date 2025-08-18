@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:58:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/28 09:54:04 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 09:44:38 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	*expand_env(t_env *head, char *str)
 		i++;
 	to_find = ft_strndup(&str[1], i - 1);
 	if (!to_find)
-		return (NULL);
 	found = ft_getenv(head, to_find);
 	free (to_find);
 	if (!found)

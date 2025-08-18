@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/17 09:37:42 by kali             ###   ########.fr       */
+/*   Updated: 2025/08/18 14:16:21 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	expand_line_space(t_cmds *cmds, char **line, char **expandedline)
 	while (ft_isspace(**line))
 		(*line)++;
 }
-
+//TODO DONT EXPAND ENV IF IN HEREDOC
 char	*parse_word(t_env *env, char **line)
 {
 	char	*word;
@@ -245,8 +245,14 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 	if (!(**line))
 		return;
 	file = parse_word(env,	line);
+	printf("FILE NAME: %s\n", file);
 	if (!file)
 		return;
+	if (cmds->outfile)
+	{
+		close(open(cmds->outfile, O_WRONLY | O_CREAT, 0644));
+		free(cmds->outfile);
+	}
 	cmds->outfile = file;
 }
 

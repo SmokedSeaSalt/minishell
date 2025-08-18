@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:45:55 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/03 14:06:15 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:32:54 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef	struct s_env
 typedef struct s_info
 {
 	int last_exit_val;
+	char	**mini_env;
 	t_env *head;
 }	t_info;
 

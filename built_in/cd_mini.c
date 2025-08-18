@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ,--------------      */
-/*                                                      /                     */
-/*                                                     /                      */
-/*                                                    /   ,--,/      ,--      */
-/*                                                    |  /  ,'    ,·´         */
-/*                                                    |  ;·'   ,·´            */
-/*   cd_mini.c                                        |  ;  ,·´               */
-/*                                                    |  :,'                  */
-/*   By: mvan-rij <mvan-rij@student.42.fr>             `´.                    */
-/*                                                      .¨.                   */
+/*                                                        :::      ::::::::   */
+/*   cd_mini.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/08/18 13:30:00 by fdreijer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
 /*   Updated: 2025/07/30 12:48:44 by mvan-rij          :. ¨.                  */
 /*                                                                            */
@@ -59,6 +59,7 @@ char *get_pwd(void)
 
 //get cmds args and do cd
 //also updates PWD and OLDPWD environnment variables
+//TODO DONT SEGFAULT WITHOUT ARGS
 int	cd_mini(t_cmds *cmds)
 {
 	char *old_pwd;

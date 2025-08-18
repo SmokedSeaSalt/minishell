@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/17 10:49:40 by kali             ###   ########.fr       */
+/*   Updated: 2025/08/18 13:55:17 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void free_cmds_node(t_cmds *node)
 {
 	int i;
 
+	if (node->infile && !ft_strncmp(node->infile, "/tmp/.heredoc_", 14))
+		unlink(node->infile);
 	free(node->cmdpath);
 	node->cmdpath = NULL;
 	free(node->cmd);
@@ -98,6 +100,7 @@ void free_cmds(t_cmds *node)
 }
 
 //TODO different behaviour if exit is piped or not
+//TODO exit a a
 int	exit_mini(t_cmds *cmds)
 {
 	char exitval;
