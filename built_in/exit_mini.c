@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/18 13:55:17 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:28:22 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void free_cmds(t_cmds *node)
 
 //TODO different behaviour if exit is piped or not
 //TODO exit a a
+//TODO write exit to 1 so doesnt get piped mayb 
 int	exit_mini(t_cmds *cmds)
 {
 	char exitval;
