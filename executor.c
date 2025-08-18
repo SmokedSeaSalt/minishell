@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/17 10:17:53 by kali             ###   ########.fr       */
+/*   Updated: 2025/08/18 12:07:42 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	exec_builtin(t_cmds *cmds, t_env *env)
 	// 	env_mini(cmds);
 	// if (!ft_strcmp(cmds->cmd, "export"))
 	// 	export_mini(cmds);
+	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
+	{
+		free_env(cmds->info->head);
+		free_cmds(cmds);
+		exit(1);
+	}
 }
 
 int	 isbuiltin(t_cmds *cmds)
@@ -126,7 +132,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			execve(cmds->cmdpath, args, NULL);
 			perror(cmds->cmd);
 			free(args);
-			exit(1);
+			exit_with_val(1, cmds);
 		}
 		waitpid(pid, NULL, 0);
 	}
@@ -160,7 +166,7 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			if (tempfd < 0)
 			{
 				write(2, "ERROR\n", 6);
-				return ;
+				exit(0);
 			}
 			dup2(tempfd, STDIN_FILENO);
 			close(tempfd);
@@ -179,7 +185,7 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			if (tempfd < 0)
 			{
 				write(2, "ERROR\n", 6);
-				return ;
+				exit_with_val(1, cmds);
 			}
 			dup2(tempfd, STDOUT_FILENO);
 			close(tempfd);
@@ -197,12 +203,13 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		args = make_args(cmds);
 		// for (int i = 0; args[i]; i++)
 		// 	printf("\nARG %i: %s\n", i, args[i]);
-		printf("\n%s\n", cmds->cmdpath);
-		printf("\n%s\n", (args)[0]);
-		printf("\n%s\n", (args)[1]);
+		// printf("\n%s\n", cmds->cmdpath);
+		// printf("\n%s\n", (args)[0]);
+		// printf("\n%s\n", (args)[1]);
 		execve(cmds->cmdpath, args, NULL);
 		write(2, "ERROR\n", 6);
-		return ;
+		free(args);
+		exit_with_val(1, cmds);
 	}
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);
@@ -227,7 +234,10 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 		}
 		fd_out = fd[1];
 		exec_pipe_single(cmds, env, fd_in, fd_out);
-		close(fd_out);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
+		if (fd_out != STDIN_FILENO)
+			close(fd_out);
 		fd_in = fd[0];
 		cmds = cmds->next;
 	}
@@ -235,6 +245,8 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 	{
 		fd_out = STDOUT_FILENO;
 		exec_pipe_single(cmds, env, fd_in, fd_out);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
 	}
 	while (waitpid(-1, NULL, 0) > 0)
 		;
@@ -312,14 +324,23 @@ void	find_paths(t_cmds *cmds, t_env *env)
 				continue ;
 			if (access(currentpath, F_OK) == 0)
 			{
-				int i = -1;
+				i = -1;
 				while (paths[++i])
 					free(paths[i]);
 				free(paths);
+				paths = NULL;
 				cmds->cmdpath = currentpath;
 				break ;
 			}
 			free(currentpath);
+		}
+		if (paths)
+		{
+			i = -1;
+			while (paths[++i])
+				free(paths[i]);
+			free(paths);
+			paths = NULL;
 		}
 		if (!cmds->cmdpath)
 			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
