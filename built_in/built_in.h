@@ -20,6 +20,7 @@ int	cd_mini(t_cmds *cmds);
 int	echo_mini(t_cmds *cmds);
 int	exit_mini(t_cmds *cmds);
 int env_mini(t_cmds *cmds);
+int pwd_mini(t_cmds *cmds);
 void free_env(t_env *head);
 void free_cmds_node(t_cmds *node);
 void free_cmds(t_cmds *node);

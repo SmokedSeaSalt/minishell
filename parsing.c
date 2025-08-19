@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/03 16:54:17 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:16:21 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	expand_line_space(t_cmds *cmds, char **line, char **expandedline)
 	while (ft_isspace(**line))
 		(*line)++;
 }
-
+//TODO DONT EXPAND ENV IF IN HEREDOC
 char	*parse_word(t_env *env, char **line)
 {
 	char	*word;
@@ -245,8 +245,14 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 	if (!(**line))
 		return;
 	file = parse_word(env,	line);
+	printf("FILE NAME: %s\n", file);
 	if (!file)
 		return;
+	if (cmds->outfile)
+	{
+		close(open(cmds->outfile, O_WRONLY | O_CREAT, 0644));
+		free(cmds->outfile);
+	}
 	cmds->outfile = file;
 }
 
@@ -263,8 +269,8 @@ void	handle_pipe(t_cmds **cmds, char **line)
 		return;
 	head = cmd_first(*cmds);
 	cmd_add_back(&head, newnode);
-	*cmds = (*cmds)->next;
 	(*cmds)->ispiped = 1;
+	*cmds = (*cmds)->next;
 }
 
 void	make_cmds(t_cmds *cmds, t_env *env, char *line)
@@ -297,35 +303,35 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 			expand_line_space(cmds, &line, &expandedline);
 	}
 	cmds = cmd_first(cmds);
-	while (cmds)
-	{
-		printf("\nCMD: %s\n", cmds->cmd);
-		if (cmds->args)
-		{
-			for (int i = 0; cmds->args[i]; i++)
-				printf("ARGS: %s\n ", cmds->args[i]);
-		}
-		else
-			printf("ARGS: NULL\n");
-		printf("\nINFLIE: %s", cmds->infile);
-		printf("\nISPIPED: %i", cmds->ispiped);
-		if (cmds->outfile)
-			printf("\nAPPEND: %i", cmds->append);
-		printf("\nOUTFILE: %s\n\n\n", cmds->outfile);
-		cmds = cmds->next;
-	}
+	// while (cmds)
+	// {
+	// 	printf("\nCMD: %s\n", cmds->cmd);
+	// 	if (cmds->args)
+	// 	{
+	// 		for (int i = 0; cmds->args[i]; i++)
+	// 			printf("ARGS: %s\n ", cmds->args[i]);
+	// 	}
+	// 	else
+	// 		printf("ARGS: NULL\n");
+	// 	printf("\nINFLIE: %s", cmds->infile);
+	// 	printf("\nISPIPED: %i", cmds->ispiped);
+	// 	if (cmds->outfile)
+	// 		printf("\nAPPEND: %i", cmds->append);
+	// 	printf("\nOUTFILE: %s\n\n\n", cmds->outfile);
+	// 	cmds = cmds->next;
+	// }
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	// (void)argc;
-	// (void)argv;
-	// (void)envp;
-	t_env	*env = init_env(envp);
-	t_cmds *cmds = ft_calloc(sizeof(t_cmds), 1);
-	(void)argv;
-	(void)argc;
-	make_cmds(cmds, env, "cat <<here | cat <<hello | cat <<here | cat <<hello");
-	free_cmds(cmds);
-	free_env(env);
-}
+// int main(int argc, char **argv, char **envp)
+// {
+// 	// (void)argc;
+// 	// (void)argv;
+// 	// (void)envp;
+// 	t_env	*env = init_env(envp);
+// 	t_cmds *cmds = ft_calloc(sizeof(t_cmds), 1);
+// 	(void)argv;
+// 	(void)argc;
+// 	make_cmds(cmds, env, "cat <<here | cat <<hello | cat <<here | cat <<hello");
+// 	free_cmds(cmds);
+// 	free_env(env);
+// }

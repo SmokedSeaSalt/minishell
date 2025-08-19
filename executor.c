@@ -1,125 +1,367 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/18 14:28:22 by fdreijer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
-
 //TODO error messages
-void    exec_builtin(t_cmds *cmds, t_env *env)
+char	**make_args(t_cmds *cmds)
 {
-    if (!ft_strcmp(cmds->cmd, "echo"))
-        echo_mini(cmds);
-    if (!ft_strcmp(cmds->cmd, "pwd"))
-        pwd_mini(cmds);
-    if (!ft_strcmp(cmds->cmd, "cd"))
-        cd_mini(cmds);
-    if (!ft_strcmp(cmds->cmd, "exit"))
-        exit_mini(cmds);
-    if (!ft_strcmp(cmds->cmd, "env"))
-        env_mini(cmds);
-    if (!ft_strcmp(cmds->cmd, "export"))
-        export_mini(cmds);
+	int	i;
+	char **args;
+
+	i = 1;
+	while (cmds->args && (cmds->args)[i - 1])
+		i++;
+	args = ft_calloc(sizeof(char *), i + 1);
+	args[0] = cmds->cmd;
+	if (!cmds->args)
+		return (args);
+	i = 0;
+	while ((cmds->args)[i])
+	{
+		args[i + 1] = (cmds->args)[i];	
+		i++;
+	}
+	return (args);
+}
+void	exec_builtin(t_cmds *cmds, t_env *env)
+{
+	if (!ft_strcmp(cmds->cmd, "echo"))
+		echo_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "pwd"))
+		pwd_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "cd"))
+		cd_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "exit"))
+		exit_mini(cmds);
+	// if (!ft_strcmp(cmds->cmd, "env"))
+	// 	env_mini(cmds);
+	// if (!ft_strcmp(cmds->cmd, "export"))
+	// 	export_mini(cmds);
+	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
+	{
+		free_env(cmds->info->head);
+		free_cmds(cmds);
+		exit(1);
+	}
 }
 
-int     isbuiltin(t_cmds *cmds)
+int	 isbuiltin(t_cmds *cmds)
 {
-    if (!ft_strcmp(cmds->cmd, "echo") || !ft_strcmp(cmds->cmd, "cd")\
+	if (!ft_strcmp(cmds->cmd, "echo") || !ft_strcmp(cmds->cmd, "cd")\
 || !ft_strcmp(cmds->cmd, "exit") || !ft_strcmp(cmds->cmd, "pwd")\
 || !ft_strcmp(cmds->cmd, "export") || !ft_strcmp(cmds->cmd, "env"))
-        return (1);
-    return (0);
+		return (1);
+	return (0);
 }
 
-void    redirect_infiles(t_cmds *cmds, t_env *env, int *stdin_dup, int *stdout_dup)
+void	redirect_infiles(t_cmds *cmds, t_env *env, int *stdin_dup, int *stdout_dup)
 {
-    int fd;
+	int fd;
 
-    if (cmds->infile)
-    {
-        fd = open(cmds->infile, O_RDONLY)
-        if (fd < 0)
-            return ;
-        *stdin_dup = dup(STDIN_FILENO);
-        dup2(fd, STDIN_FILENO);
-        close(fd);
-    }
-    if (cmds->outfile)
-    {
-        if (cmds->append)
-            fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        else
-            fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        if (fd < 0)
-            return ;
-        *stdout_dup = dup(STDOUT_FILENO);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    }
+	if (cmds->infile)
+	{
+		fd = open(cmds->infile, O_RDONLY);
+		if (fd < 0)
+			return ;
+		*stdin_dup = dup(STDIN_FILENO);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	if (cmds->outfile)
+	{
+		if (cmds->append)
+			fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+			return ;
+		*stdout_dup = dup(STDOUT_FILENO);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
 }
 
-void    restore_stdio(int stdin_dup, int stdout_dup)
+void	restore_stdio(int stdin_dup, int stdout_dup)
 {
-    if (stdin_dup != -1)
-    {
-        dup2(stdin_dup, STDIN_FILENO);
-        close(stdin_dup);
-    }
+	if (stdin_dup != -1)
+	{
+		dup2(stdin_dup, STDIN_FILENO);
+		close(stdin_dup);
+	}
 
-    if (stdout_dup != -1)
-    {
-        dup2(stdout_dup, STDOUT_FILENO);
-        close(stdout_dup);
-    }
+	if (stdout_dup != -1)
+	{
+		dup2(stdout_dup, STDOUT_FILENO);
+		close(stdout_dup);
+	}
 }
-// TODO FIX EXECVE ERROR CLEANUP
-void    exec_single(t_cmds *cmds, t_env *env)
+void	exec_single(t_cmds *cmds, t_env *env)
 {
-    int stdin_dup;
-    int stdout_dup;
-    pid_t   pid;
+	int stdin_dup;
+	int stdout_dup;
+	pid_t   pid;
+	char **args;
 
-    stdin_dup = -1;
-    stdout_dup = -1;
+	stdin_dup = -1;
+	stdout_dup = -1;
 
-    redirect_infiles(cmds, env, &stdin_dup, &stdout_dup);
-    if (isbuiltin(cmds))
-        exec_builtin(cmds);
-    else
-    {
-        pid = fork();
-        if (!pid)
-        {
-            execve(cmd->cmdpath, cmd->args, NULL);
-            write(2, "ERROR EXECVE\n", 13);
-            exit(1);
-        }
-        waitpid(pid, NULL, 0);
-    }
-    restore_stdio(stdin_dup, stdout_dup);
+	redirect_infiles(cmds, env, &stdin_dup, &stdout_dup);
+	if (isbuiltin(cmds))
+		exec_builtin(cmds, env);
+	else
+	{
+		pid = fork();
+		if (!pid)
+		{
+			args = make_args(cmds);
+			// printf("\n%s\n", cmds->cmdpath);
+			// printf("\n%s\n", (args)[0]);
+			// printf("\n%s\n", (args)[1]);
+			// for (int i = 0; args[i]; i++)
+			// 	printf("\nARG %i: %s\n", i, args[i]);
+			execve(cmds->cmdpath, args, NULL);
+			perror(cmds->cmd);
+			free(args);
+			exit_with_val(1, cmds);
+		}
+		waitpid(pid, NULL, 0);
+	}
+	restore_stdio(stdin_dup, stdout_dup);
 }
 
-int    pipe_setup(int pipefd[2])
+
+
+int	pipe_setup(int pipefd[2])
 {
-    if (pipe(pipefd) == -1) 
-    {
-        write(2, "ERROR PIPE FAIL\n", 16);
-        return (1);
-    }
-    return (0);
+	if (pipe(pipefd) == -1) 
+	{
+		write(2, "ERROR PIPE FAIL\n", 16);
+		return (1);
+	}
+	return (0);
 }
-
-void    execute_cmd(t_cmds *cmds, t_env *env)
+//TODO CLEANUP
+void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 {
-    int pipefd[2];
-    int fdin;
+	pid_t pid;
+	int	tempfd;
+	char **args;
 
-    while (cmds)
-    {
-        if (cmds->ispiped && pipe_setup(pipefd) == 1)
-        {
-            write(2, "Error msg\n", 10);
-            return ;
-        }
-        if (!cmds->ispiped)
-            exec_single(cmds, env);
-
-        cmds = cmds->next;
-    }
+	pid = fork();
+	if (!pid)
+	{
+		if (cmds->infile)
+		{
+			tempfd = open(cmds->infile, O_RDONLY);
+			if (tempfd < 0)
+			{
+				write(2, "ERROR\n", 6);
+				exit(0);
+			}
+			dup2(tempfd, STDIN_FILENO);
+			close(tempfd);
+		}
+		else if (fd_in != STDIN_FILENO)
+		{
+			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
+		}
+		if (cmds->outfile)
+		{
+			if (cmds->append)
+				tempfd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			else
+				tempfd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (tempfd < 0)
+			{
+				write(2, "ERROR\n", 6);
+				exit_with_val(1, cmds);
+			}
+			dup2(tempfd, STDOUT_FILENO);
+			close(tempfd);
+		}
+		else if (fd_out != STDOUT_FILENO)
+		{
+			dup2(fd_out, STDOUT_FILENO);
+			close(fd_out);
+		}
+		if (isbuiltin(cmds))
+		{
+			exec_builtin(cmds, env);
+			exit(0);
+		}
+		args = make_args(cmds);
+		// for (int i = 0; args[i]; i++)
+		// 	printf("\nARG %i: %s\n", i, args[i]);
+		// printf("\n%s\n", cmds->cmdpath);
+		// printf("\n%s\n", (args)[0]);
+		// printf("\n%s\n", (args)[1]);
+		execve(cmds->cmdpath, args, NULL);
+		write(2, "ERROR\n", 6);
+		free(args);
+		exit_with_val(1, cmds);
+	}
+	if (fd_in != STDIN_FILENO)
+		close(fd_in);
+	if (fd_out != STDOUT_FILENO)
+		close(fd_out);
 }
+
+//TODO ERROR HANDLE
+void	exec_pipes(t_cmds *cmds, t_env *env)
+{
+	int	fd[2];
+	int	fd_in;
+	int fd_out;
+
+	fd_in = dup(STDIN_FILENO);
+	while (cmds && cmds->ispiped)
+	{
+		if (pipe(fd) == -1)
+		{
+			write(2, "ERROR\n", 6);
+			return ;
+		}
+		fd_out = fd[1];
+		exec_pipe_single(cmds, env, fd_in, fd_out);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
+		if (fd_out != STDIN_FILENO)
+			close(fd_out);
+		fd_in = fd[0];
+		cmds = cmds->next;
+	}
+	if (cmds)
+	{
+		fd_out = STDOUT_FILENO;
+		exec_pipe_single(cmds, env, fd_in, fd_out);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
+	}
+	while (waitpid(-1, NULL, 0) > 0)
+		;
+}
+
+//TODO ERROR HNADLE
+void	execute_cmd(t_cmds *cmds, t_env *env)
+{
+	int pipefd[2];
+	int fdin;
+
+	while (cmds)
+	{
+		if (!cmds->cmd)
+			cmds = cmds->next;
+		else if (!cmds->ispiped)
+		{
+			exec_single(cmds, env);
+			cmds = cmds->next;
+		}
+		else
+		{
+			exec_pipes(cmds, env);
+			while (cmds && cmds->ispiped)
+				cmds = cmds->next;
+			if (cmds)
+				cmds = cmds->next;
+		}
+	}
+}
+//TODO HANDLE MALLOC FAIL IN SPLIT
+void	find_paths(t_cmds *cmds, t_env *env)
+{
+	char	**paths;
+	int		i;
+	char	*currentpath;
+	t_info	*info;
+
+	info = ft_calloc(sizeof(t_info), 1);
+	// printf("test\n");
+	info->head = env;
+	while (cmds)
+	{
+		cmds->info = info;
+		if (!cmds->cmd)
+		{
+			if (cmds->infile && cmds->next && !cmds->next->infile)
+			{
+				cmds->next->infile = cmds->infile;
+				cmds->infile = NULL;
+			}
+			cmds = cmds->next;
+			continue;
+		}
+		if (isbuiltin(cmds))
+		{
+			cmds = cmds->next;
+			continue;
+		}
+		while (env && ft_strcmp("PATH", env->v_name))
+			env = env->next;
+		if (!env)
+		{
+			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
+			return ;
+		}
+		paths = ft_split(env->v_val, ':');
+		if (!paths)
+			return ;
+		i = -1;
+		while (paths[++i])
+		{
+			currentpath = strjoin_char(paths[i], cmds->cmd, '/');
+			if (!currentpath)
+				continue ;
+			if (access(currentpath, F_OK) == 0)
+			{
+				i = -1;
+				while (paths[++i])
+					free(paths[i]);
+				free(paths);
+				paths = NULL;
+				cmds->cmdpath = currentpath;
+				break ;
+			}
+			free(currentpath);
+		}
+		if (paths)
+		{
+			i = -1;
+			while (paths[++i])
+				free(paths[i]);
+			free(paths);
+			paths = NULL;
+		}
+		if (!cmds->cmdpath)
+			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
+		// printf("\nCMD PATH: %s\n", cmds->cmdpath);
+		cmds = cmds->next;
+	}
+}
+
+// int main(int argc, char **argv, char **envp)
+// {
+// 	// (void)argc;
+// 	// (void)argv;
+// 	// (void)envp;
+// 	if (argc != 2)
+// 		return (write(2, "SEGFAULT\n", 9));
+// 	t_env	*env = init_env(envp);
+// 	t_cmds *cmds = ft_calloc(sizeof(t_cmds), 1);
+// 	(void)argv;
+// 	(void)argc;
+// 	make_cmds(cmds, env, argv[1]);
+// 	find_paths(cmds, env);
+// 	execute_cmd(cmds, env);
+// 	free_cmds(cmds);
+// 	free_env(env);
+// }

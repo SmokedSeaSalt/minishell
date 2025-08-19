@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/04 13:01:10 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:28:22 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_mini.h"
-#include "minishell.h"
+#include "../libft_mini/libft_mini.h"
+#include "../minishell.h"
 
 static int	n_args(char **args)
 {
 	int i;
 
 	i = 0;
-	while (!args && !args[i])
+	while (args && args[i])
 		i++;
 	return (i);
 }
@@ -57,6 +57,8 @@ void free_cmds_node(t_cmds *node)
 {
 	int i;
 
+	if (node->infile && !ft_strncmp(node->infile, "/tmp/.heredoc_", 14))
+		unlink(node->infile);
 	free(node->cmdpath);
 	node->cmdpath = NULL;
 	free(node->cmd);
@@ -84,19 +86,22 @@ void free_cmds(t_cmds *node)
 {
 	t_cmds *tmp;
 
+	free(node->info);
 	while (node->prev != NULL)
 		node = node->prev;
 	while (node != NULL)
 	{
 		tmp = node;
 		free_cmds_node(tmp);
+		node = node->next;
 		free(tmp);
 		tmp = NULL;
-		node = node->next;
 	}
 }
 
 //TODO different behaviour if exit is piped or not
+//TODO exit a a
+//TODO write exit to 1 so doesnt get piped mayb 
 int	exit_mini(t_cmds *cmds)
 {
 	char exitval;

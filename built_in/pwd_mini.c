@@ -15,8 +15,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_mini.h"
-#include "minishell.h"
+#include "../libft_mini/libft_mini.h"
+#include "../minishell.h"
 #include <stddef.h> //to use NULL
 #include <unistd.h> //to use getcwd
 

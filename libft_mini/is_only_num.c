@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 15:14:26 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/03 13:54:16 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 10:55:07 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	is_only_num(char *str)
 	{
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
+		i++;
 	}
 	return (1);
 }

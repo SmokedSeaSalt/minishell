@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:06:00 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/03 15:17:13 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:00:16 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,4 @@ int	error_parse_line(char *line)
 	if (openquote)
 		return (char_not_supported("unclosed quote"));
 	return (0);
-}
-
-
-int main(int argc, char **argv)
-{
-	if (argc != 2)
-		return (write(1, "SEGFAULT\n", 9));
-	if (!error_parse_line(argv[1]))
-		write(1, "SUCCESS\n", 8);
 }
