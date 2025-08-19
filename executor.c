@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 14:28:22 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:28:09 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ void	exec_builtin(t_cmds *cmds, t_env *env)
 		cd_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "exit"))
 		exit_mini(cmds);
-	// if (!ft_strcmp(cmds->cmd, "env"))
-	// 	env_mini(cmds);
-	// if (!ft_strcmp(cmds->cmd, "export"))
-	// 	export_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "env"))
+		env_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "export"))
+		export_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "unset"))
+		unset_mini(cmds);
 	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
 	{
 		free_env(cmds->info->head);
@@ -58,7 +60,8 @@ int	 isbuiltin(t_cmds *cmds)
 {
 	if (!ft_strcmp(cmds->cmd, "echo") || !ft_strcmp(cmds->cmd, "cd")\
 || !ft_strcmp(cmds->cmd, "exit") || !ft_strcmp(cmds->cmd, "pwd")\
-|| !ft_strcmp(cmds->cmd, "export") || !ft_strcmp(cmds->cmd, "env"))
+|| !ft_strcmp(cmds->cmd, "export") || !ft_strcmp(cmds->cmd, "env")\
+|| !ft_strcmp(cmds->cmd, "unset"))
 		return (1);
 	return (0);
 }

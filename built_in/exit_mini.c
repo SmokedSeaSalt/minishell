@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/18 15:28:22 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:06:52 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@
 #include "../libft_mini/libft_mini.h"
 #include "../minishell.h"
 
-static int	n_args(char **args)
-{
-	int i;
-
-	i = 0;
-	while (args && args[i])
-		i++;
-	return (i);
-}
 
 void exit_with_val(int value, t_cmds *cmds)
 {

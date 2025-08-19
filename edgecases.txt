@@ -37,6 +37,11 @@ echo a > b > c need to create b as well # done but need improive
 > o1.txt | > o2.txt | > o3.txt
 heredoc expansion after comparison
 
+fdreijer@f1r2s8:~/4_layer/minishell$ readonly TESTVAR=test
+fdreijer@f1r2s8:~/4_layer/minishell$ unset TESTVAR
+bash: unset: TESTVAR: cannot unset: readonly variable
+
+
 FROM other evalnots
 heredoc with ctrl c
 cat with ctrl /

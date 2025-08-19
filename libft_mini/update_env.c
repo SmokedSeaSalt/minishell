@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:58:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 09:44:38 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:37:27 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	update_env(t_env *head, char *name, char *newval)
 {
 	t_env	*newnode;
 
+	// printf("NAME: %s\n", name);
+	// printf("VAL: %s\n", newval);
 	while (head)
 	{
 		if (!ft_strcmp(head->v_name, name))
@@ -57,8 +59,10 @@ void	update_env(t_env *head, char *name, char *newval)
 	if (!newnode)
 		return ;
 	newnode->v_name = name;
+	// printf("NAME: %s\n", newnode->v_name);
 	newnode->v_val =newval;
 	head->next = newnode;
+	newnode->prev = head;
 	return ;
 }
 

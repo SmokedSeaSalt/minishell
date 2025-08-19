@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 14:16:21 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:37:20 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 	if (!(**line))
 		return;
 	file = parse_word(env,	line);
-	printf("FILE NAME: %s\n", file);
+	// printf("FILE NAME: %s\n", file);
 	if (!file)
 		return;
 	if (cmds->outfile)

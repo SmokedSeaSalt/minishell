@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 12:02:56 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:07:08 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ char	*return_env(t_env *head, char *str);
 void	update_env(t_env *head, char *name, char *newval);
 int		is_only_num(char *str);
 void	exit_with_val(int value, t_cmds *cmds);
+int		n_args(char **args);
 
 #endif

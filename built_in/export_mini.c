@@ -3,25 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_mini.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/12 16:37:31 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:06:42 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_mini.h"
-#include "minishell.h"
-
-static int	n_args(char **args)
-{
-	int i;
-
-	i = 0;
-	while (!args && !args[i])
-		i++;
-	return (i);
-}
+#include "../libft_mini/libft_mini.h"
+#include "../minishell.h"
 
 /// @brief splits the arguments into the environment argument name and value
 /// @param str	argument string: name[=value]
@@ -46,7 +36,7 @@ static int split_first_equals(char *str, char **v_name, char **v_value)
 		return (EXIT_SUCCESS);
 	}
 	str += i + 1;
-	*v_value = ft_strdup(str, ft_strlen(str));
+	*v_value = ft_strndup(str, ft_strlen(str));
 	if (*v_value == NULL)
 		return (free(v_name), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -99,8 +89,6 @@ static int process_args(char *str, t_env *head)
 		env_set_hidden_0(head, v_name);
 	else
 		update_env(head,v_name, v_value);
-	free(v_name);
-
 	return (EXIT_SUCCESS);
 }
 
@@ -133,7 +121,7 @@ int	export_mini(t_cmds *cmds)
 
 	i = 0;
 	if (n_args(cmds->args) == 0)
-		print_export(cmds);
+		print_export(cmds->info->head);
 	else
 	{
 		while (cmds->args[i] != NULL)
@@ -142,4 +130,5 @@ int	export_mini(t_cmds *cmds)
 			i++;
 		}
 	}
+	return (0);
 }

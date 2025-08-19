@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_structs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:45:55 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 14:32:54 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:23:24 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef	struct s_env
 	char	*v_name;
 	char	*v_val;
 	struct s_env	*next;
+	struct s_env	*prev;
 	int		is_hidden;
 }	t_env;
 

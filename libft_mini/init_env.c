@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/25 11:23:08 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:25:08 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,16 @@ t_env	*env_last(t_env	*head)
 
 void	env_add_back(t_env *node, t_env **head)
 {
+	t_env	*lastnode;
+
 	if (*head == NULL)
+	{
 		*head = node;
-	else
-		env_last(*head)->next = node;
+		return ;
+	}
+	lastnode = env_last(*head);
+	lastnode->next = node;
+	node->prev = lastnode;
 }
 
 t_env	*init_env(char **envp)
