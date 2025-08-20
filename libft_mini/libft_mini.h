@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 11:31:37 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:29:43 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strndup(char *str, int n);
 int		is_valid_in_name(char c);
-int		skip_to_quote(char **str);
 char	*strjoin_char(char *s1, char *s2, char c);
 char	*strjoin_path(char *s1, char *s2);
 char	*strjoin_space(char *s1, char *s2);

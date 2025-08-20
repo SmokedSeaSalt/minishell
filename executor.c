@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 14:15:27 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:06:32 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**make_args(t_cmds *cmds)
 	return (args);
 }
 //TODO FREE ALL WHEN EXIT;
-char	**make_envp(t_env *env)
+char	**make_envp(t_cmds *cmds, t_env *env)
 {
 	int	envlen;
 	int	i;
@@ -44,14 +44,14 @@ char	**make_envp(t_env *env)
 	envlen = env_len(env);
 	envp = ft_calloc(sizeof(char *), envlen + 1);
 	if (!envp)
-		exit(1);
+		exit_with_val(1, cmds);
 	while (env->prev)
 		env = env->prev;
 	while (env)
 	{
 		envval = strjoin_char(env->v_name, env->v_val, '=');
 		if (!envval)
-			exit(1);
+			exit_with_val(1, cmds);
 		envp[i] = envval;
 		i++;
 		env = env->next;
@@ -156,7 +156,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			// printf("\n%s\n", (args)[1]);
 			// for (int i = 0; args[i]; i++)
 			// 	printf("\nARG %i: %s\n", i, args[i]);
-			envp = make_envp(env);
+			envp = make_envp(cmds, env);
 			execve(cmds->cmdpath, args, envp);
 			free_carray(envp);
 			perror(cmds->cmd);
@@ -236,9 +236,9 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		// printf("\n%s\n", cmds->cmdpath);
 		// printf("\n%s\n", (args)[0]);
 		// printf("\n%s\n", (args)[1]);
-		envp = make_envp(env);
+		envp = make_envp(cmds, env);
 		execve(cmds->cmdpath, args, envp);
-		write(2, "ERROR\n", 6);
+		perror(cmds->cmdpath);
 		free(args);
 		free_carray(envp);
 		exit_with_val(1, cmds);
@@ -249,7 +249,6 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		close(fd_out);
 }
 
-//TODO ERROR HANDLE
 void	exec_pipes(t_cmds *cmds, t_env *env)
 {
 	int	fd[2];
@@ -261,8 +260,8 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 	{
 		if (pipe(fd) == -1)
 		{
-			write(2, "ERROR\n", 6);
-			return ;
+			write(2, "Error: pipe failed\n", 19);
+			exit_with_val(1, cmds);
 		}
 		fd_out = fd[1];
 		exec_pipe_single(cmds, env, fd_in, fd_out);
@@ -284,7 +283,6 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 		;
 }
 
-//TODO ERROR HNADLE
 void	execute_cmd(t_cmds *cmds, t_env *env)
 {
 	while (cmds)
@@ -315,7 +313,6 @@ void	find_paths(t_cmds *cmds, t_env *env)
 	t_info	*info;
 
 	info = ft_calloc(sizeof(t_info), 1);
-	// printf("test\n");
 	info->head = env;
 	while (cmds)
 	{
@@ -373,7 +370,6 @@ void	find_paths(t_cmds *cmds, t_env *env)
 		}
 		if (!cmds->cmdpath)
 			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
-		// printf("\nCMD PATH: %s\n", cmds->cmdpath);
 		cmds = cmds->next;
 	}
 }

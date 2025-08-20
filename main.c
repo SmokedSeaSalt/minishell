@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 08:49:18 by kali              #+#    #+#             */
-/*   Updated: 2025/08/20 11:58:03 by fdreijer         ###   ########.fr       */
+/*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/20 17:06:26 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
 	(void)argc;
     env = init_env(envp);
-	init_signals();
+	// init_signals();
     // printf("MINISHELL STARTED\n");
     while (1)
     {
