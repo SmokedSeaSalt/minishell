@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:40:22 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:27:48 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:49:17 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_IN_H
 # define BUILT_IN_H
 
-# include "../minishell.h"
-# include "../libft_mini/mini_structs.h"
+# include "minishell.h"
+# include "mini_structs.h"
 //built-in commands
 int	cd_mini(t_cmds *cmds);
 int	echo_mini(t_cmds *cmds);

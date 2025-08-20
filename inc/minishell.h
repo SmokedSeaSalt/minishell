@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 11:58:15 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:48:57 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include "libft_mini/libft_mini.h"
-# include "libft_mini/mini_structs.h"
+# include "libft_mini.h"
+# include "mini_structs.h"
 #define HEREDOC_PREFIX "/tmp/.heredoc_"
 
 t_cmds	*cmd_last(t_cmds *head);

@@ -1,40 +1,55 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/08/20 15:57:58 by mvan-rij          #+#    #+#              #
+#    Updated: 2025/08/20 15:58:01 by mvan-rij         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libft_mini.a
-CC = cc -Wall -Werror -Wextra
+CC = cc -Wall -Werror -Wextra -I ../inc -I inc
 
 SRCS = \
-		charinstr.c \
-		ft_calloc.c \
-		ft_isquote.c \
-		ft_isspace.c \
-		ft_max.c \
-		ft_memmove.c \
-		ft_min.c \
-		ft_realloc.c \
-		ft_split.c \
-		ft_strcmp.c \
-		ft_strjoin.c \
-		ft_strlen.c \
-		ft_strncmp.c \
-		ft_strndup.c \
-		init_env.c \
-		is_only_num.c \
-		is_valid_in_name.c \
-		n_args.c \
-		skip_to_quote.c \
-		strjoin_char.c \
-		strjoin_path.c \
-		strjoin_space.c \
-		#update_env.c
+		src/charinstr.c \
+		src/ft_calloc.c \
+		src/ft_isquote.c \
+		src/ft_isspace.c \
+		src/ft_max.c \
+		src/ft_memmove.c \
+		src/ft_min.c \
+		src/ft_realloc.c \
+		src/ft_split.c \
+		src/ft_strcmp.c \
+		src/ft_strjoin.c \
+		src/ft_strlen.c \
+		src/ft_strncmp.c \
+		src/ft_strndup.c \
+		src/init_env.c \
+		src/is_only_num.c \
+		src/is_valid_in_name.c \
+		src/n_args.c \
+		src/skip_to_quote.c \
+		src/strjoin_char.c \
+		src/strjoin_path.c \
+		src/strjoin_space.c \
+		src/update_env.c
+
+INCLS = \
+	inc/libft_mini.h
 
 BUILD_FOLDER = build
-OBJS := $(patsubst %.c, $(BUILD_FOLDER)/%.o, $(SRCS))
+OBJS := $(patsubst src/%.c, $(BUILD_FOLDER)/%.o, $(SRCS))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) Makefile
-	ar rcsUu $(NAME) $(ALLOBJS)
+$(NAME): $(OBJS) Makefile $(INCLS)
+	ar rcsUu $(NAME) $(OBJS)
 
-$(BUILD_FOLDER)/%.o: %.c Makefile | $(BUILD_FOLDER)
+$(BUILD_FOLDER)/%.o: src/%.c Makefile $(INCLS) | $(BUILD_FOLDER)
 	$(CC) -c -o $@ $<
 
 $(BUILD_FOLDER):

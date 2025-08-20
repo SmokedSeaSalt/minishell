@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 13:22:43 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:04:57 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**make_args(t_cmds *cmds)
 	i = 0;
 	while ((cmds->args)[i])
 	{
-		args[i + 1] = (cmds->args)[i];	
+		args[i + 1] = (cmds->args)[i];
 		i++;
 	}
 	return (args);
@@ -61,7 +61,7 @@ char	**make_envp(t_env *env)
 void	exec_builtin(t_cmds *cmds, t_env *env)
 {
 	int	exitval;
-	
+
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "pwd"))
@@ -150,6 +150,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		pid = fork();
 		if (!pid)
 		{
+			signal(SIGINT, SIG_DFL);
 			args = make_args(cmds);
 			// printf("\n%s\n", cmds->cmdpath);
 			// printf("\n%s\n", (args)[0]);
@@ -172,7 +173,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 
 int	pipe_setup(int pipefd[2])
 {
-	if (pipe(pipefd) == -1) 
+	if (pipe(pipefd) == -1)
 	{
 		write(2, "ERROR PIPE FAIL\n", 16);
 		return (1);
