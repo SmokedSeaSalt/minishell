@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:58:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:37:27 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:16:32 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ char *return_env(t_env *head, char *str)
 	return (NULL);
 }
 
+int	env_len(t_env *env)
+{
+	int	n;
+
+	n = 0;
+	while (env && env->prev)
+		env = env->prev;
+	while (env)
+	{
+		n++;
+		env = env->next;
+	}
+	return (n);
+}
+
 void	update_env(t_env *head, char *name, char *newval)
 {
 	t_env	*newnode;
@@ -65,7 +80,7 @@ void	update_env(t_env *head, char *name, char *newval)
 	newnode->prev = head;
 	return ;
 }
-
+//TODO FREE IF FAIL
 char	*expand_env(t_env *head, char *str)
 {
 	int		i;
@@ -79,6 +94,7 @@ char	*expand_env(t_env *head, char *str)
 		i++;
 	to_find = ft_strndup(&str[1], i - 1);
 	if (!to_find)
+		return (NULL);
 	found = ft_getenv(head, to_find);
 	free (to_find);
 	if (!found)

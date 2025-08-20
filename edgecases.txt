@@ -29,6 +29,13 @@ export pipe="|"
 echo test $pipe echo test
 expected: test | echo test
 
+export test=abc test+=def
+echo $test
+expected: abcdef
+
+unset TERM
+clear
+expected : error msg
 
 TODO
 arg=123 echo a

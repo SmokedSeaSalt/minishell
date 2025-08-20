@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/19 12:06:52 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:31:53 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	exit_mini(t_cmds *cmds)
 {
 	char exitval;
 
-	write(2, "exit\n", 5);
+	if (!(cmds->ispiped || (cmds->prev && cmds->prev->ispiped)))
+		write(2, "exit\n", 5);
 	if (n_args(cmds->args) == 0)
 		exit_with_val(cmds->info->last_exit_val, cmds);
 	if (n_args(cmds->args) == 1)

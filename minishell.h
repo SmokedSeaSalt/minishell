@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 13:58:46 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:58:15 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line);
 void	find_paths(t_cmds *cmds, t_env *env);
 void	execute_cmd(t_cmds *cmds, t_env *env);
 int		error_parse_line(char *line);
+int	init_signals(void);
 
 #endif

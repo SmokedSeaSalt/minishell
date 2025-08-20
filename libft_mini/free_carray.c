@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   n_args.c                                           :+:      :+:    :+:   */
+/*   free_carray.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/19 12:06:07 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 10:34:28 by fdreijer         ###   ########.fr       */
+/*   Created: 2025/08/20 11:17:35 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/20 11:50:59 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 
-int	n_args(char **args)
+void	free_carray(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (args && args[i])
+	while (array && array[i])
+	{
+		free(array[i]);
 		i++;
-	return (i);
+	}
+	free(array);
 }

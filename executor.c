@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:28:09 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:22:43 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,52 @@ char	**make_args(t_cmds *cmds)
 	}
 	return (args);
 }
+//TODO FREE ALL WHEN EXIT;
+char	**make_envp(t_env *env)
+{
+	int	envlen;
+	int	i;
+	char **envp;
+	char *envval;
+
+	i = 0;
+	envlen = env_len(env);
+	envp = ft_calloc(sizeof(char *), envlen + 1);
+	if (!envp)
+		exit(1);
+	while (env->prev)
+		env = env->prev;
+	while (env)
+	{
+		envval = strjoin_char(env->v_name, env->v_val, '=');
+		if (!envval)
+			exit(1);
+		envp[i] = envval;
+		i++;
+		env = env->next;
+	}
+	return (envp);
+}
 void	exec_builtin(t_cmds *cmds, t_env *env)
 {
+	int	exitval;
+	
 	if (!ft_strcmp(cmds->cmd, "echo"))
-		echo_mini(cmds);
+		exitval = echo_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "pwd"))
-		pwd_mini(cmds);
+		exitval = pwd_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "cd"))
-		cd_mini(cmds);
+		exitval = cd_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "exit"))
-		exit_mini(cmds);
+		exitval = exit_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "env"))
-		env_mini(cmds);
+		exitval = env_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "export"))
-		export_mini(cmds);
+		exitval = export_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "unset"))
-		unset_mini(cmds);
+		exitval = unset_mini(cmds);
 	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
-	{
-		free_env(cmds->info->head);
-		free_cmds(cmds);
-		exit(1);
-	}
+		exit_with_val(exitval, cmds);
 }
 
 int	 isbuiltin(t_cmds *cmds)
@@ -113,6 +137,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	int stdout_dup;
 	pid_t   pid;
 	char **args;
+	char **envp;
 
 	stdin_dup = -1;
 	stdout_dup = -1;
@@ -131,7 +156,9 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			// printf("\n%s\n", (args)[1]);
 			// for (int i = 0; args[i]; i++)
 			// 	printf("\nARG %i: %s\n", i, args[i]);
-			execve(cmds->cmdpath, args, NULL);
+			envp = make_envp(env);
+			execve(cmds->cmdpath, args, envp);
+			free_carray(envp);
 			perror(cmds->cmd);
 			free(args);
 			exit_with_val(1, cmds);
@@ -158,6 +185,7 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 	pid_t pid;
 	int	tempfd;
 	char **args;
+	char **envp;
 
 	pid = fork();
 	if (!pid)
@@ -208,9 +236,11 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		// printf("\n%s\n", cmds->cmdpath);
 		// printf("\n%s\n", (args)[0]);
 		// printf("\n%s\n", (args)[1]);
-		execve(cmds->cmdpath, args, NULL);
+		envp = make_envp(env);
+		execve(cmds->cmdpath, args, envp);
 		write(2, "ERROR\n", 6);
 		free(args);
+		free_carray(envp);
 		exit_with_val(1, cmds);
 	}
 	if (fd_in != STDIN_FILENO)

@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:37:20 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:57:47 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	expand_line_char(char **line, char **expandedline)
 
 void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 {
-	int	envlen;
-	char *env_line;
-	int	expandedlen;
+	int		envlen;
+	char	*env_line;
+	int		expandedlen;
 
 	if (**line != '$')
 		return ;

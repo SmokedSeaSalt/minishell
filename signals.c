@@ -19,4 +19,5 @@ int	init_signals(void)
 		return (-1);
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (-1);
+	return (0);
 }
