@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 13:22:43 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:15:27 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**make_envp(t_env *env)
 	}
 	return (envp);
 }
-void	exec_builtin(t_cmds *cmds, t_env *env)
+void	exec_builtin(t_cmds *cmds)
 {
 	int	exitval;
 	
@@ -90,7 +90,7 @@ int	 isbuiltin(t_cmds *cmds)
 	return (0);
 }
 
-void	redirect_infiles(t_cmds *cmds, t_env *env, int *stdin_dup, int *stdout_dup)
+void	redirect_infiles(t_cmds *cmds, int *stdin_dup, int *stdout_dup)
 {
 	int fd;
 
@@ -142,9 +142,9 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	stdin_dup = -1;
 	stdout_dup = -1;
 
-	redirect_infiles(cmds, env, &stdin_dup, &stdout_dup);
+	redirect_infiles(cmds, &stdin_dup, &stdout_dup);
 	if (isbuiltin(cmds))
-		exec_builtin(cmds, env);
+		exec_builtin(cmds);
 	else
 	{
 		pid = fork();
@@ -227,7 +227,7 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		}
 		if (isbuiltin(cmds))
 		{
-			exec_builtin(cmds, env);
+			exec_builtin(cmds);
 			exit(0);
 		}
 		args = make_args(cmds);
@@ -287,9 +287,6 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 //TODO ERROR HNADLE
 void	execute_cmd(t_cmds *cmds, t_env *env)
 {
-	int pipefd[2];
-	int fdin;
-
 	while (cmds)
 	{
 		if (!cmds->cmd)
