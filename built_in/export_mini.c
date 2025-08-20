@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_mini.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/19 12:06:42 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:37:38 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static int process_args(char *str, t_env *head)
 	char *v_name;
 	char *v_value;
 
+	//todo check for args with invalid name like 6ABC or TEST++.
+	//todo process henk+=test which will append test to v_val of v_name henk
 	if (split_first_equals(str, &v_name, &v_value) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (v_value == NULL && env_var_exists(head, v_name) == 1)

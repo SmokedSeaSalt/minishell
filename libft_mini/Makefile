@@ -1,44 +1,47 @@
 NAME = libft_mini.a
 CC = cc -Wall -Werror -Wextra
 
-#	pwd_mini.c \
-#	export_mini.c \
-#	unset_mini.c \
-#	env_mini.c \
-#	exit_mini.c \
-
 SRCS = \
-	echo_mini.c \
-	cd_mini.c \
-	ft_calloc.c \
-	ft_isquote.c \
-	ft_isspace.c \
-	ft_max.c \
-	ft_min.c \
-	ft_split.c \
-	ft_strcmp.c \
-	ft_strjoin.c \
-	ft_strlen.c \
-	ft_strncmp.c \
-	ft_strndup.c \
-	skip_to_quote.c \
-	strjoin_char.c \
-	strjoin_path.c \
-	strjoin_space.c \
-	expand_env.c
+		charinstr.c \
+		ft_calloc.c \
+		ft_isquote.c \
+		ft_isspace.c \
+		ft_max.c \
+		ft_memmove.c \
+		ft_min.c \
+		ft_realloc.c \
+		ft_split.c \
+		ft_strcmp.c \
+		ft_strjoin.c \
+		ft_strlen.c \
+		ft_strncmp.c \
+		ft_strndup.c \
+		init_env.c \
+		is_only_num.c \
+		is_valid_in_name.c \
+		n_args.c \
+		skip_to_quote.c \
+		strjoin_char.c \
+		strjoin_path.c \
+		strjoin_space.c \
+		#update_env.c
 
-OBJS = ${SRCS:.c=.o}
+BUILD_FOLDER = build
+OBJS := $(patsubst %.c, $(BUILD_FOLDER)/%.o, $(SRCS))
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) Makefile
 	ar rcsUu $(NAME) $(ALLOBJS)
 
-%.o: %.c
+$(BUILD_FOLDER)/%.o: %.c Makefile | $(BUILD_FOLDER)
 	$(CC) -c -o $@ $<
 
+$(BUILD_FOLDER):
+	mkdir -p $@
+
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(BUILD_FOLDER)
 
 fclean: clean
 	rm -f $(NAME)
