@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 11:58:46 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/22 11:58:56 by fdreijer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h> //to use signals
 #include <stddef.h> //to use NULL
 
@@ -11,6 +23,7 @@ void	signal_handler(int sig)
 int	init_signals(void)
 {
 	struct sigaction	sa;
+
 	sa.sa_handler = signal_handler;
 	if (sigemptyset(&sa.sa_mask) == -1)
 		return (-1);

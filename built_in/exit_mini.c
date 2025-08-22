@@ -5,30 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/20 10:31:53 by fdreijer         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*   Created: 2025/07/25 11:17:23 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/08/04 11:26:28 by mvan-rij          :. ¨.                  */
+/*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/22 12:27:48 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_mini/libft_mini.h"
 #include "../minishell.h"
 
-
-void exit_with_val(int value, t_cmds *cmds)
+void	exit_with_val(int value, t_cmds *cmds)
 {
 	free_env(cmds->info->head);
 	free_cmds(cmds);
 	exit(value);
 }
 
-void free_env(t_env *head)
+void	free_env(t_env *head)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (head != NULL)
 	{
@@ -44,9 +38,9 @@ void free_env(t_env *head)
 }
 
 //free's all the content of the given node
-void free_cmds_node(t_cmds *node)
+void	free_cmds_node(t_cmds *node)
 {
-	int i;
+	int	i;
 
 	if (node->infile && !ft_strncmp(node->infile, "/tmp/.heredoc_", 14))
 		unlink(node->infile);
@@ -73,9 +67,9 @@ void free_cmds_node(t_cmds *node)
 }
 
 //pass any cmds node and free all of them
-void free_cmds(t_cmds *node)
+void	free_cmds(t_cmds *node)
 {
-	t_cmds *tmp;
+	t_cmds	*tmp;
 
 	free(node->info);
 	while (node->prev != NULL)
@@ -95,7 +89,7 @@ void free_cmds(t_cmds *node)
 //TODO write exit to 1 so doesnt get piped mayb 
 int	exit_mini(t_cmds *cmds)
 {
-	char exitval;
+	char	exitval;
 
 	if (!(cmds->ispiped || (cmds->prev && cmds->prev->ispiped)))
 		write(2, "exit\n", 5);

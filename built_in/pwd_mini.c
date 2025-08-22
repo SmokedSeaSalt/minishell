@@ -5,13 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/20 14:13:47 by fdreijer         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*   Created: 2025/06/20 10:58:18 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/29 15:56:45 by mvan-rij          :. ¨.                  */
+/*   Created: 2025/08/22 12:30:58 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/22 12:31:33 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +17,9 @@
 
 int	pwd_mini(t_cmds *cmds)
 {
-	char *curr_pwd = NULL;
+	char	*curr_pwd;
 
+	curr_pwd = NULL;
 	curr_pwd = getcwd(curr_pwd, 0);
 	(void)cmds;
 	if (curr_pwd == NULL)
@@ -34,5 +30,5 @@ int	pwd_mini(t_cmds *cmds)
 	write(1, curr_pwd, ft_strlen(curr_pwd));
 	write(1, "\n", 1);
 	free(curr_pwd);
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

@@ -5,13 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/18 13:30:00 by fdreijer         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*   Created: 2025/06/20 10:57:58 by mvan-rij           ¨· .                  */
-/*   Updated: 2025/07/30 12:48:44 by mvan-rij          :. ¨.                  */
+/*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/08/22 12:26:28 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +17,7 @@
 #include <stddef.h> //to use NULL
 
 //expand args** to single string for file_path
+//TODO exit code 0 l28
 static int	get_filepath(char **args, char **file_path)
 {
 	char	*tmp;
@@ -29,7 +25,7 @@ static int	get_filepath(char **args, char **file_path)
 
 	if (args[0] == NULL)
 	{
-		write(2 ,"cd: Not enough arguments\n", 25); //exit code 0
+		write(2, "cd: Not enough arguments\n", 25);
 		return (-1);
 	}
 	*file_path = ft_strndup(args[0], strlen(args[0]));
@@ -47,10 +43,12 @@ static int	get_filepath(char **args, char **file_path)
 	}
 	return (0);
 }
-char *get_pwd(void)
-{
-	char *curr_pwd = NULL;
 
+char	*get_pwd(void)
+{
+	char	*curr_pwd;
+
+	curr_pwd = NULL;
 	curr_pwd = getcwd(curr_pwd, 0);
 	if (curr_pwd == NULL)
 		return (NULL);
@@ -62,9 +60,9 @@ char *get_pwd(void)
 //TODO DONT SEGFAULT WITHOUT ARGS
 int	cd_mini(t_cmds *cmds)
 {
-	char *old_pwd;
-	char *new_pwd;
-	char *file_path;
+	char	*old_pwd;
+	char	*new_pwd;
+	char	*file_path;
 
 	if (get_filepath(cmds->args, &file_path) != 0)
 		return (EXIT_FAILURE);

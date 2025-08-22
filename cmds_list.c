@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:25:57 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:34:50 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:57:33 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ t_cmds	*cmd_new_node(void)
 void	cmd_add_back(t_cmds **head, t_cmds *newnode)
 {
 	t_cmds	*last;
+
 	if (!head || !newnode)
 		return ;
 	if (!*head)
 	{
 		*head = newnode;
-		return;
+		return ;
 	}
 	last = cmd_last(*head);
 	last->next = newnode;

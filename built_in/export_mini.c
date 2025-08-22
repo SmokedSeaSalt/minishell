@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/19 12:06:42 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:43:53 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 /// @param v_name	environment argument name
 /// @param v_value	environment argument value
 /// @return on error returns EXIT_FAILURE, otherwise returns EXIT_SUCCES
-static int split_first_equals(char *str, char **v_name, char **v_value)
+static int	split_first_equals(char *str, char **v_name, char **v_value)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i] != '=' && str[i] != '\0')
+	while (str[i] != '=' && str[i] != '\0')
 	{
 		i++;
 	}
@@ -41,11 +41,12 @@ static int split_first_equals(char *str, char **v_name, char **v_value)
 		return (free(v_name), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
 /// @brief checks if a environment variable exists with name
 /// @param head	environment variable linked list
 /// @param name	name for the environtment variable
 /// @return	return 1 if variable exist. 0 when no variable is found with name
-static int env_var_exists(t_env *head, char *name)
+static int	env_var_exists(t_env *head, char *name)
 {
 	if (!head || !name)
 		return (-1);
@@ -61,7 +62,7 @@ static int env_var_exists(t_env *head, char *name)
 /// @brief sets the is_hidden flag for environment variable name to 0
 /// @param head environment variable linked list
 /// @param name name for the environtment variable
-static void env_set_hidden_0(t_env *head, char *name)
+static void	env_set_hidden_0(t_env *head, char *name)
 {
 	if (!head || !name)
 		return ;
@@ -78,23 +79,23 @@ static void env_set_hidden_0(t_env *head, char *name)
 /// @param str	the argument string
 /// @param head	environment variable linked list
 /// @return EXIT_SUCCES on succes, EXIT_FAILURE on failure
-static int process_args(char *str, t_env *head)
+static int	process_args(char *str, t_env *head)
 {
-	char *v_name;
-	char *v_value;
+	char	*v_name;
+	char	*v_value;
 
 	if (split_first_equals(str, &v_name, &v_value) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (v_value == NULL && env_var_exists(head, v_name) == 1)
 		env_set_hidden_0(head, v_name);
 	else
-		update_env(head,v_name, v_value);
+		update_env(head, v_name, v_value);
 	return (EXIT_SUCCESS);
 }
 
 /// @brief prints formatted environment variable
 /// @param head environment variable linked list
-static void print_export(t_env *head)
+static void	print_export(t_env *head)
 {
 	while (head)
 	{
@@ -117,7 +118,7 @@ static void print_export(t_env *head)
 //todo process_args malloc fail -> return (EXIT_FAILURE)
 int	export_mini(t_cmds *cmds)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (n_args(cmds->args) == 0)

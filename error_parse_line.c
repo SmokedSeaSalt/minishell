@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:06:00 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 14:15:42 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:57:52 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	error_parse_line(char *line)
 		else if (openquote)
 		{
 			wordbefore = 1;
-			continue;
+			continue ;
 		}
 		else if (line[i] == '\\')
 			return (char_not_supported("char \\"));

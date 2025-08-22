@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:09:01 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:26:56 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:33:41 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	unset_mini(t_cmds *cmds)
 {
 	t_env	*env;
 	int		i;
-	
+
 	i = 0;
 	while (cmds->args && cmds->args[i])
 	{

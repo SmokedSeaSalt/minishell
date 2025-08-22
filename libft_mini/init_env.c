@@ -6,12 +6,13 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/19 12:25:08 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:20:57 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mini.h"
 
+//TODO line 29?
 t_env	*new_node_env(char *env)
 {
 	t_env	*node;
@@ -73,7 +74,7 @@ t_env	*init_env(char **envp)
 	head = NULL;
 	while (envp[i])
 	{
-		current	= new_node_env(envp[i]);
+		current = new_node_env(envp[i]);
 		if (!current)
 			return (NULL);
 		env_add_back(current, &head);
@@ -81,16 +82,3 @@ t_env	*init_env(char **envp)
 	}
 	return (head);
 }
-
-
-// int main(int argc, char **argv, char **envp)
-// {
-
-// 	t_env *env = init_env(envp);
-
-// 	while (env)
-// 	{
-// 		printf("%s=%s\n", env->v_name, env->v_val);
-// 		env = env->next;
-// 	}
-// }

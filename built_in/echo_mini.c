@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:39:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/18 13:28:17 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:38:44 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 /// @param args all arguments given to echo
 /// @param i argument index to start echoing
 /// @param print_nl flag to actually process the -n or not
-void check_n_flag(char **args, int *i, int *print_nl)
+void	check_n_flag(char **args, int *i, int *print_nl)
 {
-	int j;
+	int	j;
 
 	while (args && args[*i] && args[*i][0] == '-')
 	{
@@ -33,7 +33,7 @@ void check_n_flag(char **args, int *i, int *print_nl)
 			continue ;
 		}
 		else
-			break;
+			break ;
 	}
 }
 

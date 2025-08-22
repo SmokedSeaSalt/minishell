@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:55:28 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/07/25 11:15:30 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:18:28 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_realloc(void *oldptr, int oldsize, int newsize)
 	void	*newptr;
 
 	if (oldsize < 0 || newsize < 0)
-    	return (NULL);
+		return (NULL);
 	if (oldptr == NULL)
 		return (ft_calloc(newsize, sizeof(char)));
 	if (newsize == 0)

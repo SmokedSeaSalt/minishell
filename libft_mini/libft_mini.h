@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 14:29:43 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:22:21 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 # include <errno.h>
 # include "../built_in/built_in.h"
 # include "mini_structs.h"
-#define FORBIDDENCHARS "\\;\n"
+# define FORBIDDENCHARS "\\;\n"
 
-#define TRUNCATE 0
-#define APPEND 1
+# define TRUNCATE 0
+# define APPEND 1
 
-#define FALSE 0
-#define TRUE 1
+# define FALSE 0
+# define TRUE 1
 
 //helper functions
 void	*ft_calloc(size_t nmemb, size_t size);

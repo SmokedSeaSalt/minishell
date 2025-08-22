@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 17:06:32 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:08:44 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 //TODO error messages
 char	**make_args(t_cmds *cmds)
 {
-	int	i;
-	char **args;
+	int		i;
+	char	**args;
 
 	i = 1;
 	while (cmds->args && (cmds->args)[i - 1])
@@ -27,18 +27,19 @@ char	**make_args(t_cmds *cmds)
 	i = 0;
 	while ((cmds->args)[i])
 	{
-		args[i + 1] = (cmds->args)[i];	
+		args[i + 1] = (cmds->args)[i];
 		i++;
 	}
 	return (args);
 }
+
 //TODO FREE ALL WHEN EXIT;
 char	**make_envp(t_cmds *cmds, t_env *env)
 {
-	int	envlen;
-	int	i;
-	char **envp;
-	char *envval;
+	int		envlen;
+	int		i;
+	char	**envp;
+	char	*envval;
 
 	i = 0;
 	envlen = env_len(env);
@@ -58,10 +59,11 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 	}
 	return (envp);
 }
+
 void	exec_builtin(t_cmds *cmds)
 {
 	int	exitval;
-	
+
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "pwd"))
@@ -80,11 +82,11 @@ void	exec_builtin(t_cmds *cmds)
 		exit_with_val(exitval, cmds);
 }
 
-int	 isbuiltin(t_cmds *cmds)
+int	isbuiltin(t_cmds *cmds)
 {
-	if (!ft_strcmp(cmds->cmd, "echo") || !ft_strcmp(cmds->cmd, "cd")\
-|| !ft_strcmp(cmds->cmd, "exit") || !ft_strcmp(cmds->cmd, "pwd")\
-|| !ft_strcmp(cmds->cmd, "export") || !ft_strcmp(cmds->cmd, "env")\
+	if (!ft_strcmp(cmds->cmd, "echo") || !ft_strcmp(cmds->cmd, "cd") \
+|| !ft_strcmp(cmds->cmd, "exit") || !ft_strcmp(cmds->cmd, "pwd") \
+|| !ft_strcmp(cmds->cmd, "export") || !ft_strcmp(cmds->cmd, "env") \
 || !ft_strcmp(cmds->cmd, "unset"))
 		return (1);
 	return (0);
@@ -92,7 +94,7 @@ int	 isbuiltin(t_cmds *cmds)
 
 void	redirect_infiles(t_cmds *cmds, int *stdin_dup, int *stdout_dup)
 {
-	int fd;
+	int	fd;
 
 	if (cmds->infile)
 	{
@@ -124,24 +126,23 @@ void	restore_stdio(int stdin_dup, int stdout_dup)
 		dup2(stdin_dup, STDIN_FILENO);
 		close(stdin_dup);
 	}
-
 	if (stdout_dup != -1)
 	{
 		dup2(stdout_dup, STDOUT_FILENO);
 		close(stdout_dup);
 	}
 }
+
 void	exec_single(t_cmds *cmds, t_env *env)
 {
-	int stdin_dup;
-	int stdout_dup;
-	pid_t   pid;
-	char **args;
-	char **envp;
+	int		stdin_dup;
+	int		stdout_dup;
+	pid_t	pid;
+	char	**args;
+	char	**envp;
 
 	stdin_dup = -1;
 	stdout_dup = -1;
-
 	redirect_infiles(cmds, &stdin_dup, &stdout_dup);
 	if (isbuiltin(cmds))
 		exec_builtin(cmds);
@@ -151,11 +152,6 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		if (!pid)
 		{
 			args = make_args(cmds);
-			// printf("\n%s\n", cmds->cmdpath);
-			// printf("\n%s\n", (args)[0]);
-			// printf("\n%s\n", (args)[1]);
-			// for (int i = 0; args[i]; i++)
-			// 	printf("\nARG %i: %s\n", i, args[i]);
 			envp = make_envp(cmds, env);
 			execve(cmds->cmdpath, args, envp);
 			free_carray(envp);
@@ -168,38 +164,37 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	restore_stdio(stdin_dup, stdout_dup);
 }
 
-
-
 int	pipe_setup(int pipefd[2])
 {
-	if (pipe(pipefd) == -1) 
+	if (pipe(pipefd) == -1)
 	{
 		write(2, "ERROR PIPE FAIL\n", 16);
 		return (1);
 	}
 	return (0);
 }
+
 //TODO CLEANUP
 void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 {
-	pid_t pid;
-	int	tempfd;
-	char **args;
-	char **envp;
+	pid_t	pid;
+	int		fd;
+	char	**args;
+	char	**envp;
 
 	pid = fork();
 	if (!pid)
 	{
 		if (cmds->infile)
 		{
-			tempfd = open(cmds->infile, O_RDONLY);
-			if (tempfd < 0)
+			fd = open(cmds->infile, O_RDONLY);
+			if (fd < 0)
 			{
 				write(2, "ERROR\n", 6);
 				exit(0);
 			}
-			dup2(tempfd, STDIN_FILENO);
-			close(tempfd);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
 		}
 		else if (fd_in != STDIN_FILENO)
 		{
@@ -209,16 +204,16 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		if (cmds->outfile)
 		{
 			if (cmds->append)
-				tempfd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+				fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
-				tempfd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (tempfd < 0)
+				fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
 			{
 				write(2, "ERROR\n", 6);
 				exit_with_val(1, cmds);
 			}
-			dup2(tempfd, STDOUT_FILENO);
-			close(tempfd);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
 		}
 		else if (fd_out != STDOUT_FILENO)
 		{
@@ -231,11 +226,6 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			exit(0);
 		}
 		args = make_args(cmds);
-		// for (int i = 0; args[i]; i++)
-		// 	printf("\nARG %i: %s\n", i, args[i]);
-		// printf("\n%s\n", cmds->cmdpath);
-		// printf("\n%s\n", (args)[0]);
-		// printf("\n%s\n", (args)[1]);
 		envp = make_envp(cmds, env);
 		execve(cmds->cmdpath, args, envp);
 		perror(cmds->cmdpath);
@@ -253,7 +243,7 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 {
 	int	fd[2];
 	int	fd_in;
-	int fd_out;
+	int	fd_out;
 
 	fd_in = dup(STDIN_FILENO);
 	while (cmds && cmds->ispiped)
@@ -304,6 +294,7 @@ void	execute_cmd(t_cmds *cmds, t_env *env)
 		}
 	}
 }
+
 //TODO HANDLE MALLOC FAIL IN SPLIT
 void	find_paths(t_cmds *cmds, t_env *env)
 {
@@ -325,12 +316,12 @@ void	find_paths(t_cmds *cmds, t_env *env)
 				cmds->infile = NULL;
 			}
 			cmds = cmds->next;
-			continue;
+			continue ;
 		}
 		if (isbuiltin(cmds))
 		{
 			cmds = cmds->next;
-			continue;
+			continue ;
 		}
 		while (env && ft_strcmp("PATH", env->v_name))
 			env = env->next;

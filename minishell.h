@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/20 17:05:44 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:10:51 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@
 # include <fcntl.h>
 # include "libft_mini/libft_mini.h"
 # include "libft_mini/mini_structs.h"
-#include <signal.h>
-
-#define HEREDOC_PREFIX "/tmp/.heredoc_"
+# include <signal.h>
+# define HEREDOC_PREFIX "/tmp/.heredoc_"
 
 t_cmds	*cmd_last(t_cmds *head);
 t_cmds	*cmd_new_node(void);
@@ -35,6 +34,6 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line);
 void	find_paths(t_cmds *cmds, t_env *env);
 void	execute_cmd(t_cmds *cmds, t_env *env);
 int		error_parse_line(char *line);
-int	init_signals(void);
+int		init_signals(void);
 
 #endif
