@@ -6,12 +6,13 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:08:44 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:55:31 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 //TODO error messages
+//TODO 1 open fd in all pipes;
 char	**make_args(t_cmds *cmds)
 {
 	int		i;

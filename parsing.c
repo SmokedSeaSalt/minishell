@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:15:49 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:53:04 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,7 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 			handle_outfile(cmds, env, &line);
 		else if (*line == '|')
 		{
+			expand_line_space(cmds, &line, &expandedline);
 			handle_pipe(&cmds, &line);
 			continue ;
 		}

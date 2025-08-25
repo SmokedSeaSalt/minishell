@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:26:28 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:05:01 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,18 @@ char	*get_pwd(void)
 //get cmds args and do cd
 //also updates PWD and OLDPWD environnment variables
 //TODO DONT SEGFAULT WITHOUT ARGS
+//TODO handle no args better
 int	cd_mini(t_cmds *cmds)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 	char	*file_path;
 
+	if (!cmds->args)
+	{
+		write(2, "Error: cd must contain path\n", 28);
+		return (EXIT_FAILURE);
+	}
 	if (get_filepath(cmds->args, &file_path) != 0)
 		return (EXIT_FAILURE);
 	old_pwd = get_pwd();
