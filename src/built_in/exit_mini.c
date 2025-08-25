@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exit_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:27:48 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:11:05 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_mini/libft_mini.h"
-#include "../minishell.h"
+#include "libft_mini.h"
+#include "minishell.h"
 
 void	exit_with_val(int value, t_cmds *cmds)
 {
@@ -86,7 +86,7 @@ void	free_cmds(t_cmds *node)
 
 //TODO different behaviour if exit is piped or not
 //TODO exit a a
-//TODO write exit to 1 so doesnt get piped mayb 
+//TODO write exit to 1 so doesnt get piped mayb
 int	exit_mini(t_cmds *cmds)
 {
 	char	exitval;

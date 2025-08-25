@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:39:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:38:44 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:10:55 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_mini/libft_mini.h"
-#include "../minishell.h"
+#include "libft_mini.h"
+#include "minishell.h"
 
 /// @brief parser for the -n option
 /// @param args all arguments given to echo

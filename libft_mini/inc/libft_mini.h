@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:22:21 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:10:05 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
-# include "../built_in/built_in.h"
+# include "built_in.h"
 # include "mini_structs.h"
 # define FORBIDDENCHARS "\\;\n"
 

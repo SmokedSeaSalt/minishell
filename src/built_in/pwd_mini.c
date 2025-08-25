@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_mini.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:30:58 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:31:33 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:11:15 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_mini/libft_mini.h"
-#include "../minishell.h"
+#include "libft_mini.h"
+#include "minishell.h"
 #include <stddef.h> //to use NULL
 #include <unistd.h> //to use getcwd
 

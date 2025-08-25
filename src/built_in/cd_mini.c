@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd_mini.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 14:05:01 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:10:49 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_mini/libft_mini.h"
-#include "../minishell.h"
+#include "libft_mini.h"
+#include "minishell.h"
 #include <unistd.h> //to use chdir
 #include <stdio.h> //to use perror
 #include <stddef.h> //to use NULL

@@ -4,3 +4,5 @@ sandbox
 *.o
 *.a
 .vscode
+minishell
+build

@@ -6,7 +6,7 @@
 #    By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/20 15:57:58 by mvan-rij          #+#    #+#              #
-#    Updated: 2025/08/25 16:09:11 by mvan-rij         ###   ########.fr        #
+#    Updated: 2025/08/25 16:13:04 by mvan-rij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,6 @@ SRCS = \
 		src/is_only_num.c \
 		src/is_valid_in_name.c \
 		src/n_args.c \
-		src/skip_to_quote.c \
 		src/strjoin_char.c \
 		src/strjoin_path.c \
 		src/strjoin_space.c \

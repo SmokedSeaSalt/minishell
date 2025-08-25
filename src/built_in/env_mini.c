@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_mini.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:00:10 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/22 12:39:35 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:11:01 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_mini/libft_mini.h"
-#include "../minishell.h"
+#include "libft_mini.h"
+#include "minishell.h"
 
 /// @brief prints unformatted environment variables
 /// @param var environment variable to print
