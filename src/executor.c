@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:55:31 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/26 09:46:40 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 //TODO error messages
 //TODO 1 open fd in all pipes;
 char	**make_args(t_cmds *cmds)
@@ -141,6 +143,8 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	pid_t	pid;
 	char	**args;
 	char	**envp;
+	int		status = 0;
+	extern int	g_signal_received;
 
 	stdin_dup = -1;
 	stdout_dup = -1;
@@ -160,7 +164,17 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			free(args);
 			exit_with_val(1, cmds);
 		}
-		waitpid(pid, NULL, 0);
+		while(g_signal_received == 0)
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status) == 1)
+				break;
+		}
+		if (g_signal_received != 0)
+		{
+			kill(pid, g_signal_received);
+			g_signal_received = 0;
+		}
 	}
 	restore_stdio(stdin_dup, stdout_dup);
 }

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:10:26 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/26 09:28:47 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//TODO abc | abc ; exit leaks 
+//TODO abc | abc ; exit leaks
 //TODO exit codes
 //TODO catching ctrl c ctrl d
 //TODO heredoc expansion
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
+	init_signals();
 	while (1)
 	{
 		line = readline("[minishell] $ ");
