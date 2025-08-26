@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 13:08:46 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:22:55 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 void	exec_builtin(t_cmds *cmds)
 {
 	int	exitval;
+	char *exitvar;
 
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
@@ -83,6 +84,10 @@ void	exec_builtin(t_cmds *cmds)
 		exitval = unset_mini(cmds);
 	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
 		exit_with_val(exitval, cmds);
+	exitvar = ft_itoa(exitval);
+	if (exitvar == NULL)
+		exit_with_val(1, cmds);
+	update_env(cmds->info->head, "?", exitvar);
 }
 
 int	isbuiltin(t_cmds *cmds)

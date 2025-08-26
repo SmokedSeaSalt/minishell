@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 13:00:07 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:48:53 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,26 @@ void	free_cmds(t_cmds *node)
 	}
 }
 
+static int	is_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (str[i] == '\0')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+
+
 //TODO different behaviour if exit is piped or not
 //TODO exit a a
 //TODO write exit to 1 so doesnt get piped mayb
@@ -94,10 +114,10 @@ int	exit_mini(t_cmds *cmds)
 	if (!(cmds->ispiped || (cmds->prev && cmds->prev->ispiped)))
 		write(2, "exit\n", 5);
 	if (n_args(cmds->args) == 0)
-		exit_with_val(cmds->info->last_exit_val, cmds);
+		exit_with_val(ft_atoi(ft_getenv(cmds->info->head, "?")), cmds);
 	if (n_args(cmds->args) == 1)
 	{
-		if (is_only_num(cmds->args[0]) == 1)
+		if (is_numeric(cmds->args[0]) == 1)
 		{
 			exitval = (unsigned char)ft_atoi(cmds->args[0]);
 			exit_with_val(exitval, cmds);
