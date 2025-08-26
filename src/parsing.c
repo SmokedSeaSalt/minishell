@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 12:39:03 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:37:29 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,13 @@ void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 		return ;
 	(*line)++;
 	expandedlen = ft_strlen(*expandedline);
-	env_line = return_env(env, *line);
+	if (**line == '?')
+	{
+		env_line = ft_getenv(env, "?");
+		(*line)++;
+	}
+	else
+		env_line = return_env(env, *line);
 	envlen = ft_strlen(env_line);
 	*expandedline = \
 ft_realloc(*expandedline, expandedlen, expandedlen + envlen + 1);
