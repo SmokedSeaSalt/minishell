@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 09:28:47 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 10:40:23 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,35 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_env	*env;
 	t_cmds	*cmds;
+	extern int	g_signal_received;
 
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
 	init_signals();
+	rl_catch_signals = 0;
 	while (1)
 	{
 		line = readline("[minishell] $ ");
+		if (line == NULL)
+		{
+			write(1, "exit\n", 5);
+			break;
+		}
+		//if (g_signal_received == SIGQUIT)
+		//{
+		//	g_signal_received = 0;
+		//	continue ;
+		//}
+		//if (g_signal_received == SIGINT)
+		//{
+		//	write(1, "\n", 1);
+		//	rl_on_new_line();
+		//	rl_replace_line("", 0);
+		//	rl_redisplay();
+		//	g_signal_received = 0;
+		//	continue ;
+		//}
 		add_history(line);
 		if (error_parse_line(line))
 		{
@@ -43,4 +64,5 @@ int	main(int argc, char **argv, char **envp)
 		execute_cmd(cmds, env);
 		free_cmds(cmds);
 	}
+	free_env(env);
 }

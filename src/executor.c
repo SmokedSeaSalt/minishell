@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 09:46:40 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 10:38:44 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,6 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	pid_t	pid;
 	char	**args;
 	char	**envp;
-	int		status = 0;
-	extern int	g_signal_received;
 
 	stdin_dup = -1;
 	stdout_dup = -1;
@@ -156,6 +154,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		pid = fork();
 		if (!pid)
 		{
+			set_child_signals();
 			args = make_args(cmds);
 			envp = make_envp(cmds, env);
 			execve(cmds->cmdpath, args, envp);
@@ -164,17 +163,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			free(args);
 			exit_with_val(1, cmds);
 		}
-		while(g_signal_received == 0)
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status) == 1)
-				break;
-		}
-		if (g_signal_received != 0)
-		{
-			kill(pid, g_signal_received);
-			g_signal_received = 0;
-		}
+		waitpid(pid, NULL, 0);
 	}
 	restore_stdio(stdin_dup, stdout_dup);
 }

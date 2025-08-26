@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/25 16:10:39 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 10:38:36 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ void	find_paths(t_cmds *cmds, t_env *env);
 void	execute_cmd(t_cmds *cmds, t_env *env);
 int		error_parse_line(char *line);
 int		init_signals(void);
+int		set_child_signals(void);
+
 
 #endif
