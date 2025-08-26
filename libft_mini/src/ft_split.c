@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:12:33 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/17 07:01:53 by kali             ###   ########.fr       */
+/*   Updated: 2025/08/26 13:19:55 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static	char	*fill_out(char const *s, char c)
 	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	out = malloc (sizeof(char) * (i + 1));
+	out = ft_calloc(sizeof(char), (i + 1));
 	if (!out)
 		return (NULL);
 	i = 0;

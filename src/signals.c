@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 11:58:46 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 12:15:46 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:16:23 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	set_child_signals(void)
 
 	sa.sa_handler = SIG_DFL;
 	if (sigemptyset(&sa.sa_mask) == -1)
+		return (-1);
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (-1);
@@ -65,10 +66,11 @@ int	set_child_signals(void)
 
 int set_signals_ignore(void)
 {
-		struct sigaction	sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = SIG_IGN;
 	if (sigemptyset(&sa.sa_mask) == -1)
+		return (-1);
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (-1);
