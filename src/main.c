@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 11:14:06 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:44:14 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("[minishell] $ ");
-		if (line == NULL)
+		if (!line)
 		{
-			write(1, "exit\n", 5);
-			break;
+			write(2, "exit\n", 5);
+			exit(1);
 		}
 		add_history(line);
 		if (error_parse_line(line))
