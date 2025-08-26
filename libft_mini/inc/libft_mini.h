@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/25 16:10:05 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:10:28 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ void	exit_with_val(int value, t_cmds *cmds);
 int		n_args(char **args);
 int		env_len(t_env *env);
 void	free_carray(char **array);
+int		ft_atoi(const char *nptr);
+char	*ft_itoa(int n);
 
 #endif

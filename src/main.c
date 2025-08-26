@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 12:44:14 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:23:45 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
+	if (env == NULL)
+		exit(EXIT_FAILURE);
 	if (set_signals_default() == -1)
 		perror("sigaction");
 	rl_catch_signals = 0;

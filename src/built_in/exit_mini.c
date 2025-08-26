@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/25 16:11:05 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:00:07 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	exit_mini(t_cmds *cmds)
 	{
 		if (is_only_num(cmds->args[0]) == 1)
 		{
-			exitval = (unsigned char)atoi(cmds->args[0]);
+			exitval = (unsigned char)ft_atoi(cmds->args[0]);
 			exit_with_val(exitval, cmds);
 		}
 		else

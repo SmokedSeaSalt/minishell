@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 11:54:43 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:08:46 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	pid_t	pid;
 	char	**args;
 	char	**envp;
+	int		status;
 
 	stdin_dup = -1;
 	stdout_dup = -1;
@@ -164,7 +165,9 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			exit_with_val(1, cmds);
 		}
 		set_signals_ignore();
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			update_env(env, "?", ft_itoa(WEXITSTATUS(status)));
 		set_signals_default();
 	}
 	restore_stdio(stdin_dup, stdout_dup);
