@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 10:40:23 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 11:14:06 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
-	init_signals();
+	if (set_signals_default() == -1)
+		perror("sigaction");
 	rl_catch_signals = 0;
 	while (1)
 	{
@@ -37,20 +38,6 @@ int	main(int argc, char **argv, char **envp)
 			write(1, "exit\n", 5);
 			break;
 		}
-		//if (g_signal_received == SIGQUIT)
-		//{
-		//	g_signal_received = 0;
-		//	continue ;
-		//}
-		//if (g_signal_received == SIGINT)
-		//{
-		//	write(1, "\n", 1);
-		//	rl_on_new_line();
-		//	rl_replace_line("", 0);
-		//	rl_redisplay();
-		//	g_signal_received = 0;
-		//	continue ;
-		//}
 		add_history(line);
 		if (error_parse_line(line))
 		{

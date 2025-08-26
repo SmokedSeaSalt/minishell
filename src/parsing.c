@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/25 13:53:04 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:39:03 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,8 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	char		*name;
 	char		*heredoc_line;
 	int			fd;
+	extern int	g_signal_received;
+
 
 	while (ft_isspace(**line))
 		(*line)++;
@@ -199,7 +201,12 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	while (1)
 	{
 		heredoc_line = readline("mini heredoc> ");
-		if (!ft_strncmp(heredoc_line, delim, ft_strlen(delim)) \
+		if (g_signal_received)
+		{
+			g_signal_received = 0;
+			break;
+		}
+		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, ft_strlen(delim))\
 && !heredoc_line[ft_strlen(delim)])
 			break ;
 		write(fd, heredoc_line, ft_strlen(heredoc_line));

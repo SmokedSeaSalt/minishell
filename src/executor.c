@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 10:38:44 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 11:54:43 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,9 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			free(args);
 			exit_with_val(1, cmds);
 		}
+		set_signals_ignore();
 		waitpid(pid, NULL, 0);
+		set_signals_default();
 	}
 	restore_stdio(stdin_dup, stdout_dup);
 }
@@ -189,6 +191,7 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 	pid = fork();
 	if (!pid)
 	{
+		set_child_signals();
 		if (cmds->infile)
 		{
 			fd = open(cmds->infile, O_RDONLY);
@@ -273,8 +276,10 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 		if (fd_in != STDIN_FILENO)
 			close(fd_in);
 	}
+	set_signals_ignore();
 	while (waitpid(-1, NULL, 0) > 0)
 		;
+	set_signals_default();
 }
 
 void	execute_cmd(t_cmds *cmds, t_env *env)
