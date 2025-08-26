@@ -6,7 +6,7 @@
 #    By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/20 15:57:58 by mvan-rij          #+#    #+#              #
-#    Updated: 2025/08/25 16:13:04 by mvan-rij         ###   ########.fr        #
+#    Updated: 2025/08/26 13:10:55 by mvan-rij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,11 @@ CC = cc -Wall -Werror -Wextra -I ../inc -I inc
 SRCS = \
 		src/charinstr.c \
 		src/free_carray.c \
+		src/ft_atoi.c \
 		src/ft_calloc.c \
 		src/ft_isquote.c \
 		src/ft_isspace.c \
+		src/ft_itoa.c \
 		src/ft_max.c \
 		src/ft_memmove.c \
 		src/ft_min.c \
