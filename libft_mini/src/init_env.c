@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 13:36:42 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:52:39 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,14 @@ t_env	*init_env(char **envp)
 	int		i;
 
 	i = 0;
-	head = ft_calloc(1, sizeof(t_env));
-	if (head == NULL)
-		return (NULL);
-	head->is_hidden = 0;
-	head->v_name = ft_strndup("?", 1);
-	if (head->v_name == NULL)
-		return (free(head), NULL);
+	//head = ft_calloc(1, sizeof(t_env));
+	//if (head == NULL)
+	//	return (NULL);
+	//head->is_hidden = 1;
+	//head->v_name = ft_strndup("?", 1);
+	//if (head->v_name == NULL)
+	//	return (free(head), NULL);
+	//head->v_val = NULL;
 	while (envp[i])
 	{
 		current = new_node_env(envp[i]);
