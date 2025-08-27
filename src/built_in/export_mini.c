@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/25 16:11:10 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/27 10:39:39 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,27 @@ static void	env_set_hidden_0(t_env *head, char *name)
 	return ;
 }
 
+static int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	i = 0;
+	//first is a -> z or A -> Z
+	if (!((str[i] >= 'a' && str[i] <= 'z') ||(str[i] >= 'A' && str[i] <= 'Z')))
+		return (0);
+	i++;
+	//after a -> z or A -> Z or 0 -> 9
+	while ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')\
+|| (str[i] >= '0' && str[i] <= '9'))
+		i++;
+	//can end on 1 +
+	if (str[i] == '+')
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
+
 /// @brief processes every seperate argument of export
 /// @param str	the argument string
 /// @param head	environment variable linked list
@@ -86,6 +107,15 @@ static int	process_args(char *str, t_env *head)
 
 	if (split_first_equals(str, &v_name, &v_value) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	//check valid identifier
+	if (is_valid_identifier(v_name) != 1)
+	{
+		write(2, "not a valid identifier", 22);
+		return (EXIT_FAILURE);
+	}
+	//if valid, end with +? then append.
+
+	//else
 	if (v_value == NULL && env_var_exists(head, v_name) == 1)
 		env_set_hidden_0(head, v_name);
 	else
@@ -127,7 +157,8 @@ int	export_mini(t_cmds *cmds)
 	{
 		while (cmds->args[i] != NULL)
 		{
-			process_args(cmds->args[i], cmds->info->head);
+			if (process_args(cmds->args[i], cmds->info->head) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 			i++;
 		}
 	}
