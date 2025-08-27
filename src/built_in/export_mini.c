@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/27 10:39:39 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:25:19 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ static void	env_set_hidden_0(t_env *head, char *name)
 	return ;
 }
 
+/// @brief checks if the v_name is a valid identifier for export.
+/// @param str the v_name to check
+/// @return returns 0 when not valid, 1 when valid
 static int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -87,9 +90,6 @@ static int	is_valid_identifier(char *str)
 	//after a -> z or A -> Z or 0 -> 9
 	while ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')\
 || (str[i] >= '0' && str[i] <= '9'))
-		i++;
-	//can end on 1 +
-	if (str[i] == '+')
 		i++;
 	if (str[i] == '\0')
 		return (1);
@@ -107,20 +107,16 @@ static int	process_args(char *str, t_env *head)
 
 	if (split_first_equals(str, &v_name, &v_value) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	//check valid identifier
 	if (is_valid_identifier(v_name) != 1)
 	{
-		write(2, "not a valid identifier", 22);
-		return (EXIT_FAILURE);
+		write(2, "not a valid identifier\n", 23);
+		return (free(v_name), free(v_value), EXIT_FAILURE);
 	}
-	//if valid, end with +? then append.
-
-	//else
 	if (v_value == NULL && env_var_exists(head, v_name) == 1)
 		env_set_hidden_0(head, v_name);
 	else
 		update_env(head, v_name, v_value);
-	return (EXIT_SUCCESS);
+	return (free(v_name), EXIT_SUCCESS);
 }
 
 /// @brief prints formatted environment variable

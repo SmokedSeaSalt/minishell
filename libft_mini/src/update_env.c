@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:58:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:21:30 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:27:20 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	update_env(t_env *head, char *name, char *newval)
 	newnode = ft_calloc(sizeof(t_env), 1);
 	if (!newnode)
 		return ;
-	newnode->v_name = name;
+	newnode->v_name = ft_strndup(name, ft_strlen(name));
+	if (newnode->v_name == NULL)
+		return (free(newnode));
 	newnode->v_val = newval;
 	head->next = newnode;
 	newnode->prev = head;
