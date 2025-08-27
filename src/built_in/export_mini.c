@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/27 15:25:19 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:33:02 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,11 @@ static int	is_valid_identifier(char *str)
 	int	i;
 
 	i = 0;
-	//first is a -> z or A -> Z
-	if (!((str[i] >= 'a' && str[i] <= 'z') ||(str[i] >= 'A' && str[i] <= 'Z')))
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')))
 		return (0);
 	i++;
-	//after a -> z or A -> Z or 0 -> 9
-	while ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')\
-|| (str[i] >= '0' && str[i] <= '9'))
+	while ((str[i] >= 'a' && str[i] <= 'z') || \
+(str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9'))
 		i++;
 	if (str[i] == '\0')
 		return (1);

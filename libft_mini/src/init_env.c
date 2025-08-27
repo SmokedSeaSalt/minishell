@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 14:52:26 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:34:18 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_env	*init_env(char **envp)
 	int		i;
 
 	i = 0;
-	//head = NULL;
 	head = ft_calloc(1, sizeof(t_env));
 	if (head == NULL)
 		return (NULL);
@@ -92,4 +91,3 @@ t_env	*init_env(char **envp)
 	}
 	return (head);
 }
-
