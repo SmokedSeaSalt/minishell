@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 13:37:29 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 10:49:13 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,18 @@ void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 	int		envlen;
 	char	*env_line;
 	int		expandedlen;
+	int		isexitval;
 
 	if (**line != '$')
 		return ;
 	(*line)++;
+	isexitval = 0;
 	expandedlen = ft_strlen(*expandedline);
 	if (**line == '?')
 	{
 		env_line = ft_getenv(env, "?");
 		(*line)++;
+		isexitval = 1;
 	}
 	else
 		env_line = return_env(env, *line);
@@ -49,7 +52,7 @@ ft_realloc(*expandedline, expandedlen, expandedlen + envlen + 1);
 	if (*expandedline == NULL)
 		return ;
 	ft_memmove(&(*expandedline)[expandedlen], env_line, envlen);
-	while (is_valid_in_name(**line))
+	while (is_valid_in_name(**line) && !isexitval)
 		(*line)++;
 }
 
