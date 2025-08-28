@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 14:22:55 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 10:39:17 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ int	pipe_setup(int pipefd[2])
 }
 
 //TODO CLEANUP
-void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
+int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 {
 	pid_t	pid;
 	int		fd;
@@ -252,6 +252,7 @@ void	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		close(fd_in);
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
+	return (pid);
 }
 
 void	exec_pipes(t_cmds *cmds, t_env *env)
@@ -259,6 +260,9 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 	int	fd[2];
 	int	fd_in;
 	int	fd_out;
+	int	status;
+	int	lastpid;
+	int	checkpid;
 
 	fd_in = dup(STDIN_FILENO);
 	while (cmds && cmds->ispiped)
@@ -280,13 +284,20 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 	if (cmds)
 	{
 		fd_out = STDOUT_FILENO;
-		exec_pipe_single(cmds, env, fd_in, fd_out);
+		lastpid = exec_pipe_single(cmds, env, fd_in, fd_out);
 		if (fd_in != STDIN_FILENO)
 			close(fd_in);
 	}
 	set_signals_ignore();
-	while (waitpid(-1, NULL, 0) > 0)
-		;
+	while ((checkpid = waitpid(-1, &status, 0)) > 0)
+	{
+		if (checkpid == lastpid)
+			if (WIFEXITED(status))
+			{
+				printf("%d, %d, %d", checkpid, lastpid, WEXITSTATUS(status));
+				update_env(env, "?", ft_itoa(WEXITSTATUS(status)));
+			}
+	}
 	set_signals_default();
 }
 
