@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 15:24:45 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:10:20 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,6 @@ static int	split_first_equals(char *str, char **v_name, char **v_value)
 	if (*v_value == NULL)
 		return (free(v_name), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
-}
-
-/// @brief checks if a environment variable exists with name
-/// @param head	environment variable linked list
-/// @param name	name for the environtment variable
-/// @return	return 1 if variable exist. 0 when no variable is found with name
-static int	env_var_exists(t_env *head, char *name)
-{
-	if (!head || !name)
-		return (-1);
-	while (head)
-	{
-		if (ft_strcmp(head->v_name, name) == 0)
-			return (1);
-		head = head->next;
-	}
-	return (0);
-}
-
-/// @brief sets the is_hidden flag for environment variable name to 0
-/// @param head environment variable linked list
-/// @param name name for the environtment variable
-static void	env_set_hidden_0(t_env *head, char *name)
-{
-	if (!head || !name)
-		return ;
-	while (head)
-	{
-		if (ft_strcmp(head->v_name, name) == 0)
-			head->is_hidden = 0;
-		head = head->next;
-	}
-	return ;
 }
 
 /// @brief checks if the v_name is a valid identifier for export.

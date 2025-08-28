@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 11:09:27 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:13:24 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_realloc(void *oldptr, int oldsize, int newsize);
 int		charinstr(char c, char *str);
 t_env	*init_env(char **envp);
+void	free_env(t_env *head);
 char	*return_env(t_env *head, char *str);
 void	update_env(t_env *head, char *name, char *newval);
 int		is_only_num(char *str);

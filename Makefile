@@ -13,6 +13,7 @@ BUILTIN_SRCS = 	src/built_in/cd_mini.c \
 				src/built_in/echo_mini.c \
 				src/built_in/env_mini.c \
 				src/built_in/exit_mini.c \
+				src/built_in/export_mini_env.c \
 				src/built_in/export_mini.c \
 				src/built_in/pwd_mini.c \
 				src/built_in/unset_mini.c
@@ -20,11 +21,14 @@ BUILTIN_SRCS = 	src/built_in/cd_mini.c \
 BUILTIN_OBJS := $(patsubst src/built_in/%.c, $(BUILD_FOLDER)/%.o, $(BUILTIN_SRCS))
 
 SRCS =			src/cmds_list.c \
+				src/cmds.c \
 				src/error_parse_line.c \
 				src/executor.c \
+				src/expand_line.c \
 				src/main.c \
 				src/parsing.c \
-				src/signals.c
+				src/signal_config.c \
+				src/signal_handlers.c
 
 OBJS := $(patsubst src/%.c, $(BUILD_FOLDER)/%.o, $(SRCS))
 

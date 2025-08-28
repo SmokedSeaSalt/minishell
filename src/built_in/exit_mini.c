@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 16:02:42 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:23:47 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,70 +18,6 @@ void	exit_with_val(int value, t_cmds *cmds)
 	free_env(cmds->info->head);
 	free_cmds(cmds);
 	exit(value);
-}
-
-void	free_env(t_env *head)
-{
-	t_env	*tmp;
-
-	while (head != NULL)
-	{
-		tmp = head;
-		free(tmp->v_name);
-		tmp->v_name = NULL;
-		free(tmp->v_val);
-		tmp->v_val = NULL;
-		head = head->next;
-		free(tmp);
-		tmp = NULL;
-	}
-}
-
-//free's all the content of the given node
-void	free_cmds_node(t_cmds *node)
-{
-	int	i;
-
-	if (node->infile && !ft_strncmp(node->infile, "/tmp/.heredoc_", 14))
-		unlink(node->infile);
-	free(node->cmdpath);
-	node->cmdpath = NULL;
-	free(node->cmd);
-	node->cmd = NULL;
-	free(node->infile);
-	node->infile = NULL;
-	free(node->outfile);
-	node->outfile = NULL;
-	i = 0;
-	if (node->args != NULL)
-	{
-		while (node->args[i] != NULL)
-		{
-			free(node->args[i]);
-			node->args[i] = NULL;
-			i++;
-		}
-		free(node->args);
-		node->args = NULL;
-	}
-}
-
-//pass any cmds node and free all of them
-void	free_cmds(t_cmds *node)
-{
-	t_cmds	*tmp;
-
-	free(node->info);
-	while (node->prev != NULL)
-		node = node->prev;
-	while (node != NULL)
-	{
-		tmp = node;
-		free_cmds_node(tmp);
-		node = node->next;
-		free(tmp);
-		tmp = NULL;
-	}
 }
 
 static int	is_numeric(char *str)

@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:58:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/27 15:27:20 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:34:36 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*ft_getenv(t_env *head, char *str)
 	return (NULL);
 }
 
+//returns head->v_val if str == v_name and is followed by '\0' or ' '
 char	*return_env(t_env *head, char *str)
 {
 	while (head)

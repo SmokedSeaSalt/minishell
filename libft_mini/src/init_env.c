@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:10:10 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 12:35:17 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:13:06 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,21 @@ t_env	*init_env(char **envp)
 		i++;
 	}
 	return (head);
+}
+
+void	free_env(t_env *head)
+{
+	t_env	*tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		free(tmp->v_name);
+		tmp->v_name = NULL;
+		free(tmp->v_val);
+		tmp->v_val = NULL;
+		head = head->next;
+		free(tmp);
+		tmp = NULL;
+	}
 }
