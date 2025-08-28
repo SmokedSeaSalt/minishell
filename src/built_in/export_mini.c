@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 11:13:41 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:22:08 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ static int	process_args(char *str, t_env *head)
 		return (EXIT_FAILURE);
 	if (is_valid_identifier(v_name) != 1)
 	{
-		write(2, "export: not a valid identifier\n", 23);
-		return (free(v_name), free(v_value), EXIT_FAILURE);
+		write(2, "export: not a valid identifier\n", 31);
+		return (free(v_name), free(v_value), EXIT_SUCCESS);
 	}
 	if (v_value == NULL && env_var_exists(head, v_name) == 1)
 		env_set_hidden_0(head, v_name);
