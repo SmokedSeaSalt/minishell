@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 11:07:07 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 12:36:16 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	free_cmds_node(t_cmds *node)
 
 	if (node->infile && !ft_strncmp(node->infile, "/tmp/.heredoc_", 14))
 		unlink(node->infile);
-	if (node->cmdpath)
-		free(node->cmdpath);
+	free(node->cmdpath);
 	node->cmdpath = NULL;
 	free(node->cmd);
 	node->cmd = NULL;
@@ -102,8 +101,6 @@ static int	is_numeric(char *str)
 	}
 	return (1);
 }
-
-
 
 //TODO exit a a
 int	exit_mini(t_cmds *cmds)

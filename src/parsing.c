@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:56:14 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 12:24:58 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,12 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 			g_signal_received = 0;
 			break;
 		}
-		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, ft_strlen(delim))\
+		if (!heredoc_line)
+		{
+			write(2, "Warning: heredoc delimited by end-of-file\n", 42);
+			break;
+		}
+		if (!ft_strncmp(heredoc_line, delim, ft_strlen(delim))\
 && !heredoc_line[ft_strlen(delim)])
 			break ;
 		write(fd, heredoc_line, ft_strlen(heredoc_line));
