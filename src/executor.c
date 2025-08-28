@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:39:17 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 10:50:31 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 		env = env->prev;
 	while (env)
 	{
+		if (env->is_hidden)
+		{
+			env = env->next;
+			continue;
+		}
 		envval = strjoin_char(env->v_name, env->v_val, '=');
 		if (!envval)
 			exit_with_val(1, cmds);
@@ -235,6 +240,8 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
 		}
+		if (cmds->ispiped && cmds->info && cmds->info->pipe_read_fd != -1)
+            close(cmds->info->pipe_read_fd);
 		if (isbuiltin(cmds))
 		{
 			exec_builtin(cmds);
@@ -273,21 +280,22 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 			exit_with_val(1, cmds);
 		}
 		fd_out = fd[1];
+		cmds->info->pipe_read_fd = fd[0];
 		exec_pipe_single(cmds, env, fd_in, fd_out);
+		close(fd_out);
 		if (fd_in != STDIN_FILENO)
 			close(fd_in);
-		if (fd_out != STDIN_FILENO)
-			close(fd_out);
 		fd_in = fd[0];
 		cmds = cmds->next;
 	}
 	if (cmds)
 	{
 		fd_out = STDOUT_FILENO;
+		cmds->info->pipe_read_fd = -1;
 		lastpid = exec_pipe_single(cmds, env, fd_in, fd_out);
-		if (fd_in != STDIN_FILENO)
-			close(fd_in);
 	}
+	if (fd_in != STDIN_FILENO)
+        close(fd_in);
 	set_signals_ignore();
 	while ((checkpid = waitpid(-1, &status, 0)) > 0)
 	{
