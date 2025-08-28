@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:09:01 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:33:41 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:40:30 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@ int	unset_mini(t_cmds *cmds)
 			{
 				if (env->prev)
 					env->prev->next = env->next;
+				else
+					cmds->info->head = env->next;
 				if (env->next)
 					env->next->prev = env->prev;
 				free(env->v_name);
+				env->v_name = NULL;
 				free(env->v_val);
+				env->v_val = NULL;
 				free(env);
+				env = NULL;
 				return (0);
 			}
 			env = env->next;
