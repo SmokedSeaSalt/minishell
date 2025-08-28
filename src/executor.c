@@ -6,12 +6,11 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:54:18 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:48:48 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 //TODO error messages
 //TODO 1 open fd in all pipes;
@@ -56,7 +55,7 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 		if (env->is_hidden)
 		{
 			env = env->next;
-			continue;
+			continue ;
 		}
 		envval = strjoin_char(env->v_name, env->v_val, '=');
 		if (!envval)
@@ -70,8 +69,8 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 
 void	exec_builtin(t_cmds *cmds)
 {
-	int	exitval;
-	char *exitvar;
+	int		exitval;
+	char	*exitvar;
 
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
@@ -241,7 +240,7 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			close(fd_out);
 		}
 		if (cmds->ispiped && cmds->info && cmds->info->pipe_read_fd != -1)
-            close(cmds->info->pipe_read_fd);
+			close(cmds->info->pipe_read_fd);
 		if (isbuiltin(cmds))
 		{
 			exec_builtin(cmds);
@@ -295,16 +294,15 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 		lastpid = exec_pipe_single(cmds, env, fd_in, fd_out);
 	}
 	if (fd_in != STDIN_FILENO)
-        close(fd_in);
+		close(fd_in);
 	set_signals_ignore();
-	while ((checkpid = waitpid(-1, &status, 0)) > 0)
+	checkpid = waitpid(-1, &status, 0);
+	while (checkpid > 0)
 	{
 		if (checkpid == lastpid)
 			if (WIFEXITED(status))
-			{
-				printf("%d, %d, %d", checkpid, lastpid, WEXITSTATUS(status));
 				update_env(env, "?", ft_itoa(WEXITSTATUS(status)));
-			}
+		checkpid = waitpid(-1, &status, 0);
 	}
 	set_signals_default();
 }

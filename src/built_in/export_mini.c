@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 15:22:08 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:24:45 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ static void	print_export(t_env *head)
 	}
 }
 
-//todo process_args malloc fail -> return (EXIT_FAILURE)
 int	export_mini(t_cmds *cmds)
 {
 	int	i;

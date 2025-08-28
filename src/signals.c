@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 11:58:46 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 13:16:23 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:25:35 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	set_child_signals(void)
 	return (0);
 }
 
-int set_signals_ignore(void)
+int	set_signals_ignore(void)
 {
 	struct sigaction	sa;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 14:02:21 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:29:05 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 //TODO cat /dev/urandom | head -n 5
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_env	*env;
-	t_cmds	*cmds;
+	char		*line;
+	t_env		*env;
+	t_cmds		*cmds;
 	extern int	g_signal_received;
 
 	(void)argv;
 	(void)argc;
-	
 	env = init_env(envp);
 	if (env == NULL)
 		exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 11:13:13 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:50:11 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,5 @@ int		error_parse_line(char *line);
 int		set_signals_default(void);
 int		set_child_signals(void);
 int		set_signals_ignore(void);
-
-
 
 #endif

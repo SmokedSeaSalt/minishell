@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:56:14 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:32:43 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,6 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	int			fd;
 	extern int	g_signal_received;
 
-
 	while (ft_isspace(**line))
 		(*line)++;
 	delim = parse_word(env, line);
@@ -219,10 +218,10 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 		if (g_signal_received)
 		{
 			g_signal_received = 0;
-			break;
+			break ;
 		}
-		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, ft_strlen(delim))\
-&& !heredoc_line[ft_strlen(delim)])
+		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, \
+ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 			break ;
 		write(fd, heredoc_line, ft_strlen(heredoc_line));
 		write(fd, "\n", 1);
