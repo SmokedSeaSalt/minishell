@@ -6,11 +6,11 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:42:55 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 13:30:10 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:42:22 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft_mini.h"
 
 char	*ft_itoa(int n)
 {
