@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 12:55:24 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:00:25 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,8 +304,12 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 	if (!file)
 		return ;
 	if (cmds->outfile)
+	{
 		free(cmds->outfile);
-	cmds->outfile = file;
+		cmds->outfile = NULL;
+	}
+	if (!cmds->permission_denied)
+		cmds->outfile = file;
 	if (!cmds->permission_denied)
 		check_file(cmds, cmds->append + 1);
 }
