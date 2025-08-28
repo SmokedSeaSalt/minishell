@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 16:02:25 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:04:28 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 void	fix_empty_cmds(t_cmds *cmds)
 {
 	int	i;
+
 	while (cmds)
 	{
 		i = 0;
 		if (!cmds->cmd)
 		{
 			cmds = cmds->next;
-			continue;
+			continue ;
 		}
 		while (ft_isspace(cmds->cmd[i]))
 			i++;
@@ -251,8 +252,8 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 		}
 		if (!heredoc_line)
 			write(2, "Warning: heredoc delimited by end-of-file\n", 42);
-		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, ft_strlen(delim))\
-&& !heredoc_line[ft_strlen(delim)])
+		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, \
+ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 			break ;
 		write(fd, heredoc_line, ft_strlen(heredoc_line));
 		write(fd, "\n", 1);
