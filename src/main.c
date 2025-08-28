@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 13:42:48 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:46:19 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		if (error_parse_line(line))
 		{
 			free(line);
+			update_env(env, "?", ft_itoa(2));
 			continue ;
 		}
 		cmds = ft_calloc(sizeof(t_cmds), 1);
