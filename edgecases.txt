@@ -37,6 +37,10 @@ unset TERM
 clear
 expected : error msg
 
+export EMPTY="          "
+$EMPTY echo a
+expected : a
+
 TODO
 arg=123 echo a
 echo $arg
