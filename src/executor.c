@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:54:18 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:07:40 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 
 //TODO error messages
-//TODO 1 open fd in all pipes;
 char	**make_args(t_cmds *cmds)
 {
 	int		i;
@@ -301,10 +300,7 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 	{
 		if (checkpid == lastpid)
 			if (WIFEXITED(status))
-			{
-				printf("%d, %d, %d", checkpid, lastpid, WEXITSTATUS(status));
 				update_env(env, "?", ft_itoa(WEXITSTATUS(status)));
-			}
 	}
 	set_signals_default();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_mini.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/25 16:10:49 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:04:40 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ char	*get_pwd(void)
 
 //get cmds args and do cd
 //also updates PWD and OLDPWD environnment variables
-//TODO DONT SEGFAULT WITHOUT ARGS
-//TODO handle no args better
 int	cd_mini(t_cmds *cmds)
 {
 	char	*old_pwd;

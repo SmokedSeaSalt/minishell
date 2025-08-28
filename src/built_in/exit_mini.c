@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:50:53 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:07:07 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,7 @@ static int	is_numeric(char *str)
 
 
 
-//TODO different behaviour if exit is piped or not
 //TODO exit a a
-//TODO write exit to 1 so doesnt get piped mayb
 int	exit_mini(t_cmds *cmds)
 {
 	char	exitval;

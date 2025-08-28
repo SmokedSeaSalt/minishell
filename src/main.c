@@ -6,17 +6,13 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 14:02:21 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:06:03 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//TODO abc | abc ; exit leaks
 //TODO exit codes
-//TODO catching ctrl c ctrl d
 //TODO heredoc expansion
-//TODO 1 open fd in pipes >?>?>?./.
-//TODO cat /dev/urandom | head -n 5
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
