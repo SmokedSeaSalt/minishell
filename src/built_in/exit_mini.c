@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 11:47:02 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:02:42 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	free_cmds_node(t_cmds *node)
 
 	if (node->infile && !ft_strncmp(node->infile, "/tmp/.heredoc_", 14))
 		unlink(node->infile);
-	if (node->cmdpath)
-		free(node->cmdpath);
+	free(node->cmdpath);
 	node->cmdpath = NULL;
 	free(node->cmd);
 	node->cmd = NULL;

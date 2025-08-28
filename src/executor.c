@@ -6,14 +6,45 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 15:48:48 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:01:31 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+void	check_access(t_cmds *cmds)
+{
+	struct stat	path_stat;
+
+	if (!charinstr('/', cmds->cmdpath))
+	{
+		write(2, "Error: command not found\n", 25);
+		exit_with_val(127, cmds);
+	}
+	if (access(cmds->cmdpath, F_OK) != 0)
+	{
+		write(2, "Error: command not found\n", 25);
+		exit_with_val(127, cmds);
+	}
+	if (stat(cmds->cmdpath, &path_stat) != 0)
+	{
+		write(2, "Error: stat fail\n", 16);
+		exit_with_val(126, cmds);
+	}
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		write(2, "Error: path is a directory\n", 27);
+		exit_with_val(126, cmds);
+	}
+	if (access(cmds->cmdpath, X_OK) != 0)
+	{
+		write(2, "Error: command not executable\n", 30);
+		exit_with_val(126, cmds);
+	}
+}
+
 //TODO error messages
-//TODO 1 open fd in all pipes;
 char	**make_args(t_cmds *cmds)
 {
 	int		i;
@@ -72,6 +103,11 @@ void	exec_builtin(t_cmds *cmds)
 	int		exitval;
 	char	*exitvar;
 
+	if (cmds->permission_denied)
+	{
+		write(2, "Error: permission denied\n", 25);
+		exit_with_val(1, cmds);
+	}
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "pwd"))
@@ -164,9 +200,15 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		pid = fork();
 		if (!pid)
 		{
+			if (cmds->permission_denied)
+			{
+				write(2, "Error: permission denied\n", 25);
+				exit_with_val(1, cmds);
+			}
 			set_child_signals();
 			args = make_args(cmds);
 			envp = make_envp(cmds, env);
+			check_access(cmds);
 			execve(cmds->cmdpath, args, envp);
 			free_carray(envp);
 			perror(cmds->cmd);
@@ -204,6 +246,11 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 	if (!pid)
 	{
 		set_child_signals();
+		if (cmds->permission_denied)
+		{
+			write(2, "Error: permission denied\n", 25);
+			exit_with_val(1, cmds);
+		}
 		if (cmds->infile)
 		{
 			fd = open(cmds->infile, O_RDONLY);
@@ -248,11 +295,12 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 		}
 		args = make_args(cmds);
 		envp = make_envp(cmds, env);
+		check_access(cmds);
 		execve(cmds->cmdpath, args, envp);
 		perror(cmds->cmdpath);
 		free(args);
 		free_carray(envp);
-		exit_with_val(1, cmds);
+		exit_with_val(126, cmds);
 	}
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);

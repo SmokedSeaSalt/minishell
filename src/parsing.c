@@ -6,12 +6,41 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 15:32:43 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:02:25 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	fix_empty_cmds(t_cmds *cmds)
+{
+	int	i;
+	while (cmds)
+	{
+		i = 0;
+		if (!cmds->cmd)
+		{
+			cmds = cmds->next;
+			continue;
+		}
+		while (ft_isspace(cmds->cmd[i]))
+			i++;
+		if (!cmds->cmd[i])
+		{
+			free(cmds->cmd);
+			if (!cmds->args)
+				cmds->cmd = NULL;
+			else
+			{
+				cmds->cmd = cmds->args[0];
+				i = -1;
+				while (cmds->args[++i])
+					cmds->args[i] = cmds->args[i + 1];
+			}
+		}
+		cmds = cmds->next;
+	}
+}
 //returns head->v_val if str == v_name and is followed by '\0' or ' '
 
 void	expand_line_char(char **line, char **expandedline)
@@ -220,8 +249,10 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 			g_signal_received = 0;
 			break ;
 		}
-		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, \
-ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
+		if (!heredoc_line)
+			write(2, "Warning: heredoc delimited by end-of-file\n", 42);
+		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, ft_strlen(delim))\
+&& !heredoc_line[ft_strlen(delim)])
 			break ;
 		write(fd, heredoc_line, ft_strlen(heredoc_line));
 		write(fd, "\n", 1);
@@ -230,6 +261,33 @@ ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 	free(heredoc_line);
 	free(delim);
 	close(fd);
+}
+
+void	check_file(t_cmds *cmds, int mode)
+{
+	int	fd;
+
+	if (mode == 0)
+	{
+		fd = open(cmds->infile, O_RDONLY);
+		if (fd == -1)
+			cmds->permission_denied = 1;
+		else
+			close(fd);
+		return;
+	}
+	else
+	{
+		if (mode == 1)
+			fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+			cmds->permission_denied = 1;
+		else
+			close(fd);
+		return;
+	}
 }
 
 void	handle_infile(t_cmds *cmds, t_env *env, char **line)
@@ -253,6 +311,7 @@ void	handle_infile(t_cmds *cmds, t_env *env, char **line)
 	if (cmds->infile)
 		free(cmds->infile);
 	cmds->infile = file;
+	check_file(cmds, 0);
 }
 
 void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
@@ -274,10 +333,13 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 		return ;
 	if (cmds->outfile)
 	{
-		close(open(cmds->outfile, O_WRONLY | O_CREAT, 0644));
 		free(cmds->outfile);
+		cmds->outfile = NULL;
 	}
-	cmds->outfile = file;
+	if (!cmds->permission_denied)
+		cmds->outfile = file;
+	if (!cmds->permission_denied)
+		check_file(cmds, cmds->append + 1);
 }
 
 void	handle_pipe(t_cmds **cmds, char **line)

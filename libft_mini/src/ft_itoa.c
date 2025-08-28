@@ -3,68 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:42:55 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/27 16:33:43 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:42:22 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-static char	*ft_malloc_a(long n, int *malloc_size)
-{
-	*malloc_size = 1;
-	if (n < 0)
-	{
-		(*malloc_size)++;
-		n *= -1;
-	}
-	if (n == 0)
-		(*malloc_size)++;
-	while (n != 0)
-	{
-		(*malloc_size)++;
-		n /= 10;
-	}
-	return (malloc((*malloc_size) * sizeof(char)));
-}
-
-static void	ft_fill_a(char *ret, long nbr, int *malloc_size)
-{
-	int			offset;
-	int			i;
-
-	offset = 2;
-	i = 0;
-	if (nbr < 0)
-	{
-		ret[i] = '-';
-		i++;
-		nbr *= -1;
-		offset = 1;
-	}
-	if (nbr == 0)
-		ret[0] = '0';
-	while (nbr != 0)
-	{
-		ret[(*malloc_size) - i - offset] = (nbr % 10) + '0';
-		nbr /= 10;
-		i++;
-	}
-	ret[(*malloc_size) - 1] = '\0';
-}
+#include "libft_mini.h"
 
 char	*ft_itoa(int n)
 {
-	long	nbr;
-	char	*ret;
-	int		malloc_size;
+	int		nb;
+	int		chars;
+	char	*out;
 
-	nbr = (long)n;
-	ret = ft_malloc_a(nbr, &malloc_size);
-	if (ret == NULL)
+	nb = n;
+	chars = 1;
+	if (n < 0)
+		chars++;
+	while (nb >= 10 || nb <= -10)
+	{
+		chars++;
+		nb /= 10;
+	}
+	out = ft_calloc(chars + 1, sizeof(char));
+	if (out == NULL)
 		return (NULL);
-	ft_fill_a(ret, nbr, &malloc_size);
-	return (ret);
+	out[chars] = 0;
+	if (n < 0)
+		out[0] = '-';
+	while ((chars > 0 && nb >= 0) || chars > 1)
+	{
+		out[chars-- - 1] = (n % 10) * ((((n % 10) < 0) * -2) + 1) + '0';
+		n /= 10;
+	}
+	return (out);
 }

@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:06:00 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 11:57:52 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:46:54 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	word_comes_after(char *line, int mode)
 	while (ft_isspace(line[i]))
 		i++;
 	if (line[i] == '|' || !line[i])
-		return (0);
-	if ((mode == 1 && line[i] == '<') || line[i] == '>')
 		return (0);
 	return (1);
 }

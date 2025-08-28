@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:45:55 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 10:22:39 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 12:50:44 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_cmds
 	int				append;
 	int				ispiped;
 	int				pipefd;
+	int				permission_denied;
 	struct s_cmds	*prev;
 	struct s_cmds	*next;
 	t_info			*info;

@@ -3,24 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   libft_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:29:45 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/26 13:40:23 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:09:27 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_MINI_H
 # define LIBFT_MINI_H
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 # include <stdlib.h>
-# include <fcntl.h>
 # include <errno.h>
 # include "built_in.h"
 # include "mini_structs.h"
