@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 12:35:07 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 12:52:39 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ void	exec_builtin(t_cmds *cmds)
 	int	exitval;
 	char *exitvar;
 
+	if (cmds->permission_denied)
+	{
+		write(2, "Error: permission denied\n", 25);
+		exit_with_val(1, cmds);
+	}
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
 	if (!ft_strcmp(cmds->cmd, "pwd"))
@@ -195,6 +200,11 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		pid = fork();
 		if (!pid)
 		{
+			if (cmds->permission_denied)
+			{
+				write(2, "Error: permission denied\n", 25);
+				exit_with_val(1, cmds);
+			}
 			set_child_signals();
 			args = make_args(cmds);
 			envp = make_envp(cmds, env);
@@ -236,6 +246,11 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 	if (!pid)
 	{
 		set_child_signals();
+		if (cmds->permission_denied)
+		{
+			write(2, "Error: permission denied\n", 25);
+			exit_with_val(1, cmds);
+		}
 		if (cmds->infile)
 		{
 			fd = open(cmds->infile, O_RDONLY);
