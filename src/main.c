@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 11:06:03 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:11:05 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 		cmds = ft_calloc(sizeof(t_cmds), 1);
 		make_cmds(cmds, env, line);
 		free(line);
+		fix_empty_cmds(cmds);
 		find_paths(cmds, env);
 		execute_cmd(cmds, env);
 		free_cmds(cmds);

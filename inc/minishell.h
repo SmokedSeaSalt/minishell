@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 12:02:34 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:10:50 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		error_parse_line(char *line);
 int		set_signals_default(void);
 int		set_child_signals(void);
 int		set_signals_ignore(void);
+void	fix_empty_cmds(t_cmds *cmds);
 
 
 

@@ -6,12 +6,41 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 13:00:25 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:13:00 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	fix_empty_cmds(t_cmds *cmds)
+{
+	int	i;
+	while (cmds)
+	{
+		i = 0;
+		if (!cmds->cmd)
+		{
+			cmds = cmds->next;
+			continue;
+		}
+		while (ft_isspace(cmds->cmd[i]))
+			i++;
+		if (!cmds->cmd[i])
+		{
+			free(cmds->cmd);
+			if (!cmds->args)
+				cmds->cmd = NULL;
+			else
+			{
+				cmds->cmd = cmds->args[0];
+				i = -1;
+				while (cmds->args[++i])
+					cmds->args[i] = cmds->args[i + 1];
+			}
+		}
+		cmds = cmds->next;
+	}
+}
 //returns head->v_val if str == v_name and is followed by '\0' or ' '
 
 void	expand_line_char(char **line, char **expandedline)
