@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 11:05:33 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:23:05 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	cd_mini(t_cmds *cmds)
 	if (!cmds->args || cmds->args[0] == NULL)
 	{
 		write(2, "Error: cd must contain path\n", 28);
-		return (EXIT_SUCCESS);
+		return (EXIT_FAILURE);
 	}
 	if (get_filepath(cmds->args, &file_path) != 0)
 		return (EXIT_FAILURE);
