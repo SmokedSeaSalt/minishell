@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:16:29 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:45:16 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include <stdio.h> //to use perror
 #include <stddef.h> //to use NULL
 
+//expand args** to single string for file_path
 static int	get_filepath(char **args, char **file_path)
 {
 	char	*tmp;
 	int		i;
 
-	//expand args** to single string for file_path
 	//TODO exit code 0 l28
 	if (args[0] == NULL)
 	{
@@ -66,7 +66,7 @@ int	cd_mini(t_cmds *cmds)
 	if (!cmds->args)
 	{
 		write(2, "Error: cd must contain path\n", 28);
-		return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	}
 	if (get_filepath(cmds->args, &file_path) != 0)
 		return (EXIT_FAILURE);
