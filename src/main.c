@@ -6,11 +6,12 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:14:36 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:06:50 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
