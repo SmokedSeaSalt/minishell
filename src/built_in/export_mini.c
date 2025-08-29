@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 16:10:20 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:02:20 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	process_args(char *str, t_env *head)
 	if (is_valid_identifier(v_name) != 1)
 	{
 		write(2, "export: not a valid identifier\n", 31);
-		return (free(v_name), free(v_value), EXIT_SUCCESS);
+		return (free(v_name), free(v_value), -1);
 	}
 	if (v_value == NULL && env_var_exists(head, v_name) == 1)
 		env_set_hidden_0(head, v_name);
@@ -109,18 +109,24 @@ static void	print_export(t_env *head)
 int	export_mini(t_cmds *cmds)
 {
 	int	i;
+	int	return_val;
+	int	exit_val;
 
 	i = 0;
+	exit_val = 0;
 	if (n_args(cmds->args) == 0)
 		print_export(cmds->info->head);
 	else
 	{
 		while (cmds->args[i] != NULL)
 		{
-			if (process_args(cmds->args[i], cmds->info->head) == EXIT_FAILURE)
+			return_val = process_args(cmds->args[i], cmds->info->head);
+			if (return_val == EXIT_FAILURE)
 				return (EXIT_FAILURE);
+			if (return_val == -1)
+				exit_val = 1;
 			i++;
 		}
 	}
-	return (0);
+	return (exit_val);
 }
