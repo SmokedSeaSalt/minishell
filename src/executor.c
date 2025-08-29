@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 16:01:31 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:15:51 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	check_access(t_cmds *cmds)
 	}
 }
 
-//TODO error messages
 char	**make_args(t_cmds *cmds)
 {
 	int		i;
 	char	**args;
 
+	//TODO error messages
 	i = 1;
 	while (cmds->args && (cmds->args)[i - 1])
 		i++;
@@ -66,7 +66,6 @@ char	**make_args(t_cmds *cmds)
 	return (args);
 }
 
-//TODO FREE ALL WHEN EXIT;
 char	**make_envp(t_cmds *cmds, t_env *env)
 {
 	int		envlen;
@@ -74,6 +73,7 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 	char	**envp;
 	char	*envval;
 
+	//TODO FREE ALL WHEN EXIT;
 	i = 0;
 	envlen = env_len(env);
 	envp = ft_calloc(sizeof(char *), envlen + 1);
@@ -234,7 +234,6 @@ int	pipe_setup(int pipefd[2])
 	return (0);
 }
 
-//TODO CLEANUP
 int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 {
 	pid_t	pid;
@@ -242,6 +241,7 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 	char	**args;
 	char	**envp;
 
+	//TODO CLEANUP
 	pid = fork();
 	if (!pid)
 	{
@@ -377,7 +377,6 @@ void	execute_cmd(t_cmds *cmds, t_env *env)
 	}
 }
 
-//TODO HANDLE MALLOC FAIL IN SPLIT
 void	find_paths(t_cmds *cmds, t_env *env)
 {
 	char	**paths;
@@ -385,6 +384,7 @@ void	find_paths(t_cmds *cmds, t_env *env)
 	char	*currentpath;
 	t_info	*info;
 
+	//TODO HANDLE MALLOC FAIL IN SPLIT
 	info = ft_calloc(sizeof(t_info), 1);
 	info->head = env;
 	while (cmds)
@@ -446,21 +446,3 @@ void	find_paths(t_cmds *cmds, t_env *env)
 		cmds = cmds->next;
 	}
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	// (void)argc;
-// 	// (void)argv;
-// 	// (void)envp;
-// 	if (argc != 2)
-// 		return (write(2, "SEGFAULT\n", 9));
-// 	t_env	*env = init_env(envp);
-// 	t_cmds *cmds = ft_calloc(sizeof(t_cmds), 1);
-// 	(void)argv;
-// 	(void)argc;
-// 	make_cmds(cmds, env, argv[1]);
-// 	find_paths(cmds, env);
-// 	execute_cmd(cmds, env);
-// 	free_cmds(cmds);
-// 	free_env(env);
-// }

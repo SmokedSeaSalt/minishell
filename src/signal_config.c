@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:49:51 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 16:59:10 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:14:16 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	set_signals_heredoc(void)
 {
 	struct sigaction	sa;
 
-	//TODO check all CTRL+D, CTRL+C, CTRL+'\'
 	sa.sa_handler = heredoc_sigint_handler;
 	if (sigemptyset(&sa.sa_mask) == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 11:58:46 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:09:42 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:14:01 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ int	heredoc_sig_hook(void)
 		rl_on_new_line();
 		rl_done = 1;
 	}
-	return 0;
+	return (0);
 }

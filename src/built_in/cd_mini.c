@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_mini.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 11:04:40 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:16:29 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include <stdio.h> //to use perror
 #include <stddef.h> //to use NULL
 
-//expand args** to single string for file_path
-//TODO exit code 0 l28
 static int	get_filepath(char **args, char **file_path)
 {
 	char	*tmp;
 	int		i;
 
+	//expand args** to single string for file_path
+	//TODO exit code 0 l28
 	if (args[0] == NULL)
 	{
 		write(2, "cd: Not enough arguments\n", 25);
