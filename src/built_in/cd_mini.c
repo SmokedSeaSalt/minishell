@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:45:16 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:05:33 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ static int	get_filepath(char **args, char **file_path)
 	char	*tmp;
 	int		i;
 
-	//TODO exit code 0 l28
-	if (args[0] == NULL)
-	{
-		write(2, "cd: Not enough arguments\n", 25);
-		return (-1);
-	}
 	*file_path = ft_strndup(args[0], strlen(args[0]));
 	if (*file_path == NULL)
 		return (-1);
@@ -63,7 +57,7 @@ int	cd_mini(t_cmds *cmds)
 	char	*new_pwd;
 	char	*file_path;
 
-	if (!cmds->args)
+	if (!cmds->args || cmds->args[0] == NULL)
 	{
 		write(2, "Error: cd must contain path\n", 28);
 		return (EXIT_SUCCESS);
