@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 16:37:42 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:06:21 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	fix_empty_cmds(t_cmds *cmds)
 	}
 }
 
-//TODO DONT EXPAND ENV IF IN HEREDOC
 char	*parse_word(t_env *env, char **line)
 {
 	char	*word;
 
+	//TODO DONT EXPAND ENV IF IN HEREDOC
 	word = NULL;
 	while (**line && !ft_isspace(**line) \
 && **line != '<' && **line != '>' && **line != '|')
@@ -103,7 +103,6 @@ char	*heredoc_filename(int count)
 	return (name);
 }
 
-// TODO HANDLE !NAME
 void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 {
 	static int	count = 0;
@@ -113,6 +112,7 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	int			fd;
 	extern int	g_signal_received;
 
+	// TODO HANDLE !NAME
 	while (ft_isspace(**line))
 		(*line)++;
 	delim = parse_word(env, line);
@@ -128,6 +128,8 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	cmds->infile = name;
 	fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	count++;
+	set_signals_heredoc();
+	rl_event_hook = heredoc_sig_hook;
 	while (1)
 	{
 		heredoc_line = readline("mini heredoc> ");
@@ -145,6 +147,8 @@ ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 		write(fd, "\n", 1);
 		free(heredoc_line);
 	}
+	set_signals_default();
+	rl_event_hook = NULL;
 	free(heredoc_line);
 	free(delim);
 	close(fd);
