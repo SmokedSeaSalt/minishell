@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 11:06:50 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/05 13:02:49 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		add_history(line);
-		if (error_parse_line(line))
+		if (error_parse_line(line, -1, 0, 0))
 		{
 			free(line);
 			update_env(env, "?", ft_itoa(2));
@@ -49,6 +49,8 @@ int	main(int argc, char **argv, char **envp)
 		make_cmds(cmds, env, line);
 		free(line);
 		fix_empty_cmds(cmds);
+		if (!cmds->cmd)
+			update_env(env, "?", ft_itoa(0));
 		find_paths(cmds, env);
 		execute_cmd(cmds, env);
 		free_cmds(cmds);

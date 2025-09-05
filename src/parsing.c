@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:06:21 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/05 12:58:48 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,12 @@ ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 	free(heredoc_line);
 	free(delim);
 	close(fd);
+	if (cmds->permission_denied)
+	{
+		unlink(cmds->infile);
+		free(cmds->infile);
+		cmds->infile = NULL;
+	}
 }
 
 void	check_file(t_cmds *cmds, int mode)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:05:43 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/05 13:03:04 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_cmds	*cmd_first(t_cmds *tail);
 void	make_cmds(t_cmds *cmds, t_env *env, char *line);
 void	find_paths(t_cmds *cmds, t_env *env);
 void	execute_cmd(t_cmds *cmds, t_env *env);
-int		error_parse_line(char *line);
+int		error_parse_line(char *line, int i, int wordbefore, int openquote);
 
 void	parent_sigint_handler(int sig);
 void	heredoc_sigint_handler(int sig);

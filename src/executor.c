@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:15:51 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 16:09:00 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,17 +167,19 @@ void	redirect_infiles(t_cmds *cmds, int *stdin_dup, int *stdout_dup)
 	}
 }
 
-void	restore_stdio(int stdin_dup, int stdout_dup)
+void	restore_stdio(int *stdin_dup, int *stdout_dup)
 {
-	if (stdin_dup != -1)
+	if (*stdin_dup != -1)
 	{
-		dup2(stdin_dup, STDIN_FILENO);
-		close(stdin_dup);
+		dup2(*stdin_dup, STDIN_FILENO);
+		close(*stdin_dup);
+		*stdin_dup = -1;
 	}
-	if (stdout_dup != -1)
+	if (*stdout_dup != -1)
 	{
-		dup2(stdout_dup, STDOUT_FILENO);
-		close(stdout_dup);
+		dup2(*stdout_dup, STDOUT_FILENO);
+		close(*stdout_dup);
+		*stdout_dup = -1;
 	}
 }
 
@@ -200,15 +202,19 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		pid = fork();
 		if (!pid)
 		{
+			if (stdin_dup != -1)
+        		close(stdin_dup);
+    		if (stdout_dup != -1)
+        		close(stdout_dup);
 			if (cmds->permission_denied)
 			{
 				write(2, "Error: permission denied\n", 25);
 				exit_with_val(1, cmds);
 			}
 			set_child_signals();
+			check_access(cmds);
 			args = make_args(cmds);
 			envp = make_envp(cmds, env);
-			check_access(cmds);
 			execve(cmds->cmdpath, args, envp);
 			free_carray(envp);
 			perror(cmds->cmd);
@@ -221,17 +227,7 @@ void	exec_single(t_cmds *cmds, t_env *env)
 			update_env(env, "?", ft_itoa(WEXITSTATUS(status)));
 		set_signals_default();
 	}
-	restore_stdio(stdin_dup, stdout_dup);
-}
-
-int	pipe_setup(int pipefd[2])
-{
-	if (pipe(pipefd) == -1)
-	{
-		write(2, "ERROR PIPE FAIL\n", 16);
-		return (1);
-	}
-	return (0);
+	restore_stdio(&stdin_dup, &stdout_dup);
 }
 
 int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
@@ -293,9 +289,9 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			exec_builtin(cmds);
 			exit(0);
 		}
+		check_access(cmds);
 		args = make_args(cmds);
 		envp = make_envp(cmds, env);
-		check_access(cmds);
 		execve(cmds->cmdpath, args, envp);
 		perror(cmds->cmdpath);
 		free(args);

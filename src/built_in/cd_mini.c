@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_mini.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:24:27 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 11:23:05 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:27:30 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	get_filepath(char **args, char **file_path)
 	char	*tmp;
 	int		i;
 
-	*file_path = ft_strndup(args[0], strlen(args[0]));
+	*file_path = ft_strndup(args[0], ft_strlen(args[0]));
 	if (*file_path == NULL)
 		return (-1);
 	i = 1;

@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:17:40 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:16:20 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:28:34 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strndup(char *str, int n)
 	int		i;
 
 	i = 0;
-	dup = ft_calloc(ft_min(n, strlen(str)) + 1, sizeof(char));
+	dup = ft_calloc(ft_min(n, ft_strlen(str)) + 1, sizeof(char));
 	if (!dup)
 		return (NULL);
 	while (str[i] && i < n)
