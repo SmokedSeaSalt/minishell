@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:37:49 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 16:48:00 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/05 13:50:39 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,14 @@ void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 {
 	int		envlen;
 	char	*env_line;
-	int		expandedlen;
+	int		len;
 	int		isexitval;
 
-	if (**line != '$')
-		return ;
 	(*line)++;
 	if (ft_isspace(**line) || !(**line) || **line == '"')
-	{
-		(*line)--;
-		expand_line_char(line, expandedline);
-		return ;
-	}
+		return ((*line)--, expand_line_char(line, expandedline));
 	isexitval = 0;
-	expandedlen = ft_strlen(*expandedline);
+	len = ft_strlen(*expandedline);
 	if (**line == '?')
 	{
 		env_line = ft_getenv(env, "?");
@@ -51,11 +45,10 @@ void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 	else
 		env_line = return_env(env, *line);
 	envlen = ft_strlen(env_line);
-	*expandedline = \
-ft_realloc(*expandedline, expandedlen, expandedlen + envlen + 1);
+	*expandedline = ft_realloc(*expandedline, len, len + envlen + 1);
 	if (*expandedline == NULL)
 		return ;
-	ft_memmove(&(*expandedline)[expandedlen], env_line, envlen);
+	ft_memmove(&(*expandedline)[len], env_line, envlen);
 	while (is_valid_in_name(**line) && !isexitval)
 		(*line)++;
 }

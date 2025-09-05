@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 11:58:46 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 12:54:13 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/05 13:32:55 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 volatile int	g_signal_received = 0;
 
-
-struct *data_stuct(void)
-{
-	statuc t_Strct
-}
 void	parent_sigint_handler(int sig)
 {
 	(void)sig;

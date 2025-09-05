@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 16:09:00 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/05 14:16:16 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,7 @@ void	check_access(t_cmds *cmds)
 {
 	struct stat	path_stat;
 
-	if (!charinstr('/', cmds->cmdpath))
-	{
-		write(2, "Error: command not found\n", 25);
-		exit_with_val(127, cmds);
-	}
-	if (access(cmds->cmdpath, F_OK) != 0)
+	if (!charinstr('/', cmds->cmdpath) || access(cmds->cmdpath, F_OK) != 0)
 	{
 		write(2, "Error: command not found\n", 25);
 		exit_with_val(127, cmds);
@@ -68,15 +63,12 @@ char	**make_args(t_cmds *cmds)
 
 char	**make_envp(t_cmds *cmds, t_env *env)
 {
-	int		envlen;
 	int		i;
 	char	**envp;
 	char	*envval;
 
-	//TODO FREE ALL WHEN EXIT;
 	i = 0;
-	envlen = env_len(env);
-	envp = ft_calloc(sizeof(char *), envlen + 1);
+	envp = ft_calloc(sizeof(char *), env_len(env) + 1);
 	if (!envp)
 		exit_with_val(1, cmds);
 	while (env->prev)
@@ -91,36 +83,31 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 		envval = strjoin_char(env->v_name, env->v_val, '=');
 		if (!envval)
 			exit_with_val(1, cmds);
-		envp[i] = envval;
-		i++;
+		envp[i++] = envval;
 		env = env->next;
 	}
 	return (envp);
 }
 
-void	exec_builtin(t_cmds *cmds)
+void	exec_builtin(t_cmds *cmds, int exitval)
 {
-	int		exitval;
 	char	*exitvar;
 
 	if (cmds->permission_denied)
-	{
 		write(2, "Error: permission denied\n", 25);
-		exit_with_val(1, cmds);
-	}
-	if (!ft_strcmp(cmds->cmd, "echo"))
+	else if (!ft_strcmp(cmds->cmd, "echo"))
 		exitval = echo_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "pwd"))
+	else if (!ft_strcmp(cmds->cmd, "pwd"))
 		exitval = pwd_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "cd"))
+	else if (!ft_strcmp(cmds->cmd, "cd"))
 		exitval = cd_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "exit"))
+	else if (!ft_strcmp(cmds->cmd, "exit"))
 		exitval = exit_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "env"))
+	else if (!ft_strcmp(cmds->cmd, "env"))
 		exitval = env_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "export"))
+	else if (!ft_strcmp(cmds->cmd, "export"))
 		exitval = export_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "unset"))
+	else if (!ft_strcmp(cmds->cmd, "unset"))
 		exitval = unset_mini(cmds);
 	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
 		exit_with_val(exitval, cmds);
@@ -196,16 +183,16 @@ void	exec_single(t_cmds *cmds, t_env *env)
 	stdout_dup = -1;
 	redirect_infiles(cmds, &stdin_dup, &stdout_dup);
 	if (isbuiltin(cmds))
-		exec_builtin(cmds);
+		exec_builtin(cmds, 1);
 	else
 	{
 		pid = fork();
 		if (!pid)
 		{
 			if (stdin_dup != -1)
-        		close(stdin_dup);
-    		if (stdout_dup != -1)
-        		close(stdout_dup);
+				close(stdin_dup);
+			if (stdout_dup != -1)
+				close(stdout_dup);
 			if (cmds->permission_denied)
 			{
 				write(2, "Error: permission denied\n", 25);
@@ -286,7 +273,7 @@ int	exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out)
 			close(cmds->info->pipe_read_fd);
 		if (isbuiltin(cmds))
 		{
-			exec_builtin(cmds);
+			exec_builtin(cmds, 1);
 			exit(0);
 		}
 		check_access(cmds);
@@ -370,75 +357,5 @@ void	execute_cmd(t_cmds *cmds, t_env *env)
 			if (cmds)
 				cmds = cmds->next;
 		}
-	}
-}
-
-void	find_paths(t_cmds *cmds, t_env *env)
-{
-	char	**paths;
-	int		i;
-	char	*currentpath;
-	t_info	*info;
-
-	//TODO HANDLE MALLOC FAIL IN SPLIT
-	info = ft_calloc(sizeof(t_info), 1);
-	info->head = env;
-	while (cmds)
-	{
-		cmds->info = info;
-		if (!cmds->cmd)
-		{
-			if (cmds->infile && cmds->next && !cmds->next->infile)
-			{
-				cmds->next->infile = cmds->infile;
-				cmds->infile = NULL;
-			}
-			cmds = cmds->next;
-			continue ;
-		}
-		if (isbuiltin(cmds))
-		{
-			cmds = cmds->next;
-			continue ;
-		}
-		while (env && ft_strcmp("PATH", env->v_name))
-			env = env->next;
-		if (!env)
-		{
-			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
-			return ;
-		}
-		paths = ft_split(env->v_val, ':');
-		if (!paths)
-			return ;
-		i = -1;
-		while (paths[++i])
-		{
-			currentpath = strjoin_char(paths[i], cmds->cmd, '/');
-			if (!currentpath)
-				continue ;
-			if (access(currentpath, F_OK) == 0)
-			{
-				i = -1;
-				while (paths[++i])
-					free(paths[i]);
-				free(paths);
-				paths = NULL;
-				cmds->cmdpath = currentpath;
-				break ;
-			}
-			free(currentpath);
-		}
-		if (paths)
-		{
-			i = -1;
-			while (paths[++i])
-				free(paths[i]);
-			free(paths);
-			paths = NULL;
-		}
-		if (!cmds->cmdpath)
-			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
-		cmds = cmds->next;
 	}
 }

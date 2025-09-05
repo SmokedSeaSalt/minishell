@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 13:02:49 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/05 14:50:24 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("[minishell] $ ");
 		if (!line)
 		{
-			write(2, "exit\n", 5);
+			int exitval = (unsigned char)ft_atoi(ft_getenv(env, "?"));
 			free_env(env);
-			exit(1);
+			exit(exitval);
 		}
 		add_history(line);
 		if (error_parse_line(line, -1, 0, 0))

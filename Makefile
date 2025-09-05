@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc #-Wall -Werror -Wextra
+CC = cc -Wall -Werror -Wextra
 
 LIBFT_MINI_PATH = libft_mini
 LIBFT_MINI = ./libft_mini/libft_mini.a
@@ -28,7 +28,8 @@ SRCS =			src/cmds_list.c \
 				src/main.c \
 				src/parsing.c \
 				src/signal_config.c \
-				src/signal_handlers.c
+				src/signal_handlers.c \
+				src/get_paths.c
 
 OBJS := $(patsubst src/%.c, $(BUILD_FOLDER)/%.o, $(SRCS))
 
