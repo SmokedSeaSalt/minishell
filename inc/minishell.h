@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 13:03:04 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/05 13:40:16 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,37 @@ void	expand_line_space(t_cmds *cmds, char **line, char **expandedline);
 void	handle_infile(t_cmds *cmds, t_env *env, char **line);
 void	handle_outfile(t_cmds *cmds, t_env *env, char **line);
 void	handle_pipe(t_cmds **cmds, char **line);
+
+
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+# include <stdlib.h> //to use size_t
+
+typedef struct s_list
+{
+	char			*line;
+	int				fd;
+	int				hasnl;
+	struct s_list	*next;
+	struct s_list	*prev;
+}				t_list;
+
+//get next line
+char	*free_all(t_list **head);
+char	*get_next_line(int fd);
+char	*return_line(t_list **head, int fd);
+void	delnode(t_list *node, t_list **head);
+int		fill_node(t_list *head, int fd, char *buffer);
+
+//utils
+void	*gnl_calloc(size_t nmemb, size_t size);
+t_list	*get_fd_node(t_list *head, int fd);
+char	*gnl_substr(char const *s, unsigned int start, size_t len);
+ssize_t	charpos(char *s, char c);
+int		create_node(t_list **head, char *buffer, int fd);
+
 
 #endif

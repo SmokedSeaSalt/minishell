@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:26:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/28 16:23:47 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/05 14:29:27 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	exit_mini(t_cmds *cmds)
 	char	exitval;
 
 	if (!(cmds->ispiped || (cmds->prev && cmds->prev->ispiped)))
-		write(2, "exit\n", 5);
+		//write(2, "exit\n", 5);
 	if (n_args(cmds->args) == 0)
 		exit_with_val(ft_atoi(ft_getenv(cmds->info->head, "?")), cmds);
 	if (is_numeric(cmds->args[0]) == 0)

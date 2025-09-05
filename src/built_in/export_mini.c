@@ -6,7 +6,7 @@
 /*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/29 11:02:20 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/05 14:45:35 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ static int	is_valid_identifier(char *str)
 	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')))
 		return (0);
 	i++;
-	while ((str[i] >= 'a' && str[i] <= 'z') || \
-(str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9'))
+	while (is_valid_in_name(str[i]))
 		i++;
 	if (str[i] == '\0')
 		return (1);

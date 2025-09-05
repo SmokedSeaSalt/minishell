@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc #-Wall -Werror -Wextra
+CC = cc -g#-Wall -Werror -Wextra
 
 LIBFT_MINI_PATH = libft_mini
 LIBFT_MINI = ./libft_mini/libft_mini.a
@@ -25,6 +25,8 @@ SRCS =			src/cmds_list.c \
 				src/error_parse_line.c \
 				src/executor.c \
 				src/expand_line.c \
+				src/get_next_line_utils.c \
+				src/get_next_line.c \
 				src/main.c \
 				src/parsing.c \
 				src/signal_config.c \
