@@ -55,11 +55,6 @@ void	expand_line_dollar(t_env *env, char **line, char **expandedline)
 
 void	expand_line_double_q(t_env *env, char **line, char **expandedline)
 {
-	int	newlen;
-	int	expandedlen;
-
-	newlen = 0;
-	expandedlen = 0;
 	(*line)++;
 	while (**line && **line != '\"')
 	{
@@ -75,11 +70,6 @@ void	expand_line_double_q(t_env *env, char **line, char **expandedline)
 
 void	expand_line_single_q(char **line, char **expandedline)
 {
-	int	newlen;
-	int	expandedlen;
-
-	newlen = 0;
-	expandedlen = 0;
 	(*line)++;
 	while (**line && **line != '\'')
 	{

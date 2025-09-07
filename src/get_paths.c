@@ -51,8 +51,6 @@ void	path_check_access(t_cmds *cmds, char **paths)
 void	find_paths(t_cmds *cmds, t_env *env)
 {
 	char	**paths;
-	int		i;
-	char	*currentpath;
 	t_info	*info;
 
 	//TODO HANDLE MALLOC FAIL IN SPLIT

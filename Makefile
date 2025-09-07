@@ -39,7 +39,7 @@ ALL_OBJS = $(BUILTIN_OBJS) $(OBJS)
 all: libft_mini $(NAME)
 
 $(NAME): $(ALL_OBJS) $(LIBFT_MINI) Makefile
-	$(CC) -lreadline $(ALL_OBJS) $(LIBFT_MINI) $(INCL) -o $(NAME)
+	$(CC) $(ALL_OBJS) $(LIBFT_MINI) $(INCL) -lreadline -o $(NAME)
 
 $(BUILD_FOLDER)/%.o: src/built_in/%.c Makefile | $(BUILD_FOLDER)
 	$(CC) $(INCL) -c -o $@ $<

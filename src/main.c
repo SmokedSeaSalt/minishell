@@ -17,7 +17,6 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_env		*env;
 	t_cmds		*cmds;
-	extern int	g_signal_received;
 
 	//TODO exit codes
 	//TODO heredoc expansion

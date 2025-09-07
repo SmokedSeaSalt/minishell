@@ -14,10 +14,8 @@
 
 void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 {
-	char	*cmd;
 	char	*expandedline;
 
-	cmd = NULL;
 	expandedline = NULL;
 	while (*line)
 	{
