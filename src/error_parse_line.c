@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:06:00 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 13:07:05 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:32:59 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	error_check_io(char *line, int *i, int *wordbefore)
 	else if (line[(*i)] == '>')
 	{
 		if (line[(*i) + 1] == '>')
-			i++;
+			(*i)++;
 		if (!word_comes_after(&line[(*i) + 1], 1))
 			return (char_not_supported("missing outfile", 0));
 		*wordbefore = 0;
@@ -74,9 +74,6 @@ int	error_parse_line(char *line, int i, int wordbefore, int openquote)
 			openquote = 0;
 		else if (openquote)
 			wordbefore = 1;
-		else if (line[i] == '\\' || line[i] == ';' || \
-line[i] == '&' || line[i] == '*')
-			return (char_not_supported("char", line[i]));
 		else if ((line[i] == '>' || line[i] == '<') && \
 error_check_io(line, &i, &wordbefore))
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 12:58:48 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:18:30 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,19 @@ void	fix_empty_cmds(t_cmds *cmds)
 	}
 }
 
-char	*parse_word(t_env *env, char **line)
+void	here_expand_line_double_q(t_env *env, char **line, char **expandedline)
+{
+	(*line)++;
+	while (**line && **line != '\"')
+	{
+		expand_line_char(line, expandedline);
+		if (*expandedline == NULL)
+			return ;
+	}
+	(*line)++;
+}
+
+char	*parse_word(t_cmds *cmds, t_env *env, char **line)
 {
 	char	*word;
 
@@ -55,9 +67,28 @@ char	*parse_word(t_env *env, char **line)
 		if (**line == '\'')
 			expand_line_single_q(line, &word);
 		else if (**line == '\"')
-			expand_line_double_q(env, line, &word);
+			expand_line_double_q(cmds, env, line, &word);
 		else if (**line == '$')
-			expand_line_dollar(env, line, &word);
+			expand_line_dollar(cmds, env, line, &word);
+		else
+			expand_line_char(line, &word);
+	}
+	return (word);
+}
+
+char	*parse_word_heredoc(t_env *env, char **line)
+{
+	char	*word;
+
+	//TODO DONT EXPAND ENV IF IN HEREDOC
+	word = NULL;
+	while (**line && !ft_isspace(**line) \
+&& **line != '<' && **line != '>' && **line != '|')
+	{
+		if (**line == '\'')
+			expand_line_single_q(line, &word);
+		else if (**line == '\"')
+			here_expand_line_double_q(env, line, &word);
 		else
 			expand_line_char(line, &word);
 	}
@@ -115,7 +146,7 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	// TODO HANDLE !NAME
 	while (ft_isspace(**line))
 		(*line)++;
-	delim = parse_word(env, line);
+	delim = parse_word_heredoc(env, line);
 	name = heredoc_filename(count);
 	if (!name)
 		return ;
@@ -202,7 +233,7 @@ void	handle_infile(t_cmds *cmds, t_env *env, char **line)
 		(*line)++;
 	if (!(**line))
 		return ;
-	file = parse_word(env, line);
+	file = parse_word(cmds, env, line);
 	if (!file)
 		return ;
 	if (cmds->infile)
@@ -225,7 +256,7 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 		(*line)++;
 	if (!(**line))
 		return ;
-	file = parse_word(env, line);
+	file = parse_word(cmds, env, line);
 	if (!file)
 		return ;
 	if (cmds->outfile)
@@ -233,8 +264,7 @@ void	handle_outfile(t_cmds *cmds, t_env *env, char **line)
 		free(cmds->outfile);
 		cmds->outfile = NULL;
 	}
-	if (!cmds->permission_denied)
-		cmds->outfile = file;
+	cmds->outfile = file;
 	if (!cmds->permission_denied)
 		check_file(cmds, cmds->append + 1);
 }

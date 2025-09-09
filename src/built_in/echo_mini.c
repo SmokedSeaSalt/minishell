@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:39:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/25 16:10:55 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:58:47 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	check_n_flag(char **args, int *i, int *print_nl)
 	while (args && args[*i] && args[*i][0] == '-')
 	{
 		j = 1;
+		if (args[*i][j] == '\0')
+			break ;
 		while (args[*i][j] == 'n')
 			j++;
 		if (args[*i][j] == '\0')

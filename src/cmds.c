@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:21:56 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/08/28 16:48:50 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:14:42 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 		else if (*line == '\'')
 			expand_line_single_q(&line, &expandedline);
 		else if (*line == '\"')
-			expand_line_double_q(env, &line, &expandedline);
+			expand_line_double_q(cmds, env, &line, &expandedline);
 		else if (*line == '$')
-			expand_line_dollar(env, &line, &expandedline);
+			expand_line_dollar(cmds, env, &line, &expandedline);
 		else if (!isspace(*line) && *line)
 			expand_line_char(&line, &expandedline);
 		if (isspace(*line) || !(*line))

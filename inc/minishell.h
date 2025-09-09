@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 13:40:16 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:12:41 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	free_cmds_node(t_cmds *node);
 void	free_cmds(t_cmds *node);
 
 void	expand_line_char(char **line, char **expandedline);
-void	expand_line_dollar(t_env *env, char **line, char **expandedline);
-void	expand_line_double_q(t_env *env, char **line, char **expandedline);
+void	expand_line_dollar(t_cmds *cmds, t_env *env, char **line, char **expandedline);
+void	expand_line_double_q(t_cmds *cmds, t_env *env, char **line, char **expandedline);
 void	expand_line_single_q(char **line, char **expandedline);
 void	expand_line_space(t_cmds *cmds, char **line, char **expandedline);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_mini.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/05 14:45:35 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:47:50 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int	is_valid_identifier(char *str)
 	int	i;
 
 	i = 0;
-	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')))
+if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') \
+|| str[i] == '_'))
 		return (0);
 	i++;
 	while (is_valid_in_name(str[i]))

@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 16:09:00 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:51:34 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	check_access(t_cmds *cmds)
 	if (!charinstr('/', cmds->cmdpath))
 	{
 		write(2, "Error: command not found\n", 25);
-		exit_with_val(127, cmds);
+		if (access(cmds->cmdpath, F_OK) != 0)
+			exit_with_val(127, cmds);
+		exit_with_val(126, cmds);
 	}
 	if (access(cmds->cmdpath, F_OK) != 0)
 	{
