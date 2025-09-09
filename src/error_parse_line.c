@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:06:00 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 13:25:44 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:12:51 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	error_check_io(char *line, int *i, int *wordbefore)
 	else if (line[(*i)] == '>')
 	{
 		if (line[(*i) + 1] == '>')
-			i++;
+			(*i)++;
 		if (!word_comes_after(&line[(*i) + 1], 1))
 			return (char_not_supported("missing outfile", 0));
 		*wordbefore = 0;
@@ -64,28 +64,26 @@ int	error_check_io(char *line, int *i, int *wordbefore)
 	return (0);
 }
 
-int	error_parse_line(char *l, int i, int wordbefore, int openquote)
+int	error_parse_line(char *line, int i, int wordbefore, int openquote)
 {
-	while (l[++i])
+	while (line[++i])
 	{
-		if (!openquote && (l[i] == '\'' || l[i] == '"'))
-			openquote = l[i];
-		else if (openquote && l[i] == openquote)
+		if (!openquote && (line[i] == '\'' || line[i] == '"'))
+			openquote = line[i];
+		else if (openquote && line[i] == openquote)
 			openquote = 0;
 		else if (openquote)
 			wordbefore = 1;
-		else if (l[i] == '\\' || l[i] == ';' || l[i] == '&' || l[i] == '*')
-			return (char_not_supported("char", l[i]));
-		else if ((l[i] == '>' || l[i] == '<') && \
-error_check_io(l, &i, &wordbefore))
+		else if ((line[i] == '>' || line[i] == '<') && \
+error_check_io(line, &i, &wordbefore))
 			return (1);
-		else if (l[i] == '|')
+		else if (line[i] == '|')
 		{
-			if (!wordbefore || !word_comes_after(&l[i + 1], 0))
+			if (!wordbefore || !word_comes_after(&line[i + 1], 0))
 				return (char_not_supported("empty pipe", 0));
 			wordbefore = 0;
 		}
-		else if (!ft_isspace(l[i]))
+		else if (!ft_isspace(line[i]))
 			wordbefore = 1;
 	}
 	if (openquote)

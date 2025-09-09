@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_mini.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:09:01 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/29 10:25:25 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:13:40 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	unset_mini(t_cmds *cmds)
 		env = cmds->info->head;
 		while (env)
 		{
+			if (env->is_hidden)
+			{
+				env = env->next;
+				continue ;
+			}
 			unlink_node_and_free(cmds, env, i);
 			env = env->next;
 		}
