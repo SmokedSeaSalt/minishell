@@ -30,7 +30,10 @@ SRCS =			src/cmds_list.c \
 				src/main.c \
 				src/parsing.c \
 				src/signal_config.c \
-				src/signal_handlers.c
+				src/signal_handlers.c \
+				src/heredoc.c \
+				src/findpaths.c \
+				src/exec_pipe_single.c
 
 OBJS := $(patsubst src/%.c, $(BUILD_FOLDER)/%.o, $(SRCS))
 
@@ -40,7 +43,7 @@ ALL_OBJS = $(BUILTIN_OBJS) $(OBJS)
 all: libft_mini $(NAME)
 
 $(NAME): $(ALL_OBJS) $(LIBFT_MINI) Makefile
-	$(CC) -lreadline $(ALL_OBJS) $(LIBFT_MINI) $(INCL) -o $(NAME)
+	$(CC) $(ALL_OBJS) $(LIBFT_MINI) $(INCL) -lreadline -o $(NAME)
 
 $(BUILD_FOLDER)/%.o: src/built_in/%.c Makefile | $(BUILD_FOLDER)
 	$(CC) $(INCL) -c -o $@ $<

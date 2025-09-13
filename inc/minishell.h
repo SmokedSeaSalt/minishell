@@ -56,9 +56,16 @@ void	expand_line_space(t_cmds *cmds, char **line, char **expandedline);
 
 void	handle_infile(t_cmds *cmds, t_env *env, char **line);
 void	handle_outfile(t_cmds *cmds, t_env *env, char **line);
-void	handle_pipe(t_cmds **cmds, char **line);
+void	handle_pipe(t_cmds **cmds, t_info *info, char **line);
 
+void	handle_heredoc(t_cmds *cmds, t_env *env, char **line);
+int		isbuiltin(t_cmds *cmds);
 
+int		exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out);
+char	**make_envp(t_cmds *cmds, t_env *env);
+char	**make_args(t_cmds *cmds);
+void	check_access(t_cmds *cmds);
+void	exec_builtin(t_cmds *cmds);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

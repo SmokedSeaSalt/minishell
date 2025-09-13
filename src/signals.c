@@ -15,11 +15,6 @@
 
 volatile int	g_signal_received = 0;
 
-
-struct *data_stuct(void)
-{
-	statuc t_Strct
-}
 void	parent_sigint_handler(int sig)
 {
 	(void)sig;

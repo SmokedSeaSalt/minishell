@@ -50,7 +50,7 @@ static int	is_valid_identifier(char *str)
 	int	i;
 
 	i = 0;
-if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') \
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') \
 || str[i] == '_'))
 		return (0);
 	i++;

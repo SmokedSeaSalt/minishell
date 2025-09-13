@@ -16,11 +16,16 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 {
 	char	*cmd;
 	char	*expandedline;
+	t_info	*info;
 
 	cmd = NULL;
 	expandedline = NULL;
+	info = ft_calloc(sizeof(t_info), 1);
+	info->head = env;
+	cmds->info = info;
 	while (*line)
 	{
+		// function 1
 		if (*line == '<')
 			handle_infile(cmds, env, &line);
 		else if (*line == '>')
@@ -28,7 +33,7 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 		else if (*line == '|')
 		{
 			expand_line_space(cmds, &line, &expandedline);
-			handle_pipe(&cmds, &line);
+			handle_pipe(&cmds, info,  &line);
 			continue ;
 		}
 		else if (*line == '\'')
@@ -41,6 +46,7 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 			expand_line_char(&line, &expandedline);
 		if (isspace(*line) || !(*line))
 			expand_line_space(cmds, &line, &expandedline);
+		//end function
 	}
 	cmds = cmd_first(cmds);
 }
