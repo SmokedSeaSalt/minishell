@@ -25,14 +25,15 @@ void	find_paths(t_cmds *cmds, t_env *env)
 			cmds = cmds->next;
 			continue ;
 		}
-		// function 2
 		while (env && ft_strcmp("PATH", env->v_name))
 			env = env->next;
 		if (!env)
 		{
 			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
-			return ;
+			cmds = cmds->next;
+			continue ;
 		}
+		// function 2
 		paths = ft_split(env->v_val, ':');
 		if (!paths)
 			return ;

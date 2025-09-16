@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:47:01 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/08/22 12:21:53 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/16 11:33:55 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	charinstr(char c, char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == c)
 			return (TRUE);

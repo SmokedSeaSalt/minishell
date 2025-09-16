@@ -6,11 +6,33 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/09 13:51:34 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:05:06 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_access_b(t_cmds *cmds)
+{
+	struct stat	path_stat;
+
+	if (stat(cmds->cmdpath, &path_stat) != 0)
+	{
+		write(2, "Error: stat fail\n", 16);
+		exit_with_val(126, cmds);
+	}
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		write(2, "Error: path is a directory\n", 27);
+		exit_with_val(126, cmds);
+	}
+	if (access(cmds->cmdpath, X_OK) != 0)
+	{
+		write(2, "Error: command not executable\n", 30);
+		exit_with_val(126, cmds);
+	}
+}
+
 
 void	check_access(t_cmds *cmds)
 {
@@ -28,23 +50,7 @@ void	check_access(t_cmds *cmds)
 		write(2, "Error: command not found\n", 25);
 		exit_with_val(127, cmds);
 	}
-	//function 1
-	if (stat(cmds->cmdpath, &path_stat) != 0)
-	{
-		write(2, "Error: stat fail\n", 16);
-		exit_with_val(126, cmds);
-	}
-	if (S_ISDIR(path_stat.st_mode))
-	{
-		write(2, "Error: path is a directory\n", 27);
-		exit_with_val(126, cmds);
-	}
-	//end function 1
-	if (access(cmds->cmdpath, X_OK) != 0)
-	{
-		write(2, "Error: command not executable\n", 30);
-		exit_with_val(126, cmds);
-	}
+	check_access_b(cmds);
 }
 
 char	**make_args(t_cmds *cmds)
@@ -101,6 +107,24 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 	return (envp);
 }
 
+void	exec_builtin_b(t_cmds *cmds, int *exitval)
+{
+	if (!ft_strcmp(cmds->cmd, "echo"))
+		*exitval = echo_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "pwd"))
+		*exitval = pwd_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "cd"))
+		*exitval = cd_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "exit"))
+		*exitval = exit_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "env"))
+		*exitval = env_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "export"))
+		*exitval = export_mini(cmds);
+	if (!ft_strcmp(cmds->cmd, "unset"))
+		*exitval = unset_mini(cmds);
+}
+
 void	exec_builtin(t_cmds *cmds)
 {
 	int		exitval;
@@ -111,22 +135,7 @@ void	exec_builtin(t_cmds *cmds)
 		write(2, "Error: permission denied\n", 25);
 		exit_with_val(1, cmds);
 	}
-	// function 1
-	if (!ft_strcmp(cmds->cmd, "echo"))
-		exitval = echo_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "pwd"))
-		exitval = pwd_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "cd"))
-		exitval = cd_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "exit"))
-		exitval = exit_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "env"))
-		exitval = env_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "export"))
-		exitval = export_mini(cmds);
-	if (!ft_strcmp(cmds->cmd, "unset"))
-		exitval = unset_mini(cmds);
-	//end function 1
+	exec_builtin_b(cmds, &exitval);
 	if (cmds->ispiped || (cmds->prev && cmds->prev->ispiped))
 		exit_with_val(exitval, cmds);
 	exitvar = ft_itoa(exitval);

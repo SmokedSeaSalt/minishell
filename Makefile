@@ -5,7 +5,7 @@ LIBFT_MINI_PATH = libft_mini
 LIBFT_MINI = ./libft_mini/libft_mini.a
 
 LIBFT_MINI_INCL = -I libft_mini/inc
-INCL = -I inc $(LIBFT_MINI_INCL)
+INCL = -I inc $(LIBFT_MINI_INCL) -I./libft_mini/inc
 
 BUILD_FOLDER = build
 

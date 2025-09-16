@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/09 11:47:50 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/16 11:16:38 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	split_first_equals(char *str, char **v_name, char **v_value)
 	str += i + 1;
 	*v_value = ft_strndup(str, ft_strlen(str));
 	if (*v_value == NULL)
-		return (free(v_name), EXIT_FAILURE);
+		return (free(*v_name), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

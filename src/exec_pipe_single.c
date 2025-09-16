@@ -3,7 +3,6 @@
 
 void	pipe_single_handle_in(t_cmds *cmds, int fd_in)
 {
-
 }
 
 void	pipe_single_handle_out()
