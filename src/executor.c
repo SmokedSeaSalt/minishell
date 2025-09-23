@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/16 16:05:06 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:27:55 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	check_access_b(t_cmds *cmds)
 	}
 }
 
-
 void	check_access(t_cmds *cmds)
 {
 	struct stat	path_stat;
@@ -58,11 +57,12 @@ char	**make_args(t_cmds *cmds)
 	int		i;
 	char	**args;
 
-	//TODO error messages
 	i = 1;
 	while (cmds->args && (cmds->args)[i - 1])
 		i++;
 	args = ft_calloc(sizeof(char *), i + 1);
+	if (!args)
+		exit_with_val(1, cmds);
 	args[0] = cmds->cmd;
 	if (!cmds->args)
 		return (args);
@@ -77,15 +77,12 @@ char	**make_args(t_cmds *cmds)
 
 char	**make_envp(t_cmds *cmds, t_env *env)
 {
-	int		envlen;
 	int		i;
 	char	**envp;
 	char	*envval;
 
-	//TODO FREE ALL WHEN EXIT;
 	i = 0;
-	envlen = env_len(env);
-	envp = ft_calloc(sizeof(char *), envlen + 1);
+	envp = ft_calloc(sizeof(char *), env_len(env) + 1);
 	if (!envp)
 		exit_with_val(1, cmds);
 	while (env->prev)
@@ -100,8 +97,7 @@ char	**make_envp(t_cmds *cmds, t_env *env)
 		envval = strjoin_char(env->v_name, env->v_val, '=');
 		if (!envval)
 			exit_with_val(1, cmds);
-		envp[i] = envval;
-		i++;
+		envp[i++] = envval;
 		env = env->next;
 	}
 	return (envp);
@@ -197,18 +193,35 @@ void	restore_stdio(int *stdin_dup, int *stdout_dup)
 	}
 }
 
-void	exec_single(t_cmds *cmds, t_env *env)
+void	exec_single_exec(t_cmds *cmds)
 {
-	int		stdin_dup;
-	int		stdout_dup;
-	pid_t	pid;
 	char	**args;
 	char	**envp;
+
+	check_access(cmds);
+	args = make_args(cmds);
+	envp = make_envp(cmds, cmds->info->head);
+	execve(cmds->cmdpath, args, envp);
+	free_carray(envp);
+	perror(cmds->cmd);
+	free(args);
+	exit_with_val(1, cmds);
+}
+
+void	exec_single_sig(t_cmds *cmds, pid_t pid, int status)
+{
+	set_signals_ignore();
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		update_env(cmds->info->head, "?", ft_itoa(WEXITSTATUS(status)));
+	set_signals_default();
+}
+
+void	exec_single(t_cmds *cmds, t_env *env, int stdin_dup, int stdout_dup)
+{
+	pid_t	pid;
 	int		status;
 
-	// put these 2 in arguments
-	stdin_dup = -1;
-	stdout_dup = -1;
 	redirect_infiles(cmds, &stdin_dup, &stdout_dup);
 	if (isbuiltin(cmds))
 		exec_builtin(cmds);
@@ -218,69 +231,25 @@ void	exec_single(t_cmds *cmds, t_env *env)
 		if (!pid)
 		{
 			if (stdin_dup != -1)
-        		close(stdin_dup);
-    		if (stdout_dup != -1)
-        		close(stdout_dup);
+				close(stdin_dup);
+			if (stdout_dup != -1)
+				close(stdout_dup);
 			if (cmds->permission_denied)
-			{
-				write(2, "Error: permission denied\n", 25);
-				exit_with_val(1, cmds);
-			}
+				return (write(2, "Error: permission denied\n", 25), \
+exit_with_val(1, cmds));
 			set_child_signals();
-			// function 1
-			check_access(cmds);
-			args = make_args(cmds);
-			envp = make_envp(cmds, env);
-			execve(cmds->cmdpath, args, envp);
-			free_carray(envp);
-			perror(cmds->cmd);
-			free(args);
-			exit_with_val(1, cmds);
-			//end function 1
+			exec_single_exec(cmds);
 		}
-		set_signals_ignore();
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			update_env(env, "?", ft_itoa(WEXITSTATUS(status)));
-		set_signals_default();
+		exec_single_sig(cmds, pid, status);
 	}
 	restore_stdio(&stdin_dup, &stdout_dup);
 }
 
-void	exec_pipes(t_cmds *cmds, t_env *env)
+void	exec_pipes_sig(t_env *env, int lastpid)
 {
-	int	fd[2];
-	int	fd_in;
-	int	fd_out;
 	int	status;
-	int	lastpid;
 	int	checkpid;
 
-	fd_in = dup(STDIN_FILENO);
-	while (cmds && cmds->ispiped)
-	{
-		if (pipe(fd) == -1)
-		{
-			write(2, "Error: pipe failed\n", 19);
-			exit_with_val(1, cmds);
-		}
-		fd_out = fd[1];
-		cmds->info->pipe_read_fd = fd[0];
-		exec_pipe_single(cmds, env, fd_in, fd_out);
-		close(fd_out);
-		if (fd_in != STDIN_FILENO)
-			close(fd_in);
-		fd_in = fd[0];
-		cmds = cmds->next;
-	}
-	if (cmds)
-	{
-		fd_out = STDOUT_FILENO;
-		cmds->info->pipe_read_fd = -1;
-		lastpid = exec_pipe_single(cmds, env, fd_in, fd_out);
-	}
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
 	set_signals_ignore();
 	checkpid = waitpid(-1, &status, 0);
 	while (checkpid > 0)
@@ -293,6 +262,35 @@ void	exec_pipes(t_cmds *cmds, t_env *env)
 	set_signals_default();
 }
 
+void	exec_pipes(t_cmds *cmds, int fd_in, int fd_out, int lastpid)
+{
+	int	fd[2];
+
+	fd_in = dup(STDIN_FILENO);
+	while (cmds && cmds->ispiped)
+	{
+		if (pipe(fd) == -1)
+			return (write(2, "Pipe failed\n", 12), exit_with_val(1, cmds));
+		fd_out = fd[1];
+		cmds->info->pipe_read_fd = fd[0];
+		exec_pipe_single(cmds, cmds->info->head, fd_in, fd_out);
+		close(fd_out);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
+		fd_in = fd[0];
+		cmds = cmds->next;
+	}
+	if (cmds)
+	{
+		fd_out = STDOUT_FILENO;
+		cmds->info->pipe_read_fd = -1;
+		lastpid = exec_pipe_single(cmds, cmds->info->head, fd_in, fd_out);
+	}
+	if (fd_in != STDIN_FILENO)
+		close(fd_in);
+	exec_pipes_sig(cmds->info->head, lastpid);
+}
+
 void	execute_cmd(t_cmds *cmds, t_env *env)
 {
 	while (cmds)
@@ -301,12 +299,12 @@ void	execute_cmd(t_cmds *cmds, t_env *env)
 			cmds = cmds->next;
 		else if (!cmds->ispiped)
 		{
-			exec_single(cmds, env);
+			exec_single(cmds, env, -1, -1);
 			cmds = cmds->next;
 		}
 		else
 		{
-			exec_pipes(cmds, env);
+			exec_pipes(cmds, 0, 0, 0);
 			while (cmds && cmds->ispiped)
 				cmds = cmds->next;
 			if (cmds)

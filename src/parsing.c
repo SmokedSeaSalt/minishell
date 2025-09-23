@@ -6,11 +6,27 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/09 13:18:30 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:15:49 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	fix_empty_cmds_h(t_cmds *cmds)
+{
+	int	i;
+
+	free(cmds->cmd);
+	if (!cmds->args)
+		cmds->cmd = NULL;
+	else
+	{
+		cmds->cmd = cmds->args[0];
+		i = -1;
+		while (cmds->args[++i])
+			cmds->args[i] = cmds->args[i + 1];
+	}
+}
 
 void	fix_empty_cmds(t_cmds *cmds)
 {
@@ -27,20 +43,7 @@ void	fix_empty_cmds(t_cmds *cmds)
 		while (ft_isspace(cmds->cmd[i]))
 			i++;
 		if (!cmds->cmd[i])
-		{
-			//function 1
-			free(cmds->cmd);
-			if (!cmds->args)
-				cmds->cmd = NULL;
-			else
-			{
-				cmds->cmd = cmds->args[0];
-				i = -1;
-				while (cmds->args[++i])
-					cmds->args[i] = cmds->args[i + 1];
-			}
-			//end function 1
-		}
+			fix_empty_cmds_h(cmds);
 		cmds = cmds->next;
 	}
 }
@@ -49,7 +52,6 @@ char	*parse_word(t_cmds *cmds, t_env *env, char **line)
 {
 	char	*word;
 
-	//TODO DONT EXPAND ENV IF IN HEREDOC
 	word = NULL;
 	while (**line && !ft_isspace(**line) \
 && **line != '<' && **line != '>' && **line != '|')

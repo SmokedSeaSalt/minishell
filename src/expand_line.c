@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:37:49 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/09 13:29:01 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:11:36 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,12 @@ void	expand_line_char(char **line, char **expandedline)
 	(*line)++;
 }
 
-void	expand_line_dollar(t_cmds *cmds, t_env *env, char **line, char **expandedline)
+void	expand_line_dollar_h(t_cmds *cmds, char **expandedline, char *env_line)
 {
-	int		envlen;
-	char	*env_line;
 	int		len;
-	int		isexitval;
+	int		envlen;
 
-	(*line)++;
-	if (ft_isspace(**line) || !(**line) || **line == '"')
-		return ((*line)--, expand_line_char(line, expandedline));
-	isexitval = 0;
 	len = ft_strlen(*expandedline);
-	if (**line == '?')
-	{
-		env_line = ft_getenv(env, "?");
-		(*line)++;
-		isexitval = 1;
-	}
-	else
-		env_line = return_env(env, *line);
 	envlen = ft_strlen(env_line);
 	*expandedline = ft_realloc(*expandedline, len, len + envlen + 1);
 	if (*expandedline == NULL)
@@ -55,11 +41,35 @@ void	expand_line_dollar(t_cmds *cmds, t_env *env, char **line, char **expandedli
 		else
 			expand_line_char(&env_line, expandedline);
 	}
+}
+
+void	expand_line_dollar(t_cmds *cmds, t_env *env, char \
+**line, char **expandedline)
+{
+	int		envlen;
+	char	*env_line;
+	int		len;
+	int		isexitval;
+
+	(*line)++;
+	if (ft_isspace(**line) || !(**line) || **line == '"')
+		return ((*line)--, expand_line_char(line, expandedline));
+	isexitval = 0;
+	if (**line == '?')
+	{
+		env_line = ft_getenv(env, "?");
+		(*line)++;
+		isexitval = 1;
+	}
+	else
+		env_line = return_env(env, *line);
+	expand_line_dollar_h(cmds, expandedline, env_line);
 	while (is_valid_in_name(**line) && !isexitval)
 		(*line)++;
 }
 
-void	expand_line_double_q(t_cmds *cmds, t_env *env, char **line, char **expandedline)
+void	expand_line_double_q(t_cmds *cmds, t_env *env, \
+char **line, char **expandedline)
 {
 	(*line)++;
 	while (**line && **line != '\"')

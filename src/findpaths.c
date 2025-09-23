@@ -1,13 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   findpaths.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/23 14:08:41 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/09/23 14:15:07 by fdreijer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	find_paths(t_cmds *cmds, t_env *env)
+void	free_paths(char ***paths)
 {
-	// if info is able to be set somewhere else for all nodes saves many lines
+	int	i;
+
+	i = -1;
+	while ((*paths)[++i])
+		free((*paths)[i]);
+	free(*paths);
+	*paths = NULL;
+}
+
+void	find_paths_path(t_cmds *cmds, char *env_path)
+{
 	char	**paths;
 	int		i;
 	char	*currentpath;
 
-	//TODO HANDLE MALLOC FAIL IN SPLIT
+	paths = ft_split(env_path, ':');
+	if (!paths)
+		return ;
+	i = -1;
+	while (paths[++i])
+	{
+		currentpath = strjoin_char(paths[i], cmds->cmd, '/');
+		if (!currentpath)
+			continue ;
+		if (access(currentpath, F_OK) == 0)
+		{
+			free_paths(&paths);
+			cmds->cmdpath = currentpath;
+			break ;
+		}
+		free(currentpath);
+	}
+	if (paths)
+		free_paths(&paths);
+	if (!cmds->cmdpath)
+		cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
+}
+
+void	find_paths(t_cmds *cmds, t_env *env)
+{
 	while (cmds)
 	{
 		if (!cmds->cmd)
@@ -20,54 +66,15 @@ void	find_paths(t_cmds *cmds, t_env *env)
 			cmds = cmds->next;
 			continue ;
 		}
-		if (isbuiltin(cmds))
+		if (!isbuiltin(cmds))
 		{
-			cmds = cmds->next;
-			continue ;
+			while (env && ft_strcmp("PATH", env->v_name))
+				env = env->next;
 		}
-		while (env && ft_strcmp("PATH", env->v_name))
-			env = env->next;
 		if (!env)
-		{
 			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
-			cmds = cmds->next;
-			continue ;
-		}
-		// function 2
-		paths = ft_split(env->v_val, ':');
-		if (!paths)
-			return ;
-		i = -1;
-		while (paths[++i])
-		{
-			currentpath = strjoin_char(paths[i], cmds->cmd, '/');
-			if (!currentpath)
-				continue ;
-			if (access(currentpath, F_OK) == 0)
-			{
-				i = -1;
-				while (paths[++i])
-					free(paths[i]);
-				free(paths);
-				paths = NULL;
-				cmds->cmdpath = currentpath;
-				break ;
-			}
-			free(currentpath);
-		}
-		// function 2 end
-		// function 1
-		if (paths)
-		{
-			i = -1;
-			while (paths[++i])
-				free(paths[i]);
-			free(paths);
-			paths = NULL;
-		}
-		if (!cmds->cmdpath)
-			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
-		// function 1 end
+		else
+			find_paths_path(cmds, env->v_val);
 		cmds = cmds->next;
 	}
 }

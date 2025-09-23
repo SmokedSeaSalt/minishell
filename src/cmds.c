@@ -6,11 +6,35 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:21:56 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/09 13:14:42 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:16:53 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	make_cmds_h(t_cmds **cmds, t_env *env, char **line, char **expandedline)
+{
+	if (**line == '<')
+		handle_infile(*cmds, env, line);
+	else if (**line == '>')
+		handle_outfile(*cmds, env, line);
+	else if (**line == '|')
+	{
+		expand_line_space(*cmds, line, expandedline);
+		handle_pipe(cmds, (*cmds)->info, line);
+		return ;
+	}
+	else if (**line == '\'')
+		expand_line_single_q(line, expandedline);
+	else if (**line == '\"')
+		expand_line_double_q(*cmds, env, line, expandedline);
+	else if (**line == '$')
+		expand_line_dollar(*cmds, env, line, expandedline);
+	else if (!isspace(**line) && **line)
+		expand_line_char(line, expandedline);
+	if (isspace(**line) || !(**line))
+		expand_line_space(*cmds, line, expandedline);
+}
 
 void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 {
@@ -24,30 +48,7 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 	info->head = env;
 	cmds->info = info;
 	while (*line)
-	{
-		// function 1
-		if (*line == '<')
-			handle_infile(cmds, env, &line);
-		else if (*line == '>')
-			handle_outfile(cmds, env, &line);
-		else if (*line == '|')
-		{
-			expand_line_space(cmds, &line, &expandedline);
-			handle_pipe(&cmds, info,  &line);
-			continue ;
-		}
-		else if (*line == '\'')
-			expand_line_single_q(&line, &expandedline);
-		else if (*line == '\"')
-			expand_line_double_q(cmds, env, &line, &expandedline);
-		else if (*line == '$')
-			expand_line_dollar(cmds, env, &line, &expandedline);
-		else if (!isspace(*line) && *line)
-			expand_line_char(&line, &expandedline);
-		if (isspace(*line) || !(*line))
-			expand_line_space(cmds, &line, &expandedline);
-		//end function
-	}
+		make_cmds_h(&cmds, env, &line, &expandedline);
 	cmds = cmd_first(cmds);
 }
 

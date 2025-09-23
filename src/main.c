@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 14:39:01 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:18:05 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ int	main(int argc, char **argv, char **envp)
 	t_cmds		*cmds;
 	extern int	g_signal_received;
 
-	//TODO exit codes
-	//TODO heredoc expansion
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
@@ -130,9 +128,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (!line)
 		{
-			int exitval = (unsigned char)ft_atoi(ft_getenv(env, "?"));
 			free_env(env);
-			exit(exitval);
+			exit((unsigned char)ft_atoi(ft_getenv(env, "?")));
 		}
 		add_history(line);
 		if (error_parse_line(line, -1, 0, 0))

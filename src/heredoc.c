@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/23 14:08:48 by fdreijer          #+#    #+#             */
+/*   Updated: 2025/09/23 14:14:48 by fdreijer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	here_expand_line_double_q(t_env *env, char **line, char **expandedline)
@@ -12,12 +24,10 @@ void	here_expand_line_double_q(t_env *env, char **line, char **expandedline)
 	(*line)++;
 }
 
-
 char	*parse_word_heredoc(t_env *env, char **line)
 {
 	char	*word;
 
-	//TODO DONT EXPAND ENV IF IN HEREDOC
 	word = NULL;
 	while (**line && !ft_isspace(**line) \
 && **line != '<' && **line != '>' && **line != '|')
@@ -71,12 +81,12 @@ char	*heredoc_filename(int count)
 	return (name);
 }
 
-int		heredoc_make_file(t_cmds *cmds, char **line, char **delim, int *fd, int *count)
+int	heredoc_make_file(t_cmds *cmds, char **line, char **delim, int **abc)
 {
 	char	*name;
 
 	*delim = parse_word_heredoc(cmds->info->head, line);
-	name = heredoc_filename(*count);
+	name = heredoc_filename(*abc[0]);
 	if (!name)
 		return (1);
 	if (cmds->infile)
@@ -86,8 +96,8 @@ int		heredoc_make_file(t_cmds *cmds, char **line, char **delim, int *fd, int *co
 		free(cmds->infile);
 	}
 	cmds->infile = name;
-	*fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	(*count)++;
+	*abc[1] = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	(*abc[0])++;
 	return (0);
 }
 
@@ -114,7 +124,6 @@ ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 		free(heredoc_line);
 	}
 	free(heredoc_line);
-
 }
 
 void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
@@ -123,20 +132,19 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 	char		*delim;
 	int			fd;
 	extern int	g_signal_received;
+	int			*abc[2];
 
-	// TODO HANDLE !NAME
 	while (ft_isspace(**line))
 		(*line)++;
-	if (heredoc_make_file(cmds, line, &delim, &fd, &count))
+	abc[0] = &count;
+	abc[1] = &fd;
+	if (heredoc_make_file(cmds, line, &delim, abc))
 		return ;
 	set_signals_heredoc();
 	rl_event_hook = heredoc_sig_hook;
-	// function 2
 	heredoc_read(cmds, fd, delim);
-	// end function 2
 	set_signals_default();
 	rl_event_hook = NULL;
-	//function 3 maybe
 	free(delim);
 	close(fd);
 	if (cmds->permission_denied)
@@ -145,5 +153,4 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 		free(cmds->infile);
 		cmds->infile = NULL;
 	}
-	// end function 3
 }
