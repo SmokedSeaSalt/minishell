@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 15:47:07 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:16:50 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cmds	*cmd_new_node(void);
 void	cmd_add_back(t_cmds **head, t_cmds *newnode);
 t_cmds	*cmd_first(t_cmds *tail);
 void	make_cmds(t_cmds *cmds, t_env *env, char *line);
-void	execute_cmd(t_cmds *cmds, t_env *env);
+void	execute_cmd(t_cmds *cmds);
 int		error_parse_line(char *line, int i, int wordbefore, int openquote);
 int		isbuiltin(t_cmds *cmds);
 
@@ -61,7 +61,7 @@ void	handle_infile(t_cmds *cmds, t_env *env, char **line);
 void	handle_outfile(t_cmds *cmds, t_env *env, char **line);
 void	handle_pipe(t_cmds **cmds, t_info *info, char **line);
 
-void	handle_heredoc(t_cmds *cmds, t_env *env, char **line);
+void	handle_heredoc(t_cmds *cmds, char **line);
 int		isbuiltin(t_cmds *cmds);
 
 int		exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out);
@@ -69,6 +69,7 @@ char	**make_envp(t_cmds *cmds, t_env *env);
 char	**make_args(t_cmds *cmds);
 void	check_access(t_cmds *cmds);
 void	exec_builtin(t_cmds *cmds);
+void	find_paths(t_cmds *cmds, t_env *env);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 15:49:25 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:15:04 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!cmds->cmd)
 			update_env(env, "?", ft_itoa(0));
 		find_paths(cmds, env);
-		execute_cmd(cmds, env);
+		execute_cmd(cmds);
 		free_cmds(cmds);
 	}
 	free_env(env);

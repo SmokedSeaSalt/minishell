@@ -6,13 +6,13 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:08:48 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 14:14:48 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:37:22 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	here_expand_line_double_q(t_env *env, char **line, char **expandedline)
+void	here_expand_line_double_q(char **line, char **expandedline)
 {
 	(*line)++;
 	while (**line && **line != '\"')
@@ -24,7 +24,7 @@ void	here_expand_line_double_q(t_env *env, char **line, char **expandedline)
 	(*line)++;
 }
 
-char	*parse_word_heredoc(t_env *env, char **line)
+char	*parse_word_heredoc(char **line)
 {
 	char	*word;
 
@@ -35,7 +35,7 @@ char	*parse_word_heredoc(t_env *env, char **line)
 		if (**line == '\'')
 			expand_line_single_q(line, &word);
 		else if (**line == '\"')
-			here_expand_line_double_q(env, line, &word);
+			here_expand_line_double_q(line, &word);
 		else
 			expand_line_char(line, &word);
 	}
@@ -85,7 +85,7 @@ int	heredoc_make_file(t_cmds *cmds, char **line, char **delim, int **abc)
 {
 	char	*name;
 
-	*delim = parse_word_heredoc(cmds->info->head, line);
+	*delim = parse_word_heredoc(line);
 	name = heredoc_filename(*abc[0]);
 	if (!name)
 		return (1);
@@ -97,11 +97,13 @@ int	heredoc_make_file(t_cmds *cmds, char **line, char **delim, int **abc)
 	}
 	cmds->infile = name;
 	*abc[1] = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (*abc[1] < 0)
+		exit_with_val(123, cmds);
 	(*abc[0])++;
 	return (0);
 }
 
-void	heredoc_read(t_cmds *cmds, int fd, char *delim)
+void	heredoc_read(int fd, char *delim)
 {
 	extern int	g_signal_received;
 	char		*heredoc_line;
@@ -116,8 +118,8 @@ void	heredoc_read(t_cmds *cmds, int fd, char *delim)
 		}
 		if (!heredoc_line)
 			write(2, "Warning: heredoc delimited by end-of-file\n", 42);
-		if (!heredoc_line || !ft_strncmp(heredoc_line, delim, \
-ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
+		if (!heredoc_line || (!ft_strncmp(heredoc_line, delim, \
+ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)]))
 			break ;
 		write(fd, heredoc_line, ft_strlen(heredoc_line));
 		write(fd, "\n", 1);
@@ -126,7 +128,7 @@ ft_strlen(delim)) && !heredoc_line[ft_strlen(delim)])
 	free(heredoc_line);
 }
 
-void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
+void	handle_heredoc(t_cmds *cmds, char **line)
 {
 	static int	count = 0;
 	char		*delim;
@@ -142,7 +144,7 @@ void	handle_heredoc(t_cmds *cmds, t_env *env, char **line)
 		return ;
 	set_signals_heredoc();
 	rl_event_hook = heredoc_sig_hook;
-	heredoc_read(cmds, fd, delim);
+	heredoc_read(fd, delim);
 	set_signals_default();
 	rl_event_hook = NULL;
 	free(delim);

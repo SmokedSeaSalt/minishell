@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 15:49:55 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:16:54 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	handle_infile(t_cmds *cmds, t_env *env, char **line)
 	if (**line == '<')
 	{
 		(*line)++;
-		handle_heredoc(cmds, env, line);
+		handle_heredoc(cmds, line);
 		return ;
 	}
 	while (ft_isspace(**line))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:35:04 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 15:48:11 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:13:41 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	check_access_b(t_cmds *cmds)
 
 void	check_access(t_cmds *cmds)
 {
-	struct stat	path_stat;
-
 	if (!charinstr('/', cmds->cmdpath))
 	{
 		write(2, "Error: command not found\n", 25);
@@ -121,11 +119,13 @@ void	exec_builtin_b(t_cmds *cmds, int *exitval)
 		*exitval = unset_mini(cmds);
 }
 
-void	exec_builtin(t_cmds *cmds, int exitval)
+void	exec_builtin(t_cmds *cmds)
 {
+	int		exitval;
 	char	*exitvar;
 
 	if (cmds->permission_denied)
+	{
 		write(2, "Error: permission denied\n", 25);
 		exit_with_val(1, cmds);
 	}
@@ -215,14 +215,15 @@ void	exec_single_sig(t_cmds *cmds, pid_t pid, int status)
 	set_signals_default();
 }
 
-void	exec_single(t_cmds *cmds, t_env *env, int stdin_dup, int stdout_dup)
+void	exec_single(t_cmds *cmds, int stdin_dup, int stdout_dup)
 {
 	pid_t	pid;
 	int		status;
 
+	status = 0;
 	redirect_infiles(cmds, &stdin_dup, &stdout_dup);
 	if (isbuiltin(cmds))
-		exec_builtin(cmds, 1);
+		exec_builtin(cmds);
 	else
 	{
 		pid = fork();
@@ -289,7 +290,7 @@ void	exec_pipes(t_cmds *cmds, int fd_in, int fd_out, int lastpid)
 	exec_pipes_sig(cmds->info->head, lastpid);
 }
 
-void	execute_cmd(t_cmds *cmds, t_env *env)
+void	execute_cmd(t_cmds *cmds)
 {
 	while (cmds)
 	{
@@ -297,7 +298,7 @@ void	execute_cmd(t_cmds *cmds, t_env *env)
 			cmds = cmds->next;
 		else if (!cmds->ispiped)
 		{
-			exec_single(cmds, env, -1, -1);
+			exec_single(cmds, -1, -1);
 			cmds = cmds->next;
 		}
 		else

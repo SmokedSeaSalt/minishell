@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:37:49 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/23 15:48:56 by mvan-rij         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:14:13 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ void	expand_line_dollar_h(t_cmds *cmds, char **expandedline, char *env_line)
 void	expand_line_dollar(t_cmds *cmds, t_env *env, char \
 **line, char **expandedline)
 {
-	int		envlen;
 	char	*env_line;
-	int		len;
 	int		isexitval;
 
 	(*line)++;
