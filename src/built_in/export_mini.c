@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_mini.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:28:16 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/05 14:48:12 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:50:03 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	split_first_equals(char *str, char **v_name, char **v_value)
 	str += i + 1;
 	*v_value = ft_strndup(str, ft_strlen(str));
 	if (*v_value == NULL)
-		return (free(v_name), EXIT_FAILURE);
+		return (free(*v_name), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -50,7 +50,8 @@ static int	is_valid_identifier(char *str)
 	int	i;
 
 	i = 0;
-	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')))
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') \
+|| str[i] == '_'))
 		return (0);
 	i++;
 	while (is_valid_in_name(str[i]))

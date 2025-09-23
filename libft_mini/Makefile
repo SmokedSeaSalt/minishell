@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+         #
+#    By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/20 15:57:58 by mvan-rij          #+#    #+#              #
-#    Updated: 2025/08/26 13:10:55 by mvan-rij         ###   ########.fr        #
+#    Updated: 2025/09/16 11:14:00 by fdreijer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft_mini.a
-CC = cc -Wall -Werror -Wextra -I ../inc -I inc
-
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -I ../inc -I inc
 SRCS = \
 		src/charinstr.c \
 		src/free_carray.c \
@@ -52,7 +52,7 @@ $(NAME): $(OBJS) Makefile $(INCLS)
 	ar rcsUu $(NAME) $(OBJS)
 
 $(BUILD_FOLDER)/%.o: src/%.c Makefile $(INCLS) | $(BUILD_FOLDER)
-	$(CC) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILD_FOLDER):
 	mkdir -p $@

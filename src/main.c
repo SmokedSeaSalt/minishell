@@ -3,23 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 14:50:24 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:49:25 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	unsigned int	str_i;
+	char			*ret;
+
+	str_i = start;
+	if (ft_strlen(s) < start)
+	{
+		ret = malloc(1);
+		if (ret == NULL)
+			return (NULL);
+		ret[0] = '\0';
+		return (ret);
+	}
+	if (start + len <= ft_strlen(s))
+		ret = malloc((len + 1) * sizeof(unsigned char));
+	else
+		ret = malloc((ft_strlen(s) - start + 1));
+	if (ret == NULL)
+		return (NULL);
+	while (s[str_i] != '\0' && str_i - start < len)
+	{
+		ret[str_i - start] = s[str_i];
+		str_i++;
+	}
+	ret[str_i - start] = '\0';
+	return (ret);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*strp;
+	size_t	i;
+
+	strp = (char *)s;
+	i = 0;
+	while (strp[i] != '\0')
+	{
+		if (strp[i] == (char) c)
+			return (&strp[i]);
+		i++;
+	}
+	if (strp[i] == (char) c)
+		return (&strp[i]);
+	return ((void *)0);
+}
+
+char	*ft_strrchr(const char *s, int c)
+{
+	char	*strp;
+	size_t	i;
+	size_t	len;
+
+	strp = (char *)s;
+	i = 0;
+	len = ft_strlen(s);
+	while (i <= len)
+	{
+		if (strp[len - i] == (char) c)
+			return (&strp[len - i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	unsigned int	start;
+	int				end;
+	char			*ret;
+
+	start = 0;
+	end = ft_strlen(s1);
+	while (ft_strchr(set, s1[start]) != NULL && s1[start] != '\0')
+		start++;
+	while (ft_strrchr(set, s1[end - 1]) != NULL && end >= 0)
+		end--;
+	ret = ft_substr(s1, start, end - start);
+	if (ret == NULL)
+		return (NULL);
+	return (ret);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
+	char		*tmpline;
 	t_env		*env;
 	t_cmds		*cmds;
 
-	//TODO exit codes
-	//TODO heredoc expansion
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
@@ -30,7 +112,19 @@ int	main(int argc, char **argv, char **envp)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		line = readline("[minishell] $ ");
+		if (isatty(fileno(stdin)))
+			line = readline("[minishell] $ ");
+		else
+		{
+			tmpline = get_next_line(fileno(stdin));
+			if (tmpline != NULL)
+			{
+				line = ft_strtrim(tmpline, "\n");
+				free(tmpline);
+			}
+			else
+				line = NULL;
+		}
 		if (!line)
 		{
 			int exitval = (unsigned char)ft_atoi(ft_getenv(env, "?"));

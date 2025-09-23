@@ -5,7 +5,7 @@ LIBFT_MINI_PATH = libft_mini
 LIBFT_MINI = ./libft_mini/libft_mini.a
 
 LIBFT_MINI_INCL = -I libft_mini/inc
-INCL = -I inc $(LIBFT_MINI_INCL)
+INCL = -I inc $(LIBFT_MINI_INCL) -I./libft_mini/inc
 
 BUILD_FOLDER = build
 
@@ -25,11 +25,15 @@ SRCS =			src/cmds_list.c \
 				src/error_parse_line.c \
 				src/executor.c \
 				src/expand_line.c \
+				src/get_next_line_utils.c \
+				src/get_next_line.c \
 				src/main.c \
 				src/parsing.c \
 				src/signal_config.c \
 				src/signal_handlers.c \
-				src/get_paths.c
+				src/heredoc.c \
+				src/findpaths.c \
+				src/exec_pipe_single.c
 
 OBJS := $(patsubst src/%.c, $(BUILD_FOLDER)/%.o, $(SRCS))
 

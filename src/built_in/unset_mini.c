@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_mini.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:09:01 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/09 11:13:40 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:50:32 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	unlink_node_and_free(t_cmds *cmds, t_env *env, int i)
 int	unset_mini(t_cmds *cmds)
 {
 	t_env	*env;
+	t_env	*tmp;
 	int		i;
 
 	i = 0;
@@ -47,8 +48,9 @@ int	unset_mini(t_cmds *cmds)
 				env = env->next;
 				continue ;
 			}
+			tmp = env->next;
 			unlink_node_and_free(cmds, env, i);
-			env = env->next;
+			env = tmp;
 		}
 		i++;
 	}

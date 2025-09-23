@@ -52,6 +52,7 @@ fdreijer@f1r2s8:~/4_layer/minishell$ readonly TESTVAR=test
 fdreijer@f1r2s8:~/4_layer/minishell$ unset TESTVAR
 bash: unset: TESTVAR: cannot unset: readonly variable
 
+>&-
 
 FROM other evalnots
 heredoc with ctrl c
@@ -59,3 +60,4 @@ cat with ctrl /
 heredoc with ctrl d
 ctrl c + echo $?
 
+(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((echo a)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))

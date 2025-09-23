@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/05 14:16:00 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:47:07 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "mini_structs.h"
 # include <signal.h>
 # define HEREDOC_PREFIX "/tmp/.heredoc_"
+# include <stdlib.h>
 
 t_cmds	*cmd_last(t_cmds *head);
 t_cmds	*cmd_new_node(void);
@@ -49,15 +50,51 @@ void	free_cmds_node(t_cmds *node);
 void	free_cmds(t_cmds *node);
 
 void	expand_line_char(char **line, char **expandedline);
-void	expand_line_dollar(t_env *env, char **line, char **expandedline);
-void	expand_line_double_q(t_env *env, char **line, char **expandedline);
+void	expand_line_dollar(t_cmds *cmds, t_env *env, \
+char **line, char **expandedline);
+void	expand_line_double_q(t_cmds *cmds, t_env *env, \
+char **line, char **expandedline);
 void	expand_line_single_q(char **line, char **expandedline);
 void	expand_line_space(t_cmds *cmds, char **line, char **expandedline);
 
 void	handle_infile(t_cmds *cmds, t_env *env, char **line);
 void	handle_outfile(t_cmds *cmds, t_env *env, char **line);
-void	handle_pipe(t_cmds **cmds, char **line);
+void	handle_pipe(t_cmds **cmds, t_info *info, char **line);
 
-void	find_paths(t_cmds *cmds, t_env *env);
+void	handle_heredoc(t_cmds *cmds, t_env *env, char **line);
+int		isbuiltin(t_cmds *cmds);
+
+int		exec_pipe_single(t_cmds *cmds, t_env *env, int fd_in, int fd_out);
+char	**make_envp(t_cmds *cmds, t_env *env);
+char	**make_args(t_cmds *cmds);
+void	check_access(t_cmds *cmds);
+void	exec_builtin(t_cmds *cmds);
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+typedef struct s_list
+{
+	char			*line;
+	int				fd;
+	int				hasnl;
+	struct s_list	*next;
+	struct s_list	*prev;
+}				t_list;
+
+//get next line
+char	*free_all(t_list **head);
+char	*get_next_line(int fd);
+char	*return_line(t_list **head, int fd);
+void	delnode(t_list *node, t_list **head);
+int		fill_node(t_list *head, int fd, char *buffer);
+
+//utils
+void	*gnl_calloc(size_t nmemb, size_t size);
+t_list	*get_fd_node(t_list *head, int fd);
+char	*gnl_substr(char const *s, unsigned int start, size_t len);
+ssize_t	charpos(char *s, char c);
+int		create_node(t_list **head, char *buffer, int fd);
 
 #endif
