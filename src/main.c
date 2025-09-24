@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvan-rij <mvan-rij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 16:15:04 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:40:21 by mvan-rij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,15 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (ret);
 }
 
+/* DELETE ALL ABOVE HERE*/
+/* DELETE get_next_line.c & get_next_line_utils.c*/
+/* DELETE constructors from minishell.h*/
+/* DELETE everything below marked with //DELETE */
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	char		*tmpline;
+	char		*tmpline; //DELETE
 	t_env		*env;
 	t_cmds		*cmds;
 
@@ -112,19 +117,19 @@ int	main(int argc, char **argv, char **envp)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		if (isatty(fileno(stdin)))
+		if (isatty(fileno(stdin))) //DELETE
 			line = readline("[minishell] $ ");
-		else
-		{
-			tmpline = get_next_line(fileno(stdin));
-			if (tmpline != NULL)
-			{
-				line = ft_strtrim(tmpline, "\n");
-				free(tmpline);
-			}
-			else
-				line = NULL;
-		}
+		else //DELETE
+		{ //DELETE
+			tmpline = get_next_line(fileno(stdin)); //DELETE
+			if (tmpline != NULL) //DELETE
+			{ //DELETE
+				line = ft_strtrim(tmpline, "\n"); //DELETE
+				free(tmpline); //DELETE
+			} //DELETE
+			else //DELETE
+				line = NULL; //DELETE
+		} //DELETE
 		if (!line)
 		{
 			int exitval = (unsigned char)ft_atoi(ft_getenv(env, "?"));
