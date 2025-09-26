@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:40:44 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 16:16:54 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:08:35 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*parse_word(t_cmds *cmds, t_env *env, char **line)
 		else if (**line == '\"')
 			expand_line_double_q(cmds, env, line, &word);
 		else if (**line == '$')
-			expand_line_dollar(cmds, env, line, &word);
+			expand_line_dollar(cmds, line, &word, 0);
 		else
 			expand_line_char(line, &word);
 	}

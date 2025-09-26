@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:15:37 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 16:16:50 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:08:11 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	free_cmds_node(t_cmds *node);
 void	free_cmds(t_cmds *node);
 
 void	expand_line_char(char **line, char **expandedline);
-void	expand_line_dollar(t_cmds *cmds, t_env *env, \
-char **line, char **expandedline);
+void	expand_line_dollar(t_cmds *cmds, \
+char **line, char **expandedline, int mode);
 void	expand_line_double_q(t_cmds *cmds, t_env *env, \
 char **line, char **expandedline);
 void	expand_line_single_q(char **line, char **expandedline);

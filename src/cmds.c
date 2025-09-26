@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:21:56 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/26 12:52:07 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:08:39 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	make_cmds_h(t_cmds **cmds, t_env *env, char **line, char **expandedline)
 	else if (**line == '\"')
 		expand_line_double_q(*cmds, env, line, expandedline);
 	else if (**line == '$')
-		expand_line_dollar(*cmds, env, line, expandedline);
+		expand_line_dollar(*cmds, line, expandedline, 0);
 	else if (!isspace(**line) && **line)
 		expand_line_char(line, expandedline);
 	if (isspace(**line) || !(**line))

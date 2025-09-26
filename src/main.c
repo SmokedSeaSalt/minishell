@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 08:49:18 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/26 12:48:09 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:55:26 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 /* DELETE get_next_line.c & get_next_line_utils.c*/
 /* DELETE constructors from minishell.h*/
 /* DELETE everything below marked with //DELETE */
-
+/* Replace main with norm main and delte norm_main.c*/
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
