@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:21:56 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/23 14:16:53 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 12:52:07 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	make_cmds(t_cmds *cmds, t_env *env, char *line)
 
 	expandedline = NULL;
 	info = ft_calloc(sizeof(t_info), 1);
+	if (!info)
+		exit_with_val(123, cmds);
 	info->head = env;
 	cmds->info = info;
 	while (*line)

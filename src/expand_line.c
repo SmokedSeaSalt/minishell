@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:37:49 by mvan-rij          #+#    #+#             */
-/*   Updated: 2025/09/23 16:14:13 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:53:14 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	expand_line_dollar(t_cmds *cmds, t_env *env, char \
 	int		isexitval;
 
 	(*line)++;
-	if (ft_isspace(**line) || !(**line) || **line == '"')
+	if (ft_isspace(**line) || !(**line))
 		return ((*line)--, expand_line_char(line, expandedline));
 	isexitval = 0;
 	if (**line == '?')
