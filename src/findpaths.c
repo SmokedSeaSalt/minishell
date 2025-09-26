@@ -6,7 +6,7 @@
 /*   By: fdreijer <fdreijer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:08:41 by fdreijer          #+#    #+#             */
-/*   Updated: 2025/09/23 16:18:11 by fdreijer         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:17:16 by fdreijer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	find_paths(t_cmds *cmds, t_env *env)
 			while (env && ft_strcmp("PATH", env->v_name))
 				env = env->next;
 		}
-		if (!env)
+		if (!env || charinstr('/', cmds->cmd))
 			cmds->cmdpath = ft_strndup(cmds->cmd, ft_strlen(cmds->cmd));
 		else
 			find_paths_path(cmds, env->v_val);
